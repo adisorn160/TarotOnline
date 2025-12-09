@@ -74,22 +74,23 @@ button:hover {
 #deck-area {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* ⬅️ จาก 80 → 160 */
+  gap: 18px;                                                   /* ⬅️ เพิ่มช่องไฟ */
   justify-items: center;
 }
 
+
 .card {
-  width: 120px;
-  /* 🔁 เดิม: height: 200px;  → เอาออกเพราะทำให้สัดส่วนเพี้ยน */
-  aspect-ratio: 63 / 110;      /* ✅ สัดส่วนไพ่ทาโรต์ประมาณ 1 : 1.75 */
-  border-radius: 12px;
+  width: 160px;                 /* ⬅️ จาก 120 → 160 */
+  aspect-ratio: 63 / 110;       
+  border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
   border: 2px solid #fbbf24;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.7);
   background: black;
 }
+
 
 .card:hover {
   transform: scale(1.05);
@@ -143,15 +144,15 @@ button:hover {
 }
 
 .result-card img {
-  width: 120px;
-  /* 🔁 เพิ่มสัดส่วนไพ่ทาโรต์ให้ตรงกับด้านบน */
+  width: 150px;                 /* ⬅️ จาก 120 → 150 */
   aspect-ratio: 63 / 110;
   height: auto;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 10px;
   border: 2px solid #fbbf24;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
+
 
 #slot-area {
   margin-top: 20px;
