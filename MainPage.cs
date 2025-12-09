@@ -1,0 +1,166 @@
+/* -------------------------------------------------
+   พื้นฐานหน้าเว็บ
+-------------------------------------------------- */
+body {
+  font-family: "Prompt", sans-serif;
+  text-align: center;
+  background: #111827; /* น้ำเงินเข้มอมดำ */
+  color: #f9fafb;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+/* -------------------------------------------------
+   Section เลือกสเปรด
+-------------------------------------------------- */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 14px;
+}
+
+select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #4b5563;
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #fbbf24; /* เหลืองทอง */
+  color: #111827;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+/* -------------------------------------------------
+   ข้อความสถานะ
+-------------------------------------------------- */
+#status {
+  margin-top: 12px;
+  min-height: 20px;
+}
+
+/* -------------------------------------------------
+   พื้นที่ไพ่ด้านหลัง (ตอนเลือก)
+-------------------------------------------------- */
+#deck-area {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 12px;
+  justify-items: center;
+}
+
+.card {
+  width: 80px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card.selected {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.card-img {
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid #fbbf24;
+}
+
+/* -------------------------------------------------
+   ส่วนแสดงผลลัพธ์หลังเปิดไพ่
+-------------------------------------------------- */
+#spread-container {
+  margin-top: 20px;
+}
+
+/* กล่องแถวไพ่ (Row) */
+.spread-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 25px;
+  flex-wrap: nowrap;
+}
+
+.result-card {
+  background: #1f2937;
+  padding: 10px 12px;
+  border-radius: 10px;
+  width: 150px;
+  color: #f9fafb;
+  border: 1px solid #374151;
+}
+
+.result-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.result-card p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.result-card img {
+  width: 120px;
+  border-radius: 6px;
+  border: 2px solid #fbbf24;
+  margin-bottom: 10px;
+}
+
+#slot-area {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.slot-box {
+  width: 90px;
+  height: 150px;
+  border: 2px dashed #fbbf24;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-box img {
+  width: 90%;
+}
+
+
