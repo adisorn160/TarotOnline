@@ -74,34 +74,21 @@ button:hover {
 #deck-area {
   margin-top: 20px;
   display: grid;
-  /* - repeat(12, 1fr) คือบังคับแบ่งเป็น 12 คอลัมน์เท่าๆ กัน
-     - ถ้าหน้าจอเล็ก ไพ่จะหดตัวลงอัตโนมัติเพื่อให้ครบ 12 ใบ
-  */
-  grid-template-columns: repeat(12, 1fr); 
-  gap: 10px; /* ลดช่องว่างลงหน่อย เพื่อให้ไพ่ไม่เบียดกันเกินไป */
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 12px;
   justify-items: center;
-  padding: 0 10px; /* กันตกขอบจอ */
 }
-
-/* (แถม) ถ้าดูในมือถือ 12 ใบจะเล็กเท่ามด แนะนำให้ปรับเฉพาะมือถือครับ */
-@media (max-width: 800px) {
-  #deck-area {
-    grid-template-columns: repeat(4, 1fr); /* มือถือให้เหลือแถวละ 4 พอ */
-  }
-}
-
 
 .card {
-  width: 160px;                 /* ⬅️ จาก 120 → 160 */
-  aspect-ratio: 63 / 110;       
-  border-radius: 16px;
-  overflow: hidden;
+  width: 120px;
+  height: 200px;           /* ✅ ทรงไพ่ทาโรต์ */
+  border-radius: 12px;
+  overflow: hidden;       /* ✅ ตัดส่วนเกินออก */
   cursor: pointer;
   border: 2px solid #fbbf24;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
   background: black;
 }
-
 
 .card:hover {
   transform: scale(1.05);
@@ -115,7 +102,7 @@ button:hover {
 .card-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;      /* ✅ ให้ภาพไม่ยืดไม่บี้ */
+  object-fit: cover;      /* ✅ สำคัญมาก */
   border-radius: 12px;
 }
 
@@ -137,33 +124,29 @@ button:hover {
 
 .result-card {
   background: #1f2937;
-  padding: 10px;
-  
-  /* ✅ กำหนดความกว้างและความสูงให้สัมพันธ์กับไพ่ */
-  width: 100%;           
-  max-width: 160px;       /* ไม่ให้ใหญ่เกิน 160px */
-  aspect-ratio: 63 / 110; /* ✅ บังคับสัดส่วนให้เป็นทรงไพ่เสมอ แม้ยังไม่มีรูป */
-  
+  padding: 10px 12px;
   border-radius: 10px;
+  width: 150px;
   color: #f9fafb;
-  border: 2px dashed #fbbf24; /* ✅ เปลี่ยนเป็นเส้นประสีเหลืองตามที่คุณอยากได้ */
-  
-  /* จัดข้อความให้อยู่ตรงกลางกล่อง */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid #374151;
 }
 
-/* ปรับรูปในกล่องผลลัพธ์ให้พอดี */
-.result-card img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
-  border: none; /* เอากรอบรูปออก เพราะเรามีกรอบที่กล่องแล้ว */
-  margin-bottom: 8px;
+.result-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
 
+.result-card p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.result-card img {
+  width: 120px;
+  border-radius: 6px;
+  border: 2px solid #fbbf24;
+  margin-bottom: 10px;
+}
 
 #slot-area {
   margin-top: 20px;
@@ -173,12 +156,10 @@ button:hover {
 }
 
 .slot-box {
-  width: 160px;             /* 1. แก้จาก 90px เป็น 160px (ให้เท่ากับ .card) */
-  aspect-ratio: 63 / 110;   /* 2. เพิ่มบรรทัดนี้ เพื่อให้สัดส่วนสูง/ยาว เท่ากับไพ่เป๊ะๆ */
-  /* height: 150px; */      /* 3. ลบบรรทัดนี้ออก หรือ comment ปิดไป เพราะเราใช้ aspect-ratio คุมความสูงแทนแล้ว */
-  
+  width: 90px;
+  height: 150px;
   border: 2px dashed #fbbf24;
-  border-radius: 16px;      /* 4. แนะนำให้แก้จาก 10px เป็น 16px เพื่อให้ความมนเท่ากับตัวไพ่ */
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
