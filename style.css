@@ -81,9 +81,10 @@ button:hover {
 
 .card {
   width: 120px;
-  height: 200px;           /* ✅ ทรงไพ่ทาโรต์ */
+  /* 🔁 เดิม: height: 200px;  → เอาออกเพราะทำให้สัดส่วนเพี้ยน */
+  aspect-ratio: 63 / 110;      /* ✅ สัดส่วนไพ่ทาโรต์ประมาณ 1 : 1.75 */
   border-radius: 12px;
-  overflow: hidden;       /* ✅ ตัดส่วนเกินออก */
+  overflow: hidden;
   cursor: pointer;
   border: 2px solid #fbbf24;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
@@ -102,7 +103,7 @@ button:hover {
 .card-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;      /* ✅ สำคัญมาก */
+  object-fit: cover;      /* ✅ ให้ภาพไม่ยืดไม่บี้ */
   border-radius: 12px;
 }
 
@@ -143,6 +144,10 @@ button:hover {
 
 .result-card img {
   width: 120px;
+  /* 🔁 เพิ่มสัดส่วนไพ่ทาโรต์ให้ตรงกับด้านบน */
+  aspect-ratio: 63 / 110;
+  height: auto;
+  object-fit: cover;
   border-radius: 6px;
   border: 2px solid #fbbf24;
   margin-bottom: 10px;
@@ -189,61 +194,3 @@ button:hover {
   80% { transform: scale(1.05); }
   100% { transform: scale(1); opacity: 1; }
 }
-/* พื้นที่กองไพ่ */
-#deck-area {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr); /* ✅ แถวละ 12 ใบ */
-  gap: 8px;
-  justify-content: explain;
-  margin-top: 20px;
-}
-
-/* ตัวไพ่ */
-.card {
-  width: 100%;
-  max-width: 70px;   /* ✅ คุมความกว้างให้ไม่ใหญ่เกิน */
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-}
-
-/* ✅ สถานะ selected */
-.card.selected {
-  opacity: 0.5;
-  transform: scale(0.95);
-}
-@media (max-width: 1024px) {
-  #deck-area {
-    grid-template-columns: repeat(8, 1fr); /* ✅ Tablet = แถวละ 8 */
-  }
-}
-
-@media (max-width: 768px) {
-  #deck-area {
-    grid-template-columns: repeat(6, 1fr); /* ✅ มือถือแนวนอน = แถวละ 6 */
-  }
-
-  .card {
-    max-width: 60px;
-  }
-}
-
-@media (max-width: 480px) {
-  #deck-area {
-    grid-template-columns: repeat(4, 1fr); /* ✅ มือถือจอเล็ก = แถวละ 4 */
-  }
-
-  .card {
-    max-width: 55px;
-  }
-}
-
