@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>สุ่มไพ่ทาโรต์</title>
-  <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>สุ่มไพ่ทาโรต์</title>
 
-  <!-- ฟอนต์ -->
-  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500&display=swap" rel="stylesheet">
-</head>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
 
-<body>
+    <!-- ฟอนต์ -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
+  <body>
 <h1>🃏 สุ่มไพ่ทาโรต์</h1>
 
+<!-- ส่วนเลือกจำนวนไพ่ -->
 <div class="controls">
   <label for="spread-size">เลือกจำนวนไพ่ :</label>
   <select id="spread-size">
@@ -26,15 +31,20 @@
   <button id="start-btn">เริ่มวางไพ่</button>
 </div>
 
+<!-- ข้อความสถานะ -->
 <p id="status"></p>
 
-<!-- ช่องวางไพ่ -->
+<!-- พื้นที่แสดงผลลัพธ์ (ใช้ช่องนี้แทน slot-area) -->
 <div id="result-area"></div>
 
-<!-- ไพ่หลังหงายให้เลือก -->
+<!-- พื้นที่แสดงไพ่ด้านหลังที่ให้เลือก -->
 <div id="deck-area"></div>
 
+<!-- พื้นที่วางไพ่ (ถ้าต้องการใช้ slot-area แยก) -->
+<div id="slot-area"></div>
+
+<!-- โหลด JS -->
 <script src="script.js"></script>
 
-</body>
+  </body>
 </html>
