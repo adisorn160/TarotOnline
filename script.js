@@ -20,7 +20,8 @@ let selectedCards = [];
 let currentDeck = [];
 
 
-
+// รวมไพ่ + สับ (ใช้ฟังก์ชันนี้แทน fullDeck)
+function getShuffledDeck() {
   // --- Major Arcana ---
 const majorArcana = [
   // 0 THE FOOL – Uranus
@@ -2951,7 +2952,20 @@ const pentacles = [
     ]
   }
 ];
-//-----------------------------------------------------
+const deck = [...fullDeck];
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+}
+
+function getSlotTitle(i) {
+  if (maxSelect === 11) {
+    return spread11Positions[i - 1];
+  }
+  return `ใบที่ ${i}`;
+}//-----------------------------------------------------
 // ✅ Auto Assign รูปไพ่จากโฟลเดอร์ images/
 //-----------------------------------------------------
 
@@ -3131,31 +3145,26 @@ function buildResultLayout() {
 }
 
 //-----------------------------------------------------
-// 5) เริ่มการวางไพ่
-//-----------------------------------------------------
-
-//-----------------------------------------------------
-// เมื่อกดปุ่ม "เริ่มวางไพ่"
+// 5) เมื่อกดปุ่ม "เริ่มวางไพ่"
 //-----------------------------------------------------
 startBtn.addEventListener("click", () => {
   maxSelect = parseInt(spreadSelect.value);
 
   statusEl.textContent = `กรุณาเลือกไพ่ ${maxSelect} ใบ`;
-  
+
   selectedCards = [];
   resultArea.innerHTML = "";
   deckArea.innerHTML = "";
 
-  // สร้างช่องว่างให้ไพ่ลง
-  createSlots(maxSelect);
+  // ถ้าต้องการใช้ช่องแบบง่าย ๆ แถวเดียว/หลายแถว:
+  createSlots(maxSelect);   // ใช้อันนี้ตามโค้ดเดิมของคุณ
 
   // สุ่ม deck ใหม่
-  currentDeck = shuffle([...fullDeck]);
+  currentDeck = getShuffledDeck();    // ✅ แก้ไม่ให้ใช้ fullDeck ที่ไม่มี
 
   // สร้างไพ่หลังหงายให้เลือก
   renderBackCards();
 });
-
 
 //-----------------------------------------------------
 // สร้างช่องวางไพ่
@@ -3168,7 +3177,6 @@ function createSlots(n) {
   }
 }
 
-
 //-----------------------------------------------------
 // แสดงไพ่หลังหงาย (เลือกได้)
 //-----------------------------------------------------
@@ -3179,9 +3187,57 @@ function renderBackCards() {
     const cardEl = document.createElement("img");
     cardEl.src = cardBackUrl;
     cardEl.classList.add("card");
-
     cardEl.addEventListener("click", () => selectCard(i));
+    deckArea.appendChild(cardEl);
+  }
+}
 
+//-----------------------------------------------------
+// เมื่อผู้ใช้เลือกไพ่
+//-----------------------------------------------------
+function selectCard(index) {
+  if (selectedCards.length >= maxSelect) return;
+
+  const pickedCard = currentDeck[selectedCards.length];
+  selectedCards.push(pickedCard);
+
+  // วางไพ่ลงในช่อง slot ตามลำดับ
+  const slot = resultArea.children[selectedCards.length - 1];
+  slot.innerHTML = "";
+  const img = document.createElement("img");
+  img.src = cardBackUrl;
+  img.classList.add("card");
+  img.dataset.index = selectedCards.length - 1;
+  img.addEventListener("click", flipCard);
+  slot.appendChild(img);
+
+  if (selectedCards.length === maxSelect) {
+    statusEl.textContent = "ครบแล้ว! คลิกที่ไพ่เพื่อเปิดดูความหมาย";
+  } else {
+    const remain = maxSelect - selectedCards.length;
+    statusEl.textContent = `เลือกไพ่ได้อีก ${remain} ใบ`;
+  }
+}
+
+//-----------------------------------------------------
+// เปิดหน้าไพ่
+//-----------------------------------------------------
+function flipCard(e) {
+  const index = e.target.dataset.index;
+  const card = selectedCards[index];
+  e.target.src = card.image;
+}
+
+//-----------------------------------------------------
+// สุ่มไพ่
+//-----------------------------------------------------
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
     deckArea.appendChild(cardEl);
   }
 }
