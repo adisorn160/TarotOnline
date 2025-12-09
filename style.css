@@ -80,9 +80,12 @@ button:hover {
 }
 
 .card {
-  width: 80px;
+  width: 120px;          /* ความกว้างของไพ่ */
+  height: 200px;         /* ความสูงของไพ่ → ทำให้เป็นทรงไพ่ทาโรต์ */
   cursor: pointer;
   transition: 0.2s;
+  overflow: hidden;      /* ตัดส่วนเกินไม่ให้ยืดผิดรูป */
+  border-radius: 10px;   /* ขอบมนเหมือนการ์ดจริง */
 }
 
 .card:hover {
@@ -96,7 +99,9 @@ button:hover {
 
 .card-img {
   width: 100%;
-  border-radius: 8px;
+  height: 100%;
+  object-fit: cover;     /* ทำให้ภาพพอดีกรอบโดยไม่โดนยืด */
+  border-radius: 10px;
   border: 2px solid #fbbf24;
 }
 
