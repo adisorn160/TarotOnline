@@ -2935,6 +2935,44 @@ const pentacles = [
     ]
   }
 ];
+//-----------------------------------------------------
+// ✅ Auto Assign รูปไพ่จากโฟลเดอร์ images/
+//-----------------------------------------------------
+
+// ฟังก์ชันแปลงเลขเป็น 2 หลัก เช่น 1 → 01
+function pad2(num) {
+  return num.toString().padStart(2, "0");
+}
+
+// Major Arcana → images/01.jpg - 22.jpg
+majorArcana.forEach((card, index) => {
+  const fileNo = pad2(index + 1);
+  card.image = `images/${fileNo}.jpg`;
+});
+
+// Wands → images/w01.jpg - w14.jpg
+wands.forEach((card, index) => {
+  const fileNo = pad2(index + 1);
+  card.image = `images/w${fileNo}.jpg`;
+});
+
+// Cups → images/c01.jpg - c14.jpg
+cups.forEach((card, index) => {
+  const fileNo = pad2(index + 1);
+  card.image = `images/c${fileNo}.jpg`;
+});
+
+// Swords → images/s01.jpg - s14.jpg
+swords.forEach((card, index) => {
+  const fileNo = pad2(index + 1);
+  card.image = `images/s${fileNo}.jpg`;
+});
+
+// Pentacles → images/p01.jpg - p14.jpg
+pentacles.forEach((card, index) => {
+  const fileNo = pad2(index + 1);
+  card.image = `images/p${fileNo}.jpg`;
+});
 
 
 //-----------------------------------------------------
