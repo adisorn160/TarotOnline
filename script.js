@@ -3119,6 +3119,11 @@ function buildResultLayout() {
 //-----------------------------------------------------
 
 function startSpread() {
+
+  // ✅✅✅ แก้บั๊กไพ่ไม่โผล่รอบที่ 2
+  deckArea.style.display = "flex";
+  deckArea.classList.remove("fade-out");
+
   maxSelect = parseInt(spreadSelect.value, 10);
   selectedCards = [];
 
@@ -3129,8 +3134,8 @@ function startSpread() {
       "รวมถึงข้าพเจ้าขออโหสิกรรมแก่ผู้ทำนาย มิให้ติดบ่วงกรรมต่อกัน”"
   );
 
-deckArea.innerHTML = "";
-resultArea.innerHTML = "";
+  deckArea.innerHTML = "";
+  resultArea.innerHTML = "";
 
 // ✅ ดัน deckArea ขึ้นไปอยู่เหนือ resultArea เสมอ
 resultArea.parentNode.insertBefore(deckArea, resultArea);
