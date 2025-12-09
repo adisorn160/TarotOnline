@@ -3210,10 +3210,15 @@ function showRevealButton() {
 
 function revealAllCards() {
 
-  // ✅ ซ่อนกองไพ่ทั้งหมดหลังจากกดเปิด
-  deckArea.style.display = "none";
+  // ✅ 1. Fade กองไพ่หาย
+  deckArea.classList.add("fade-out");
   statusEl.textContent = "เปิดไพ่ครบแล้ว";
 
+  setTimeout(() => {
+    deckArea.style.display = "none";
+  }, 800);
+
+  // ✅ 2. เปิดไพ่ + เด้ง
   for (let i = 1; i <= selectedCards.length; i++) {
     const card = selectedCards[i - 1];
     const slot = document.getElementById("result-slot-" + i);
@@ -3229,7 +3234,7 @@ function revealAllCards() {
 
     slot.innerHTML = `
       <h3>${getSlotTitle(i)}</h3>
-      <img src="${card.image}" style="width:120px;border-radius:8px;margin-bottom:8px;" />
+      <img src="${card.image}" class="reveal-pop" style="width:120px;border-radius:8px;margin-bottom:8px;" />
       <p style="font-weight:bold;margin-bottom:6px;">${card.name}</p>
       <div class="astro-info" style="font-size:13px;line-height:1.4;">
         ${mainStarLine}
@@ -3237,6 +3242,9 @@ function revealAllCards() {
       </div>
     `;
   }
+
+  // ✅ 3. ปุ่มเริ่มทำนายใหม่
+  showResetButton();
 }
 
 
@@ -3245,3 +3253,24 @@ function revealAllCards() {
 //-----------------------------------------------------
 
 startBtn.addEventListener("click", startSpread);
+
+function showResetButton() {
+  const btn = document.createElement("button");
+  btn.textContent = "🔁 เริ่มทำนายใหม่";
+  btn.style.marginTop = "25px";
+  btn.style.padding = "10px 20px";
+  btn.style.fontSize = "16px";
+  btn.style.cursor = "pointer";
+
+  btn.onclick = () => {
+    deckArea.style.display = "flex";
+    deckArea.classList.remove("fade-out");
+    resultArea.innerHTML = "";
+    statusEl.textContent = "เลือกจำนวนไพ่ก่อนเริ่มใหม่";
+    selectedCards = [];
+    startSpread();
+  };
+
+  resultArea.appendChild(btn);
+}
+
