@@ -3169,30 +3169,35 @@ function handleCardClick(e) {
   cardDiv.classList.add("selected");
   cardDiv.style.opacity = "0.5";
 
-  selectedCards.push(currentDeck[index]); // ✅ ใช้ currentDeck
+  const card = currentDeck[index]; // ✅ เพิ่มบรรทัดนี้
+  selectedCards.push(card);
 
   const slotIndex = selectedCards.length;
   const slot = document.getElementById("result-slot-" + slotIndex);
+
   if (slot) {
-   slot.innerHTML = `
-  <h3>${getSlotTitle(i)}</h3>
 
-  <img src="${card.image}" class="reveal-pop" 
-       style="width:120px;border-radius:10px;margin-bottom:8px;" />
+    const mainStarLine = card.decan_ruler
+      ? `<div><span class="astro-icon">☉</span><strong>ดาวหลัก:</strong> ${card.decan_ruler_symbol || ""} ${card.decan_ruler}</div>`
+      : "";
 
-  <div class="card-title">${card.name}</div>
+    const hiddenStarLine = card.hidden_ruler
+      ? `<div class="astro-divider"></div><div><span class="astro-icon">☽</span><strong>ดาวซ่อน:</strong> ${card.hidden_ruler_symbol || ""} ${card.hidden_ruler}</div>`
+      : "";
 
-  <div class="astro-box">
-    ${mainStarLine 
-      ? `<div><span class="astro-icon">☉</span><strong>ดาวหลัก:</strong> ${card.decan_ruler_symbol || ""} ${card.decan_ruler}</div>` 
-      : ""}
-    
-    ${hiddenStarLine 
-      ? `<div class="astro-divider"></div><div><span class="astro-icon">☽</span><strong>ดาวซ่อน:</strong> ${card.hidden_ruler_symbol || ""} ${card.hidden_ruler}</div>` 
-      : ""}
-  </div>
-`;
+    slot.innerHTML = `
+      <h3>${getSlotTitle(slotIndex)}</h3>
 
+      <img src="${card.image}" class="reveal-pop"
+           style="width:120px;border-radius:10px;margin-bottom:8px;" />
+
+      <div class="card-title">${card.name}</div>
+
+      <div class="astro-box">
+        ${mainStarLine}
+        ${hiddenStarLine}
+      </div>
+    `;
   }
 
   const remain = maxSelect - selectedCards.length;
@@ -3200,7 +3205,7 @@ function handleCardClick(e) {
     statusEl.textContent = `เลือกไพ่ได้อีก ${remain} ใบ`;
   } else {
     statusEl.textContent = `เลือกครบแล้ว คลิก "เปิดไพ่ทั้งหมด"`;
-    showRevealButton();
+    showRevealButton(); // ✅ ปุ่มจะกลับมาแน่นอน
   }
 }
 
