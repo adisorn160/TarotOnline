@@ -162,10 +162,12 @@ button:hover {
 }
 
 .slot-box {
-  width: 90px;
-  height: 150px;
+  width: 160px;             /* 1. แก้จาก 90px เป็น 160px (ให้เท่ากับ .card) */
+  aspect-ratio: 63 / 110;   /* 2. เพิ่มบรรทัดนี้ เพื่อให้สัดส่วนสูง/ยาว เท่ากับไพ่เป๊ะๆ */
+  /* height: 150px; */      /* 3. ลบบรรทัดนี้ออก หรือ comment ปิดไป เพราะเราใช้ aspect-ratio คุมความสูงแทนแล้ว */
+  
   border: 2px dashed #fbbf24;
-  border-radius: 10px;
+  border-radius: 16px;      /* 4. แนะนำให้แก้จาก 10px เป็น 16px เพื่อให้ความมนเท่ากับตัวไพ่ */
   display: flex;
   align-items: center;
   justify-content: center;
