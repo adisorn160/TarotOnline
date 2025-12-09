@@ -74,9 +74,20 @@ button:hover {
 #deck-area {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* ⬅️ จาก 80 → 160 */
-  gap: 18px;                                                   /* ⬅️ เพิ่มช่องไฟ */
+  /* - repeat(12, 1fr) คือบังคับแบ่งเป็น 12 คอลัมน์เท่าๆ กัน
+     - ถ้าหน้าจอเล็ก ไพ่จะหดตัวลงอัตโนมัติเพื่อให้ครบ 12 ใบ
+  */
+  grid-template-columns: repeat(12, 1fr); 
+  gap: 10px; /* ลดช่องว่างลงหน่อย เพื่อให้ไพ่ไม่เบียดกันเกินไป */
   justify-items: center;
+  padding: 0 10px; /* กันตกขอบจอ */
+}
+
+/* (แถม) ถ้าดูในมือถือ 12 ใบจะเล็กเท่ามด แนะนำให้ปรับเฉพาะมือถือครับ */
+@media (max-width: 800px) {
+  #deck-area {
+    grid-template-columns: repeat(4, 1fr); /* มือถือให้เหลือแถวละ 4 พอ */
+  }
 }
 
 
@@ -126,32 +137,32 @@ button:hover {
 
 .result-card {
   background: #1f2937;
-  padding: 10px 12px;
+  padding: 10px;
+  
+  /* ✅ กำหนดความกว้างและความสูงให้สัมพันธ์กับไพ่ */
+  width: 100%;           
+  max-width: 160px;       /* ไม่ให้ใหญ่เกิน 160px */
+  aspect-ratio: 63 / 110; /* ✅ บังคับสัดส่วนให้เป็นทรงไพ่เสมอ แม้ยังไม่มีรูป */
+  
   border-radius: 10px;
-  width: 150px;
   color: #f9fafb;
-  border: 1px solid #374151;
+  border: 2px dashed #fbbf24; /* ✅ เปลี่ยนเป็นเส้นประสีเหลืองตามที่คุณอยากได้ */
+  
+  /* จัดข้อความให้อยู่ตรงกลางกล่อง */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.result-card h3 {
-  font-size: 15px;
-  margin-bottom: 6px;
-}
-
-.result-card p {
-  font-size: 14px;
-  margin: 0;
-}
-
+/* ปรับรูปในกล่องผลลัพธ์ให้พอดี */
 .result-card img {
-  width: 150px;                 /* ⬅️ จาก 120 → 150 */
-  aspect-ratio: 63 / 110;
+  width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 10px;
-  border: 2px solid #fbbf24;
-  margin-bottom: 12px;
-}
+  border-radius: 8px;
+  border: none; /* เอากรอบรูปออก เพราะเรามีกรอบที่กล่องแล้ว */
+  margin-bottom: 8px;
 
 
 #slot-area {
