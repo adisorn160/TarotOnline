@@ -1,7 +1,10 @@
+/* -------------------------------------------------
+   พื้นฐานหน้าเว็บ
+-------------------------------------------------- */
 body {
   font-family: "Prompt", sans-serif;
   text-align: center;
-  background: #111827;
+  background: #111827; /* น้ำเงินเข้มอมดำ */
   color: #f9fafb;
   margin: 0;
   padding: 20px;
@@ -12,6 +15,14 @@ h1 {
   margin-bottom: 20px;
 }
 
+h2 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+/* -------------------------------------------------
+   Section เลือกสเปรด
+-------------------------------------------------- */
 .controls {
   display: flex;
   justify-content: center;
@@ -39,7 +50,7 @@ button {
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background: #fbbf24;
+  background: #fbbf24; /* เหลืองทอง */
   color: #111827;
   font-weight: 600;
   transition: 0.2s;
@@ -49,11 +60,17 @@ button:hover {
   filter: brightness(1.1);
 }
 
+/* -------------------------------------------------
+   ข้อความสถานะ
+-------------------------------------------------- */
 #status {
   margin-top: 12px;
   min-height: 20px;
 }
 
+/* -------------------------------------------------
+   พื้นที่ไพ่ด้านหลัง (ตอนเลือก)
+-------------------------------------------------- */
 #deck-area {
   margin-top: 20px;
   display: grid;
@@ -64,9 +81,9 @@ button:hover {
 
 .card {
   width: 120px;
-  height: 200px;
+  height: 200px;           /* ✅ ทรงไพ่ทาโรต์ */
   border-radius: 12px;
-  overflow: hidden;
+  overflow: hidden;       /* ✅ ตัดส่วนเกินออก */
   cursor: pointer;
   border: 2px solid #fbbf24;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
@@ -85,71 +102,69 @@ button:hover {
 .card-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;      /* ✅ สำคัญมาก */
   border-radius: 12px;
 }
 
+/* -------------------------------------------------
+   ส่วนแสดงผลลัพธ์หลังเปิดไพ่
+-------------------------------------------------- */
 #spread-container {
   margin-top: 20px;
 }
 
+/* กล่องแถวไพ่ (Row) */
 .spread-row {
   display: flex;
   justify-content: center;
   gap: 18px;
   margin-bottom: 25px;
+  flex-wrap: nowrap;
 }
 
 .result-card {
-  background: linear-gradient(180deg, #1c2330, #161c27);
-  border-radius: 16px;
-  padding: 18px 14px 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.08);
-  text-align: center;
+  background: #1f2937;
+  padding: 10px 12px;
+  border-radius: 10px;
   width: 150px;
+  color: #f9fafb;
+  border: 1px solid #374151;
+}
+
+.result-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.result-card p {
+  font-size: 14px;
+  margin: 0;
 }
 
 .result-card img {
   width: 120px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px solid #fbbf24;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-top: 10px;
   margin-bottom: 10px;
-  color: #ffd36a;
 }
 
-.astro-box {
-  margin-top: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.35);
-  font-size: 13px;
-  line-height: 1.6;
-  color: #dfe6ff;
-  text-align: left;
+#slot-area {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 }
 
-.fade-out {
-  animation: fadeOut 0.8s ease forwards;
+.slot-box {
+  width: 90px;
+  height: 150px;
+  border: 2px dashed #fbbf24;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; transform: translateY(-20px); }
-}
-
-.reveal-pop {
-  animation: popReveal 0.4s ease;
-}
-
-@keyframes popReveal {
-  0% { transform: scale(0.85); opacity: 0; }
-  80% { transform: scale(1.05); }
-  100% { transform: scale(1); opacity: 1; }
+.slot-box img {
+  width: 90%;
 }
