@@ -3169,38 +3169,44 @@ function handleCardClick(e) {
   cardDiv.classList.add("selected");
   cardDiv.style.opacity = "0.5";
 
-  const card = currentDeck[index]; // ✅ เพิ่มบรรทัดนี้
+  const card = currentDeck[index]; // ✅ ดึงไพ่จาก deck จริง
   selectedCards.push(card);
 
   const slotIndex = selectedCards.length;
   const slot = document.getElementById("result-slot-" + slotIndex);
 
-  if (slot) {
-
-    const mainStarLine = card.decan_ruler
-      ? `<div><span class="astro-icon">☉</span><strong>ดาวหลัก:</strong> ${card.decan_ruler_symbol || ""} ${card.decan_ruler}</div>`
-      : "";
-
-    const hiddenStarLine = card.hidden_ruler
-      ? `<div class="astro-divider"></div><div><span class="astro-icon">☽</span><strong>ดาวซ่อน:</strong> ${card.hidden_ruler_symbol || ""} ${card.hidden_ruler}</div>`
-      : "";
-
-    slot.innerHTML = `
-      <h3>${getSlotTitle(slotIndex)}</h3>
-
-      <img src="${card.image}" class="reveal-pop"
-           style="width:120px;border-radius:10px;margin-bottom:8px;" />
-
-      <div class="card-title">${card.name}</div>
-
-      <div class="astro-box">
-        ${mainStarLine}
-        ${hiddenStarLine}
-      </div>
-    `;
+  // ✅ ถ้ายังไม่มี slot → หยุดทันที
+  if (!slot) {
+    console.warn("ไม่พบช่อง result-slot-" + slotIndex);
+    return;
   }
 
+  const mainStarLine = card.decan_ruler
+    ? `<div><strong>ดาวหลัก:</strong> ${card.decan_ruler_symbol || ""} ${card.decan_ruler}</div>`
+    : "";
+
+  const hiddenStarLine = card.hidden_ruler
+    ? `<div><strong>ดาวซ่อน:</strong> ${card.hidden_ruler_symbol || ""} ${card.hidden_ruler}</div>`
+    : "";
+
+  slot.innerHTML = `
+    <h3>${getSlotTitle(slotIndex)}</h3>
+
+    <img src="${card.image}" class="reveal-pop"
+      style="width:120px;border-radius:10px;margin-bottom:8px;" />
+
+    <div class="card-title" style="font-weight:bold;font-size:16px;">
+      ${card.name}
+    </div>
+
+    <div class="astro-box" style="font-size:13px;margin-top:6px;">
+      ${mainStarLine}
+      ${hiddenStarLine}
+    </div>
+  `;
+
   const remain = maxSelect - selectedCards.length;
+
   if (remain > 0) {
     statusEl.textContent = `เลือกไพ่ได้อีก ${remain} ใบ`;
   } else {
@@ -3208,6 +3214,7 @@ function handleCardClick(e) {
     showRevealButton(); // ✅ ปุ่มจะกลับมาแน่นอน
   }
 }
+
 
 //-----------------------------------------------------
 // 7) ปุ่มเปิดไพ่
