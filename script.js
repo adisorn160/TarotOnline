@@ -3119,11 +3119,6 @@ function buildResultLayout() {
 //-----------------------------------------------------
 
 function startSpread() {
-
-  // ✅✅✅ แก้บั๊กไพ่ไม่โผล่รอบที่ 2
-  deckArea.style.display = "flex";
-  deckArea.classList.remove("fade-out");
-
   maxSelect = parseInt(spreadSelect.value, 10);
   selectedCards = [];
 
@@ -3134,8 +3129,8 @@ function startSpread() {
       "รวมถึงข้าพเจ้าขออโหสิกรรมแก่ผู้ทำนาย มิให้ติดบ่วงกรรมต่อกัน”"
   );
 
-  deckArea.innerHTML = "";
-  resultArea.innerHTML = "";
+deckArea.innerHTML = "";
+resultArea.innerHTML = "";
 
 // ✅ ดัน deckArea ขึ้นไปอยู่เหนือ resultArea เสมอ
 resultArea.parentNode.insertBefore(deckArea, resultArea);
@@ -3215,19 +3210,10 @@ function showRevealButton() {
 
 function revealAllCards() {
 
-  // ✅ ลบปุ่ม "เปิดไพ่ทั้งหมด" ทิ้งทันที
-  const revealBtn = document.getElementById("reveal-btn");
-  if (revealBtn) revealBtn.remove();
-
-  // ✅ 1. Fade กองไพ่หาย
-  deckArea.classList.add("fade-out");
+  // ✅ ซ่อนกองไพ่ทั้งหมดหลังจากกดเปิด
+  deckArea.style.display = "none";
   statusEl.textContent = "เปิดไพ่ครบแล้ว";
 
-  setTimeout(() => {
-    deckArea.style.display = "none";
-  }, 800);
-
-  // ✅ 2. เปิดไพ่ + เด้ง
   for (let i = 1; i <= selectedCards.length; i++) {
     const card = selectedCards[i - 1];
     const slot = document.getElementById("result-slot-" + i);
@@ -3243,7 +3229,7 @@ function revealAllCards() {
 
     slot.innerHTML = `
       <h3>${getSlotTitle(i)}</h3>
-      <img src="${card.image}" class="reveal-pop" style="width:120px;border-radius:8px;margin-bottom:8px;" />
+      <img src="${card.image}" style="width:120px;border-radius:8px;margin-bottom:8px;" />
       <p style="font-weight:bold;margin-bottom:6px;">${card.name}</p>
       <div class="astro-info" style="font-size:13px;line-height:1.4;">
         ${mainStarLine}
@@ -3251,9 +3237,6 @@ function revealAllCards() {
       </div>
     `;
   }
-
-  // ✅ 3. โชว์ปุ่มเริ่มใหม่ "ทันทีหลังเปิดไพ่"
-  showResetButton();
 }
 
 
@@ -3262,22 +3245,3 @@ function revealAllCards() {
 //-----------------------------------------------------
 
 startBtn.addEventListener("click", startSpread);
-function showResetButton() {
-  const btn = document.createElement("button");
-  btn.textContent = "🔁 เริ่มทำนายใหม่";
-  btn.style.marginTop = "25px";
-  btn.style.padding = "10px 20px";
-  btn.style.fontSize = "16px";
-  btn.style.cursor = "pointer";
-
-  btn.onclick = () => {
-    deckArea.style.display = "flex";
-    deckArea.classList.remove("fade-out");
-    resultArea.innerHTML = "";
-    statusEl.textContent = "เลือกจำนวนไพ่ก่อนเริ่มใหม่";
-    selectedCards = [];
-    startSpread();
-  };
-
-  resultArea.appendChild(btn);
-}
