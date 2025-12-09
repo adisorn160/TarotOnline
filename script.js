@@ -3209,6 +3209,11 @@ function showRevealButton() {
 //-----------------------------------------------------
 
 function revealAllCards() {
+
+  // ✅ ซ่อนกองไพ่ทั้งหมดหลังจากกดเปิด
+  deckArea.style.display = "none";
+  statusEl.textContent = "เปิดไพ่ครบแล้ว";
+
   for (let i = 1; i <= selectedCards.length; i++) {
     const card = selectedCards[i - 1];
     const slot = document.getElementById("result-slot-" + i);
@@ -3233,6 +3238,7 @@ function revealAllCards() {
     `;
   }
 }
+
 
 //-----------------------------------------------------
 // 9) Event start
