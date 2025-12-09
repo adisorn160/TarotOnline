@@ -189,3 +189,61 @@ button:hover {
   80% { transform: scale(1.05); }
   100% { transform: scale(1); opacity: 1; }
 }
+/* พื้นที่กองไพ่ */
+#deck-area {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); /* ✅ แถวละ 12 ใบ */
+  gap: 8px;
+  justify-content: explain;
+  margin-top: 20px;
+}
+
+/* ตัวไพ่ */
+.card {
+  width: 100%;
+  max-width: 70px;   /* ✅ คุมความกว้างให้ไม่ใหญ่เกิน */
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* ✅ สถานะ selected */
+.card.selected {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+@media (max-width: 1024px) {
+  #deck-area {
+    grid-template-columns: repeat(8, 1fr); /* ✅ Tablet = แถวละ 8 */
+  }
+}
+
+@media (max-width: 768px) {
+  #deck-area {
+    grid-template-columns: repeat(6, 1fr); /* ✅ มือถือแนวนอน = แถวละ 6 */
+  }
+
+  .card {
+    max-width: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  #deck-area {
+    grid-template-columns: repeat(4, 1fr); /* ✅ มือถือจอเล็ก = แถวละ 4 */
+  }
+
+  .card {
+    max-width: 55px;
+  }
+}
+
