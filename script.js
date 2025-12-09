@@ -3174,11 +3174,25 @@ function handleCardClick(e) {
   const slotIndex = selectedCards.length;
   const slot = document.getElementById("result-slot-" + slotIndex);
   if (slot) {
-    slot.innerHTML = `
-      <h3>${getSlotTitle(slotIndex)}</h3>
-      <img src="${cardBackUrl}" style="width:120px;border-radius:8px;margin-bottom:8px;" />
-      <p style="opacity:0.7;">เลือกไพ่แล้ว </p>
-    `;
+   slot.innerHTML = `
+  <h3>${getSlotTitle(i)}</h3>
+
+  <img src="${card.image}" class="reveal-pop" 
+       style="width:120px;border-radius:10px;margin-bottom:8px;" />
+
+  <div class="card-title">${card.name}</div>
+
+  <div class="astro-box">
+    ${mainStarLine 
+      ? `<div><span class="astro-icon">☉</span><strong>ดาวหลัก:</strong> ${card.decan_ruler_symbol || ""} ${card.decan_ruler}</div>` 
+      : ""}
+    
+    ${hiddenStarLine 
+      ? `<div class="astro-divider"></div><div><span class="astro-icon">☽</span><strong>ดาวซ่อน:</strong> ${card.hidden_ruler_symbol || ""} ${card.hidden_ruler}</div>` 
+      : ""}
+  </div>
+`;
+
   }
 
   const remain = maxSelect - selectedCards.length;
