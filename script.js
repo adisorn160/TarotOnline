@@ -3343,8 +3343,6 @@ function revealAllCards() {
 // 9) Event start
 //-----------------------------------------------------
 
-startBtn.addEventListener("click", startSpread);
-
 function showResetButton() {
   const btn = document.createElement("button");
   btn.textContent = "🔁 เริ่มทำนายใหม่";
