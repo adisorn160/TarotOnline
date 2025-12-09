@@ -2,8 +2,8 @@
 // 1) ไพ่ 78 ใบ (ของคุณครบแล้ว)
 //-----------------------------------------------------
 
-const cardBackUrl =
-  "https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_Back.jpg";
+const cardBackUrl = "3.png";
+
 
   // --- Major Arcana ---
 const majorArcana = [
