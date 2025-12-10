@@ -3043,76 +3043,47 @@ function buildResultLayout() {
   container.id = "spread-container";
   resultArea.appendChild(container);
 
+  // ✅ ฟังก์ชันสร้างแถวแบบ Center + Scroll
+  function createRow(start, end) {
+    const row = document.createElement("div");
+    row.className = "spread-row";
+
+    const scrollWrap = document.createElement("div");
+    scrollWrap.className = "spread-scroll";
+
+    for (let i = start; i <= end; i++) {
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "result-card";
+      cardDiv.id = "result-slot-" + i;
+      cardDiv.innerHTML = `
+        <h3>${getSlotTitle(i)}</h3>
+        <p style="opacity:0.7;">ยังไม่ได้เลือกไพ่</p>
+      `;
+      scrollWrap.appendChild(cardDiv);
+    }
+
+    row.appendChild(scrollWrap);
+    container.appendChild(row);
+  }
+
+  // ✅ 1 ใบ
   if (maxSelect === 1) {
-    const row = document.createElement("div");
-    row.className = "spread-row";
+    createRow(1, 1);
+  }
 
-    const cardDiv = document.createElement("div");
-    cardDiv.className = "result-card";
-    cardDiv.id = "result-slot-1";
-    cardDiv.innerHTML = `
-      <h3>${getSlotTitle(1)}</h3>
-      <p style="opacity:0.7;">ยังไม่ได้เลือกไพ่</p>
-    `;
-    row.appendChild(cardDiv);
-    container.appendChild(row);
-  } else if (maxSelect === 3 || maxSelect === 5) {
-    const row = document.createElement("div");
-    row.className = "spread-row";
+  // ✅ 3 ใบ / 5 ใบ
+  else if (maxSelect === 3 || maxSelect === 5) {
+    createRow(1, maxSelect);
+  }
 
-    for (let i = 1; i <= maxSelect; i++) {
-      const cardDiv = document.createElement("div");
-      cardDiv.className = "result-card";
-      cardDiv.id = "result-slot-" + i;
-      cardDiv.innerHTML = `
-        <h3>${getSlotTitle(i)}</h3>
-        <p style="opacity:0.7;">ยังไม่ได้เลือกไพ่</p>
-      `;
-      row.appendChild(cardDiv);
-    }
-    container.appendChild(row);
-  } else if (maxSelect === 11) {
-    const row1 = document.createElement("div");
-    row1.className = "spread-row";
-    const topCard = document.createElement("div");
-    topCard.className = "result-card";
-    topCard.id = "result-slot-1";
-    topCard.innerHTML = `
-      <h3>${getSlotTitle(1)}</h3>
-      <p style="opacity:0.7;">ยังไม่ได้เลือกไพ่</p>
-    `;
-    row1.appendChild(topCard);
-    container.appendChild(row1);
-
-    const row2 = document.createElement("div");
-    row2.className = "spread-row";
-    for (let i = 2; i <= 5; i++) {
-      const cardDiv = document.createElement("div");
-      cardDiv.className = "result-card";
-      cardDiv.id = "result-slot-" + i;
-      cardDiv.innerHTML = `
-        <h3>${getSlotTitle(i)}</h3>
-        <p style="opacity:0.7;">ยังไม่ได้เลือกไพ่</p>
-      `;
-      row2.appendChild(cardDiv);
-    }
-    container.appendChild(row2);
-
-    const row3 = document.createElement("div");
-    row3.className = "spread-row";
-    for (let i = 6; i <= 11; i++) {
-      const cardDiv = document.createElement("div");
-      cardDiv.className = "result-card";
-      cardDiv.id = "result-slot-" + i;
-      cardDiv.innerHTML = `
-        <h3>${getSlotTitle(i)}</h3>
-        <p style="opacity:0.7;">ยังไม่ได้เลือกไพ่</p>
-      `;
-      row3.appendChild(cardDiv);
-    }
-    container.appendChild(row3);
+  // ✅ 11 ใบ (แบ่ง 3 แถวอัตโนมัติ)
+  else if (maxSelect === 11) {
+    createRow(1, 1);     // ไพ่ประจำหกเดือน
+    createRow(2, 5);     // การงาน / เงิน / ความรัก / สุขภาพ
+    createRow(6, 11);    // เดือนที่ 1–6
   }
 }
+
 
 //-----------------------------------------------------
 // 5) เริ่มการวางไพ่
