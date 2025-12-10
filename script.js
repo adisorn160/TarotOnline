@@ -3100,7 +3100,18 @@ function startSpread() {
       "รวมถึงข้าพเจ้าขออโหสิกรรมแก่ผู้ทำนาย มิให้ติดบ่วงกรรมต่อกัน”"
   );
 
-deckArea.innerHTML = "";
+deckArea.innerHTML = `
+  <div style="
+    width:100%;
+    text-align:center;
+    font-size:13px;
+    opacity:0.75;
+    margin-bottom:8px;
+  ">
+    👉 เลื่อนซ้าย–ขวาเพื่อเลือกไพ่
+  </div>
+`;
+
   // ✅ รีเซ็ตกองไพ่ให้กลับมาแสดงใหม่ทุกครั้ง
 deckArea.style.display = "flex";
 deckArea.style.opacity = "1";
@@ -3121,13 +3132,19 @@ resultArea.parentNode.insertBefore(deckArea, resultArea);
   currentDeck = getShuffledDeck();
 
   currentDeck.forEach((card, i) => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.dataset.index = i;
-    div.innerHTML = `<img src="${cardBackUrl}" class="card-img" />`;
-    div.addEventListener("click", handleCardClick);
-    deckArea.appendChild(div);
-  });
+  const div = document.createElement("div");
+  div.className = "card";
+  div.dataset.index = i;
+
+  div.innerHTML = `
+    <div class="card-number">${i + 1}</div>
+    <img src="${cardBackUrl}" class="card-img" />
+  `;
+
+  div.addEventListener("click", handleCardClick);
+  deckArea.appendChild(div);
+});
+
 } // ✅ ปิด startSpread()
 
 //-----------------------------------------------------
