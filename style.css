@@ -99,6 +99,20 @@ button:hover {
   width: 120px;
   height: 200px;
   flex: 0 0 auto;
+   position: relative;
+}
+.card-number {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid #fbbf24;
+  z-index: 3;
 }
 
 .card:hover {
