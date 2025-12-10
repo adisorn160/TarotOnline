@@ -3130,6 +3130,10 @@ function startSpread() {
   );
 
 deckArea.innerHTML = "";
+  // ✅ รีเซ็ตกองไพ่ให้กลับมาแสดงใหม่ทุกครั้ง
+deckArea.style.display = "flex";
+deckArea.style.opacity = "1";
+deckArea.style.transform = "scale(1)";
 resultArea.innerHTML = "";
 
 // ✅ ดัน deckArea ขึ้นไปอยู่เหนือ resultArea เสมอ
@@ -3185,9 +3189,18 @@ function handleCardClick(e) {
   if (remain > 0) {
     statusEl.textContent = `เลือกไพ่ได้อีก ${remain} ใบ`;
   } else {
-    statusEl.textContent = `เลือกครบแล้ว คลิก "เปิดไพ่ทั้งหมด"`;
-    showRevealButton();
-  }
+  statusEl.textContent = `เลือกครบแล้ว คลิก "เปิดไพ่ทั้งหมด"`;
+  showRevealButton();
+
+  // ✅ ✅ ✅ ซ่อนกองไพ่เมื่อเลือกครบ
+  deckArea.style.transition = "all 0.4s ease";
+  deckArea.style.opacity = "0";
+  deckArea.style.transform = "scale(0.9)";
+
+  setTimeout(() => {
+    deckArea.style.display = "none";
+  }, 400);
+}
 }
 
 //-----------------------------------------------------
@@ -3222,17 +3235,57 @@ function revealAllCards() {
       ? `<p><strong>ดาวซ่อน (รอง):</strong> ${card.hidden_ruler_symbol || ""} ${card.hidden_ruler}</p>`
       : "";
 
+    const keywordList = card.keywords
+      ? `<ul>${card.keywords.map(k => `<li>${k}</li>`).join("")}</ul>`
+      : "";
+
     slot.innerHTML = `
       <h3>${getSlotTitle(i)}</h3>
-      <img src="${card.image}" style="width:120px;border-radius:8px;margin-bottom:8px;" />
+
+      <img 
+        src="${card.image}" 
+        style="width:150px;border-radius:10px;margin-bottom:8px;cursor:pointer;" 
+        data-index="${i - 1}"
+        class="revealed-card"
+      />
+
       <p style="font-weight:bold;margin-bottom:6px;">${card.name}</p>
+
       <div class="astro-info" style="font-size:13px;line-height:1.4;">
         ${mainStarLine}
         ${hiddenStarLine}
       </div>
+
+      <p style="opacity:0.6;font-size:12px;margin-top:6px;">
+        👉 คลิกที่ไพ่เพื่อดูความหมาย
+      </p>
+
+      <div class="card-detail" id="detail-${i}" style="display:none;">
+        <p><strong>ความหมาย:</strong><br>${card.meaning_from_chart || "—"}</p>
+        <p><strong>Keywords:</strong></p>
+        ${keywordList}
+      </div>
     `;
   }
+
+  enableCardDetailToggle();
 }
+function enableCardDetailToggle() {
+  const cards = document.querySelectorAll(".revealed-card");
+
+  cards.forEach(img => {
+    img.addEventListener("click", () => {
+      const index = parseInt(img.dataset.index, 10) + 1;
+      const detailBox = document.getElementById("detail-" + index);
+
+      if (!detailBox) return;
+
+      const isOpen = detailBox.style.display === "block";
+      detailBox.style.display = isOpen ? "none" : "block";
+    });
+  });
+}
+
 
 //-----------------------------------------------------
 // 9) Event start
