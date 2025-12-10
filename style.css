@@ -71,23 +71,34 @@ button:hover {
 /* -------------------------------------------------
    พื้นที่ไพ่ด้านหลัง (ตอนเลือก)
 -------------------------------------------------- */
-#deck-area {
+/*#deck-area {
   margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 12px;
   justify-items: center;
-}
-
+}*/
+#deck-area {
+  display: flex;
+  flex-wrap: nowrap;      /* ✅ บรรทัดเดียว */
+  overflow-x: auto;      /* ✅ เลื่อนซ้ายขวา */
+  gap: 12px;
+  padding: 20px;
+} /*
 .card {
   width: 120px;
-  height: 200px;           /* ✅ ทรงไพ่ทาโรต์ */
+  height: 200px;           
   border-radius: 12px;
-  overflow: hidden;       /* ✅ ตัดส่วนเกินออก */
+  overflow: hidden;      
   cursor: pointer;
   border: 2px solid #fbbf24;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
   background: black;
+}*/
+.card {
+  width: 120px;
+  height: 200px;
+  flex: 0 0 auto;
 }
 
 .card:hover {
@@ -188,4 +199,28 @@ button:hover {
   0% { transform: scale(0.8); opacity: 0; }
   80% { transform: scale(1.05); }
   100% { transform: scale(1); opacity: 1; }
+}
+.card-detail {
+  margin-top: 8px;
+  padding: 8px;
+  background: #0f172a;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
+  animation: fadeDetail 0.25s ease;
+}
+
+.card-detail ul {
+  padding-left: 18px;
+  margin: 6px 0 0 0;
+}
+
+.card-detail li {
+  margin-bottom: 4px;
+}
+
+@keyframes fadeDetail {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
