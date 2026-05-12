@@ -5,15 +5,384 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🔮 PJOracles — สุ่มไพ่ทาโรต์</title>
   <meta name="description" content="ดูดวงไพ่ทาโรต์ออนไลน์ โดย PJOracles หมอดูชุดนอน"/>
-  <meta property="og:title" content="PJOracles — สุ่มไพ่ทาโรต์"/>
-  <meta property="og:description" content="วันนี้จักรวาลมีอะไรจะบอกคุณ? ดูดวงไพ่ทาโรต์กับหมอดูชุดนอน"/>
-  <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Sarabun','Prompt',sans-serif;background:#0a0d14;color:#f0eeea;min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+      background-image:
+        radial-gradient(1px 1px at 12% 18%,rgba(184,201,232,.6) 0%,transparent 100%),
+        radial-gradient(1px 1px at 55% 7%,rgba(232,201,122,.5) 0%,transparent 100%),
+        radial-gradient(1.5px 1.5px at 80% 30%,rgba(184,201,232,.4) 0%,transparent 100%),
+        radial-gradient(1px 1px at 35% 65%,rgba(232,201,122,.3) 0%,transparent 100%),
+        radial-gradient(1px 1px at 70% 80%,rgba(184,201,232,.5) 0%,transparent 100%),
+        radial-gradient(1px 1px at 90% 55%,rgba(232,201,122,.4) 0%,transparent 100%)}
+    #root{position:relative;z-index:1}
+    ::-webkit-scrollbar{display:none}
+    *{scrollbar-width:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes moonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .moon-anim{animation:moonFloat 3s ease-in-out infinite}
+    textarea{outline:none;box-sizing:border-box}
+    textarea:focus{border-color:#e8c97a !important}
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="app.js"></script>
+<div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#c9a84c;font-size:14px">กำลังโหลด...</div></div>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+
+const { useState, useEffect, useRef } = React;
+
+const C = {
+  gold:"#e8c97a", dim2:"#c9a84c", moon:"#b8c9e8", teal:"#5fb3a8", pink:"#d4748c",
+  muted:"rgba(240,238,234,.55)", dim:"rgba(240,238,234,.35)", border:"rgba(232,201,122,.18)",
+  bgElev:"#1f2d42", bgSurf:"#1a2235",
+};
+const btnGold  = {background:"linear-gradient(135deg,#c9a84c,#a07832)",color:"#0a0d14",border:"none",borderRadius:14,padding:"13px 20px",fontFamily:"'Cinzel',serif",fontSize:15,fontWeight:700,letterSpacing:1,cursor:"pointer",width:"100%"};
+const btnGhost = {background:"rgba(255,255,255,.04)",border:"1px solid rgba(232,201,122,.18)",borderRadius:10,padding:"9px 20px",color:"rgba(240,238,234,.6)",fontFamily:"inherit",fontSize:13,cursor:"pointer"};
+const cardBox  = {background:"linear-gradient(160deg,#131d2e,#0d1520)",border:"1px solid rgba(232,201,122,.18)",borderRadius:22,padding:"32px 24px 24px",maxWidth:420,width:"100%",textAlign:"center",position:"relative",overflow:"hidden",boxShadow:"0 0 60px rgba(232,201,122,.06),0 24px 80px rgba(0,0,0,.6)"};
+
+const MEANINGS = [
+  {name:"The Fool",emoji:"🌀",element:"Air",planet:"♅ Uranus",meaning:"พลังแห่งการเริ่มต้นครั้งใหม่ กระโดดออกจาก comfort zone ด้วยความศรัทธาในจักรวาล",keywords:["การเริ่มต้น","อิสระ","ความกล้า"]},
+  {name:"The Magician",emoji:"✨",element:"Air",planet:"☿ Mercury",meaning:"สร้างความเป็นจริงด้วยพลังจิต คำพูด และการลงมือทำ",keywords:["การสื่อสาร","คาริสมา","ลงมือทำ"]},
+  {name:"High Priestess",emoji:"🌙",element:"Water",planet:"☽ Moon",meaning:"ฟังเสียงกระซิบจากข้างในมากกว่าเสียงรบกวนภายนอก ความลับกำลังจะถูกเปิดเผย",keywords:["ญาณ","สัญชาตญาณ","ความลับ"]},
+  {name:"The Empress",emoji:"🌸",element:"Earth",planet:"♀ Venus",meaning:"พลังแห่งความอุดมสมบูรณ์ เปิดรับความสุข ดูแลตัวเองทั้งกายและใจ",keywords:["ความอุดมสมบูรณ์","ความรัก","สร้างสรรค์"]},
+  {name:"The Emperor",emoji:"👑",element:"Fire",planet:"♂ Mars",meaning:"สร้างโครงสร้างและจัดระบบชีวิตให้แข็งแรง ความมั่นคงมาจากวินัยของตัวเอง",keywords:["ผู้นำ","อำนาจ","ความมั่นคง"]},
+  {name:"The Lovers",emoji:"💕",element:"Air",planet:"☿ Mercury",meaning:"การเลือกด้วยหัวใจ ซื่อสัตย์ต่อความต้องการแท้จริงของตัวเอง",keywords:["ความรัก","การเลือก","คู่สัมพันธ์"]},
+  {name:"The Chariot",emoji:"⚡",element:"Water",planet:"☽ Moon",meaning:"ชัยชนะมาจากการควบคุมอารมณ์ ความมุ่งมั่น + วินัย = การก้าวหน้า",keywords:["ชัยชนะ","ความมุ่งมั่น","เดินหน้า"]},
+  {name:"Strength",emoji:"🦁",element:"Fire",planet:"☉ Sun",meaning:"ความเข้มแข็งแท้จริงคือการยืนหยัดกับความกลัวโดยไม่หนี ใจนำกว่ากำลัง",keywords:["ความอดทน","พลังใจ","อ่อนโยน"]},
+  {name:"The Star",emoji:"⭐",element:"Air",planet:"♒ Aquarius",meaning:"ความหวังและการรักษาหลังพายุ จักรวาลกำลังส่งแสงนำทางมาให้คุณ",keywords:["ความหวัง","การรักษา","แสงสว่าง"]},
+  {name:"The Moon",emoji:"🌕",element:"Water",planet:"♓ Pisces",meaning:"บางอย่างยังซ่อนอยู่ในความมืด รอความชัดเจนก่อนตัดสินใจใหญ่",keywords:["ภาพลวงตา","ความกลัว","จิตใต้สำนึก"]},
+  {name:"The Sun",emoji:"☀️",element:"Fire",planet:"☉ Sun",meaning:"พลังงานสดใส ความสุข และชัยชนะ แสดงออกตัวตนอย่างเต็มที่ได้เลย",keywords:["ความสุข","ชัยชนะ","พลังงาน"]},
+  {name:"Wheel of Fortune",emoji:"🎡",element:"Fire",planet:"♃ Jupiter",meaning:"วงล้อแห่งโชคชะตากำลังหมุน โอกาสใหม่กำลังมา ยอมรับการเปลี่ยนแปลง",keywords:["โชคชะตา","วัฏจักร","โอกาส"]},
+  {name:"Justice",emoji:"⚖️",element:"Air",planet:"♀ Venus",meaning:"กรรมและสมดุล ผลลัพธ์สะท้อนสิ่งที่ทำ ตัดสินด้วยใจเที่ยงธรรม",keywords:["ยุติธรรม","กรรม","ความจริง"]},
+  {name:"The Tower",emoji:"🗼",element:"Fire",planet:"♂ Mars",meaning:"สายฟ้าฟาดพังโครงสร้างเก่าเพื่อเปิดทางให้ความจริงปรากฏ",keywords:["เปลี่ยนฉับพลัน","พังทลาย","ตื่นรู้"]},
+  {name:"The World",emoji:"🌍",element:"Earth",planet:"♄ Saturn",meaning:"บรรลุเป้าหมายและความสมบูรณ์ จุดสิ้นสุดหนึ่งคือจุดเริ่มต้นใหม่ที่ยิ่งใหญ่กว่า",keywords:["สำเร็จ","สมบูรณ์","บรรลุ"]},
+];
+
+const TOPICS     = ["💕 ความรัก","💼 การงาน","💰 การเงิน","🌿 สุขภาพ","🌟 ภาพรวมชีวิต","🃏 คำถามทั่วไป"];
+const CUSTOM_KEY = "🃏 คำถามทั่วไป";
+const POS_3      = ["อดีต","ปัจจุบัน","อนาคต"];
+const POS_11     = ["ไพ่ประจำหกเดือน","การงาน","การเงิน","ความรัก","สุขภาพ","เดือนที่ 1","เดือนที่ 2","เดือนที่ 3","เดือนที่ 4","เดือนที่ 5","เดือนที่ 6"];
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildDeck(){
+  const major=[
+    {name:"The Fool",no:"0",suit:"Major"},{name:"The Magician",no:"I",suit:"Major"},
+    {name:"The High Priestess",no:"II",suit:"Major"},{name:"The Empress",no:"III",suit:"Major"},
+    {name:"The Emperor",no:"IV",suit:"Major"},{name:"The Hierophant",no:"V",suit:"Major"},
+    {name:"The Lovers",no:"VI",suit:"Major"},{name:"The Chariot",no:"VII",suit:"Major"},
+    {name:"Strength",no:"VIII",suit:"Major"},{name:"The Hermit",no:"IX",suit:"Major"},
+    {name:"Wheel of Fortune",no:"X",suit:"Major"},{name:"Justice",no:"XI",suit:"Major"},
+    {name:"The Hanged Man",no:"XII",suit:"Major"},{name:"Death",no:"XIII",suit:"Major"},
+    {name:"Temperance",no:"XIV",suit:"Major"},{name:"The Devil",no:"XV",suit:"Major"},
+    {name:"The Tower",no:"XVI",suit:"Major"},{name:"The Star",no:"XVII",suit:"Major"},
+    {name:"The Moon",no:"XVIII",suit:"Major"},{name:"The Sun",no:"XIX",suit:"Major"},
+    {name:"Judgement",no:"XX",suit:"Major"},{name:"The World",no:"XXI",suit:"Major"},
+  ];
+  const suits=["Wands","Cups","Swords","Pentacles"];
+  const pips=["Ace","2","3","4","5","6","7","8","9","10","Page","Knight","Queen","King"];
+  const minor=suits.flatMap(s=>pips.map(p=>({name:`${p} of ${s}`,no:p,suit:s})));
+  return shuffle([...major,...minor]);
+}
+
+/* ══ TopBar ══ */
+function TopBar({topic}){
+  return (
+    <div style={{position:"sticky",top:0,zIndex:100,background:"rgba(10,13,20,.92)",backdropFilter:"blur(16px)",borderBottom:"1px solid rgba(232,201,122,.18)",padding:"12px 20px"}}>
+      <div style={{maxWidth:680,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <span style={{fontFamily:"'Cinzel',serif",fontSize:17,color:C.gold,letterSpacing:2}}>🌙 PJOracles</span>
+        {topic && <span style={{fontSize:12,color:C.pink,background:"rgba(212,116,140,.1)",border:"1px solid rgba(212,116,140,.3)",borderRadius:20,padding:"3px 10px"}}>{topic}</span>}
+      </div>
+    </div>
+  );
+}
+
+/* ══ SCREEN 1 ══ */
+function ScreenIntro({onNext}){
+  const [topic,setTopic]=useState("");
+  const [customQ,setCustomQ]=useState("");
+  const isCustom=topic===CUSTOM_KEY;
+  const finalTopic=isCustom?customQ.trim():topic;
+  const canGo=topic&&(!isCustom||customQ.trim().length>0);
+  return (
+    <div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",padding:20}}>
+      <div style={cardBox}>
+        <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:200,height:2,background:"linear-gradient(90deg,transparent,#e8c97a,transparent)"}}/>
+        <div style={{color:C.dim2,letterSpacing:6,fontSize:13,marginBottom:14,opacity:.7}}>✦ ✧ ✦</div>
+        <div className="moon-anim" style={{fontSize:52,marginBottom:10,filter:"drop-shadow(0 0 18px rgba(232,201,122,.5))"}}>🌙</div>
+        <h2 style={{fontFamily:"'Cinzel',serif",fontSize:26,color:C.gold,letterSpacing:3,marginBottom:4}}>PJOracles</h2>
+        <p style={{fontSize:13,color:C.muted,marginBottom:20,letterSpacing:1}}>หมอดูชุดนอน</p>
+        <p style={{fontSize:15,lineHeight:1.7,marginBottom:22}}>
+          วันนี้จักรวาลมีอะไรจะบอกคุณ?<br/>
+          <span style={{color:C.dim2,fontSize:14}}>ตั้งคำถามในใจแล้วเริ่มได้เลย 🔮</span>
+        </p>
+        <p style={{fontSize:12,color:C.muted,textTransform:"uppercase",letterSpacing:1.5,marginBottom:10}}>เลือกหัวข้อที่อยากถาม</p>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:isCustom?12:20}}>
+          {TOPICS.map(t=>(
+            <button key={t} onClick={()=>{setTopic(t);if(t!==CUSTOM_KEY)setCustomQ("");}}
+              style={{background:topic===t?"linear-gradient(135deg,#2a1f08,#1a1408)":C.bgElev,border:topic===t?"1px solid #e8c97a":"1px solid rgba(232,201,122,.18)",borderRadius:8,color:topic===t?C.gold:C.muted,padding:"10px 8px",fontFamily:"inherit",fontSize:13,cursor:"pointer",transition:"all .2s"}}>
+              {t}
+            </button>
+          ))}
+        </div>
+        {isCustom&&(
+          <div style={{marginBottom:20,textAlign:"left"}}>
+            <p style={{fontSize:12,color:C.dim2,marginBottom:6}}>✏️ พิมพ์คำถามของคุณ</p>
+            <textarea value={customQ} onChange={e=>setCustomQ(e.target.value)}
+              placeholder="เช่น ช่วงนี้ควรเปลี่ยนงานไหม?"
+              maxLength={120} rows={3}
+              style={{width:"100%",background:"#0d1520",border:"1px solid rgba(232,201,122,.35)",borderRadius:10,padding:"10px 12px",color:"#f0eeea",fontFamily:"inherit",fontSize:13,lineHeight:1.7,resize:"none"}}/>
+            <p style={{fontSize:11,color:C.dim,textAlign:"right",marginTop:3}}>{customQ.length}/120</p>
+          </div>
+        )}
+        <button onClick={()=>canGo&&onNext(finalTopic)}
+          style={{...btnGold,opacity:canGo?1:.35,cursor:canGo?"pointer":"not-allowed",marginBottom:12}}>
+          เริ่มดูดวง →
+        </button>
+        <p style={{fontSize:11,color:C.dim,lineHeight:1.5}}>* ไพ่ทาโรต์เพื่อการพัฒนาตัวเอง ไม่ใช่การพยากรณ์แทนวิจารณญาณ</p>
+      </div>
+    </div>
+  );
+}
+
+/* ══ SCREEN 2 ══ */
+function ScreenPrayer({onNext}){
+  return (
+    <div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",padding:20}}>
+      <div style={{...cardBox,maxWidth:420}}>
+        <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:200,height:2,background:"linear-gradient(90deg,transparent,#e8c97a,transparent)"}}/>
+        <div style={{fontSize:48,marginBottom:14}}>🙏</div>
+        <h3 style={{fontFamily:"'Cinzel',serif",color:C.gold,fontSize:16,letterSpacing:2,marginBottom:14}}>ตั้งจิตอธิษฐาน</h3>
+        <p style={{fontSize:13,lineHeight:1.9,color:"rgba(240,238,234,.8)",background:"rgba(255,255,255,.03)",border:"1px solid rgba(232,201,122,.18)",borderRadius:12,padding:"14px 16px",marginBottom:16,textAlign:"left"}}>
+          "ข้าพเจ้า ชื่อ…นามสกุล…เกิดวันที่… ขออนุญาตสิ่งศักดิ์สิทธิ์ ผู้รักษากายสังขารของข้าพเจ้า ขออนุญาตเทพ เทวดา ครูบาอาจารย์ทั้งหลาย ตลอดจนเจ้ากรรมนายเวร เจ้าเกณฑ์ชะตา ในการเปิดดวงชะตาครั้งนี้"
+        </p>
+        <p style={{fontSize:13,color:"rgba(232,201,122,.7)",marginBottom:22}}>หลังจากนั้น ตั้งคำถามให้แน่วแน่ ชัดเจน ก่อนเลือกไพ่น้า 🌙</p>
+        <button onClick={onNext} style={btnGold}>พร้อมแล้ว เลือกไพ่ →</button>
+      </div>
+    </div>
+  );
+}
+
+/* ══ FAN SPREAD ══ */
+function FanSpread({deck,picked,size,onPick,onReveal}){
+  const [hov,setHov]=useState(null);
+  const total=deck.length,done=picked.length>=size;
+  const FAN=160,R=260,CW=44,CH=70;
+  return (
+    <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center"}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,margin:"18px 0 6px"}}>
+        <div style={{display:"flex",gap:5}}>
+          {Array.from({length:size}).map((_,i)=>(
+            <div key={i} style={{width:28,height:40,borderRadius:5,border:i<picked.length?"1.5px solid #e8c97a":"1.5px dashed rgba(232,201,122,.25)",background:i<picked.length?"rgba(232,201,122,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,transition:"all .3s"}}>
+              {i<picked.length?"🃏":<span style={{opacity:.2,fontSize:11}}>✦</span>}
+            </div>
+          ))}
+        </div>
+        <p style={{fontSize:13,color:done?C.gold:C.dim2,margin:0,fontWeight:600}}>
+          {done?"เลือกครบแล้ว! 🎉":`เหลืออีก ${size-picked.length} ใบ`}
+        </p>
+      </div>
+      {!done&&<p style={{fontSize:11,color:C.dim,marginBottom:4}}>แตะที่ไพ่เพื่อเลือก</p>}
+      <div style={{position:"relative",width:"100%",height:R+CH+20,overflow:"visible"}}>
+        {deck.map((card,i)=>{
+          const isPicked=picked.includes(i),pickOrder=picked.indexOf(i);
+          const isHov=hov===i&&!isPicked&&!done;
+          const deg=-FAN/2+(i/(total-1))*FAN;
+          const rad=(deg-90)*Math.PI/180;
+          const cx=Math.cos(rad)*R,cy=Math.sin(rad)*R;
+          return (
+            <div key={i}
+              onClick={()=>!isPicked&&!done&&onPick(i)}
+              onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
+              style={{position:"absolute",width:CW,height:CH,
+                left:`calc(50% + ${cx}px - ${CW/2}px)`,top:`${R+CH/2+cy-CH/2}px`,
+                transform:`rotate(${deg}deg) translateY(${isPicked?-24:isHov?-16:0}px) scale(${isPicked?1.08:isHov?1.1:1})`,
+                transformOrigin:"bottom center",transition:"transform .2s ease, opacity .2s",
+                cursor:isPicked||done?"default":"pointer",
+                opacity:isPicked?.3:done?.5:1,borderRadius:6,
+                background:isPicked?"rgba(232,201,122,.06)":"linear-gradient(170deg,#1e3050,#0d1520)",
+                border:isPicked?"1.5px solid rgba(232,201,122,.4)":isHov?"1.5px solid #e8c97a":"1.5px solid rgba(232,201,122,.22)",
+                boxShadow:isHov?"0 0 14px rgba(232,201,122,.35),0 6px 20px rgba(0,0,0,.6)":"0 2px 8px rgba(0,0,0,.5)",
+                display:"flex",alignItems:"center",justifyContent:"center",zIndex:isHov?50:i,overflow:"hidden"}}>
+              {!isPicked&&<div style={{position:"absolute",inset:0,background:"repeating-linear-gradient(45deg,rgba(232,201,122,.04) 0px,rgba(232,201,122,.04) 1px,transparent 1px,transparent 6px)"}}/>}
+              <span style={{fontSize:16,opacity:isPicked?.06:.22,pointerEvents:"none"}}>🌙</span>
+              {isPicked&&pickOrder>=0&&(
+                <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <span style={{background:"#e8c97a",color:"#0a0d14",borderRadius:"50%",width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800}}>{pickOrder+1}</span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {done&&(
+        <div style={{textAlign:"center",marginTop:16,marginBottom:8}}>
+          <button onClick={onReveal} style={{...btnGold,width:"auto",padding:"12px 44px",fontSize:14}}>🔮 เปิดไพ่ทั้งหมด</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ══ SCREEN 3 ══ */
+function ScreenPick({topic,onReveal}){
+  const [size,setSize]=useState(3);
+  const [deck]=useState(()=>buildDeck());
+  const [picked,setPicked]=useState([]);
+  const [started,setStarted]=useState(false);
+  return (
+    <div style={{position:"relative",zIndex:1}}>
+      <TopBar topic={topic}/>
+      <div style={{maxWidth:480,margin:"16px auto 0",padding:"0 16px",textAlign:"center"}}>
+        <p style={{fontSize:12,color:C.muted,textTransform:"uppercase",letterSpacing:1.5,marginBottom:10}}>เลือกจำนวนไพ่</p>
+        <div style={{display:"flex",gap:8,justifyContent:"center",flexWrap:"wrap",marginBottom:12}}>
+          {[1,3,5].map(n=>(
+            <button key={n} onClick={()=>{setSize(n);setPicked([]);setStarted(false);}}
+              style={{background:size===n?"linear-gradient(135deg,#2a1f08,#1a1408)":C.bgSurf,border:size===n?"1px solid #e8c97a":"1px solid rgba(232,201,122,.18)",borderRadius:8,color:size===n?C.gold:C.muted,padding:"8px 22px",fontFamily:"inherit",fontSize:14,cursor:"pointer",transition:"all .2s"}}>
+              {n} ใบ
+            </button>
+          ))}
+        </div>
+        <button onClick={()=>{setPicked([]);setStarted(true);}} style={{...btnGold,width:"auto",padding:"11px 36px",fontSize:14}}>✨ เริ่มวางไพ่</button>
+        {started&&(
+          <FanSpread deck={deck} picked={picked} size={size}
+            onPick={idx=>{if(picked.includes(idx)||picked.length>=size)return;setPicked(p=>[...p,idx]);}}
+            onReveal={()=>onReveal(deck,picked,size)}/>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ══ SCREEN 4 ══ */
+function ScreenReveal({topic,deck,picked,size,onRestart}){
+  const [open,setOpen]=useState({});
+  const [aiText,setAiText]=useState(null);
+  const [aiLoad,setAiLoad]=useState(true);
+  const aiRef=useRef(null);
+
+  const enrich=card=>MEANINGS.find(c=>c.name.toLowerCase()===card.name.toLowerCase())
+    ||{...card,emoji:"🃏",element:card.suit,planet:"—",meaning:`ไพ่ ${card.name} — ${card.suit}`,keywords:[card.suit]};
+  const cards=picked.map(i=>enrich(deck[i]));
+  const getPos=i=>size===3?POS_3[i]:size===1?"ไพ่ประจำวัน":size===11?POS_11[i]:`ใบที่ ${i+1}`;
+
+  useEffect(()=>{
+    if(aiRef.current)aiRef.current.scrollIntoView({behavior:"smooth",block:"nearest"});
+    (async()=>{
+      const cl=cards.map((c,i)=>`- ตำแหน่ง "${getPos(i)}": ${c.name} (${c.element}) — ${c.meaning}`).join("\n");
+      const prompt=`คุณคือ PJOracles หมอดูชุดนอน โทนเป็นกันเองแต่น่าเชื่อถือ ใช้ภาษาไทยทั้งหมด\nคนนี้ถามเรื่อง "${topic}" เน้นตอบในมุมของ ${topic}\nไพ่:\n${cl}\nสรุป 3 ส่วน:\n✨ ภาพรวมพลังงาน\n(2-3 ประโยค)\n⚠️ สิ่งที่ควรระวัง\n(1-2 ประโยค)\n🌙 ข้อความจากจักรวาล\n(1-2 ประโยค)\nห้ามใช้ ** หรือ #`;
+      try{
+        const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,messages:[{role:"user",content:prompt}]})});
+        const data=await res.json();
+        setAiText((data.content||[]).map(b=>b.text||"").join("")||null);
+      }catch{setAiText(null);}
+      setAiLoad(false);
+    })();
+  },[]);
+
+  const parseAI=text=>text.split(/\n(?=[✨⚠️🌙])/).map(b=>{const l=b.trim().split("\n");return{title:l[0],body:l.slice(1).join("\n").trim()};}).filter(b=>b.body);
+  const bColor=t=>t?.includes("⚠️")?"#e8a45a":t?.includes("🌙")?C.moon:C.teal;
+
+  return (
+    <div style={{position:"relative",zIndex:1}}>
+      <TopBar topic={topic}/>
+      <p style={{fontFamily:"'Cinzel',serif",color:C.gold,fontSize:15,letterSpacing:2,textAlign:"center",margin:"20px 0 14px",textTransform:"uppercase"}}>ไพ่ที่เปิดได้</p>
+      <div style={{display:"flex",gap:12,overflowX:"auto",padding:"10px 16px 16px",WebkitOverflowScrolling:"touch"}}>
+        {cards.map((card,i)=>(
+          <div key={i} style={{background:"linear-gradient(160deg,#1a2235,#111827)",border:"1px solid rgba(232,201,122,.18)",borderRadius:14,padding:"14px 12px",width:155,flexShrink:0,textAlign:"center"}}>
+            <p style={{fontSize:11,color:C.dim2,letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>{getPos(i)}</p>
+            <div onClick={()=>setOpen(o=>({...o,[i]:!o[i]}))}
+              style={{width:110,height:150,margin:"0 auto 10px",borderRadius:10,border:open[i]?"2px solid #e8c97a":"2px solid rgba(232,201,122,.4)",background:"linear-gradient(160deg,#1e3050,#0d1a2e)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:open[i]?"0 0 16px rgba(232,201,122,.18)":"0 4px 14px rgba(0,0,0,.4)",transition:"all .2s"}}>
+              <span style={{fontSize:32}}>{card.emoji}</span>
+              <span style={{fontFamily:"'Cinzel',serif",fontSize:10,color:C.dim2,letterSpacing:.5,textAlign:"center",padding:"4px 4px 0"}}>{card.name}</span>
+            </div>
+            <p style={{fontSize:11,color:C.moon,marginBottom:4}}>{card.planet} · {card.element}</p>
+            <p style={{fontSize:10,color:C.dim}}>👉 แตะที่ไพ่</p>
+            {open[i]&&(
+              <div style={{marginTop:8,padding:"10px",background:"rgba(10,13,20,.8)",borderRadius:8,border:"1px solid rgba(232,201,122,.1)",fontSize:12,lineHeight:1.75,textAlign:"left"}}>
+                <p style={{color:C.dim2,fontSize:11,marginBottom:4}}>ความหมาย:</p>
+                <p style={{color:"#f0eeea",marginBottom:6}}>{card.meaning}</p>
+                <p style={{color:C.dim2,fontSize:11,marginBottom:3}}>Keywords:</p>
+                <p style={{color:C.moon,fontSize:11}}>{card.keywords.map(k=>"• "+k).join("  ")}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div ref={aiRef} style={{maxWidth:640,margin:"20px auto",padding:"0 16px"}}>
+        <div style={{background:"linear-gradient(160deg,#131d30,#0d1520)",border:"1px solid rgba(95,179,168,.3)",borderRadius:22,padding:"24px 20px",position:"relative",overflow:"hidden"}}>
+          <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:160,height:"1.5px",background:"linear-gradient(90deg,transparent,#5fb3a8,transparent)"}}/>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+            <span style={{fontSize:22}}>🔮</span>
+            <h3 style={{fontFamily:"'Cinzel',serif",fontSize:14,color:C.teal,letterSpacing:1.5}}>สรุปภาพรวมจากไพ่ทั้งหมด</h3>
+          </div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(212,116,140,.12)",border:"1px solid rgba(212,116,140,.3)",borderRadius:20,padding:"4px 12px",marginBottom:16}}>
+            <span style={{fontSize:12}}>หัวข้อ:</span>
+            <span style={{fontSize:13,color:C.pink,fontWeight:600}}>{topic}</span>
+          </div>
+          {aiLoad
+            ?<div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:12,padding:24,color:C.muted}}>
+               <div style={{width:28,height:28,border:"2px solid rgba(95,179,168,.2)",borderTopColor:C.teal,borderRadius:"50%",animation:"spin .8s linear infinite"}}/>
+               <p>กำลังอ่านพลังงานของไพ่...</p>
+             </div>
+            :aiText
+              ?parseAI(aiText).map((b,i)=>(
+                  <div key={i} style={{marginBottom:12,padding:"12px 14px",background:"rgba(255,255,255,.03)",borderRadius:8,borderLeft:`2px solid ${bColor(b.title)}`}}>
+                    <p style={{fontSize:11,color:bColor(b.title),textTransform:"uppercase",letterSpacing:1.5,marginBottom:6}}>{b.title}</p>
+                    <p style={{fontSize:13,lineHeight:1.85,color:"#f0eeea"}}>{b.body}</p>
+                  </div>
+                ))
+              :<div style={{padding:"12px 14px",background:"rgba(255,255,255,.03)",borderRadius:8,borderLeft:`2px solid ${C.teal}`}}>
+                 <p style={{fontSize:13,color:C.muted}}>ไม่สามารถโหลด AI Reading ได้ในขณะนี้ ลองดูความหมายของแต่ละใบด้านบนได้เลยน้า 🌙</p>
+               </div>
+          }
+          <p style={{marginTop:14,fontSize:11,color:C.dim,textAlign:"center"}}>✦ วิเคราะห์โดย หมอดูชุดนอน AI — ใช้เป็นแนวทางสำหรับการตีความเพิ่มเติม</p>
+        </div>
+      </div>
+
+      <div style={{textAlign:"center",margin:"8px 0 32px"}}>
+        <button onClick={onRestart} style={btnGhost}>🔄 เริ่มใหม่อีกครั้ง</button>
+      </div>
+
+      <div style={{marginTop:8,padding:"28px 20px 40px",background:"linear-gradient(180deg,transparent,rgba(232,201,122,.04))",borderTop:"1px solid rgba(232,201,122,.18)",textAlign:"center"}}>
+        <p style={{fontSize:14,color:C.muted,marginBottom:6}}>อยากดูดวงลึกขึ้น?</p>
+        <p style={{fontSize:14,color:"#f0eeea",marginBottom:16}}>มาคุยกับหมอดูชุดนอนได้ที่</p>
+        <div style={{display:"flex",justifyContent:"center",gap:8,marginBottom:14,flexWrap:"wrap"}}>
+          <a href="https://www.tiktok.com/@pjoracles" target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:6,padding:"9px 18px",borderRadius:12,fontSize:13,fontWeight:600,textDecoration:"none",background:"rgba(255,255,255,.07)",color:"#f0eeea",border:"1px solid rgba(255,255,255,.15)"}}>▶ TikTok</a>
+          <a href="https://www.facebook.com/pjoracles" target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:6,padding:"9px 18px",borderRadius:12,fontSize:13,fontWeight:600,textDecoration:"none",background:"rgba(24,119,242,.15)",color:"#6aaeff",border:"1px solid rgba(24,119,242,.3)"}}>f Facebook</a>
+          <a href="https://line.me/R/ti/p/@pjoracles" target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:6,padding:"9px 18px",borderRadius:12,fontSize:13,fontWeight:600,textDecoration:"none",background:"rgba(0,185,0,.12)",color:"#4cd964",border:"1px solid rgba(0,185,0,.3)"}}>LINE @pjoracles</a>
+        </div>
+        <p style={{fontFamily:"'Cinzel',serif",fontSize:13,color:C.dim2,letterSpacing:2,opacity:.7}}>🌙 PJOracles — หมอดูชุดนอน</p>
+      </div>
+    </div>
+  );
+}
+
+/* ══ ROOT ══ */
+function App(){
+  const [step,setStep]=useState("intro");
+  const [topic,setTopic]=useState("");
+  const [rv,setRv]=useState(null);
+  return (
+    <div style={{fontFamily:"'Sarabun','Prompt',sans-serif",background:"#0a0d14",color:"#f0eeea",minHeight:"100vh",overflowX:"hidden"}}>
+      {step==="intro"  && <ScreenIntro  onNext={t=>{setTopic(t);setStep("prayer");}}/>}
+      {step==="prayer" && <ScreenPrayer onNext={()=>setStep("pick")}/>}
+      {step==="pick"   && <ScreenPick   topic={topic} onReveal={(d,p,s)=>{setRv({deck:d,picked:p,size:s});setStep("reveal");}}/>}
+      {step==="reveal" && rv && <ScreenReveal topic={topic} {...rv} onRestart={()=>{setStep("intro");setRv(null);}}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+
+</script>
 </body>
 </html>
