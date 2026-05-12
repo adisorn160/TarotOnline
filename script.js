@@ -1,3283 +1,365 @@
-//-----------------------------------------------------
-// 1) ไพ่ 78 ใบ (ของคุณครบแล้ว)
-//-----------------------------------------------------
-
-const cardBackUrl = "3.jpg";
-
-
-  // --- Major Arcana ---
-const majorArcana = [
-  // 0 THE FOOL – Uranus
-  {
-    number: 0,
-    name: "The Fool",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Uranus (ดาวยูเรนัส)",
-    decan_ruler_symbol: "♅",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "พลังแห่งการเริ่มต้นครั้งใหม่แบบไร้ข้อจำกัด กระโดดออกจาก comfort zone ด้วยความศรัทธาและความไว้ใจในจักรวาล ‘ศูนย์ที่ไม่ใช่ความว่างเปล่า’ คือศักยภาพทั้งหมดที่ยังไม่ถูกใช้ของคุณ",
-    keywords: [
-      "การเริ่มต้นใหม่",
-      "อิสระ",
-      "ความกล้า",
-      "การเดินทาง",
-      "ศรัทธาในเส้นทางของตัวเอง"
-    ]
-  },
-
-  // 1 THE MAGICIAN – Mercury
-  {
-    number: 1,
-    name: "The Magician",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "จุดเริ่มต้นของการสร้างความเป็นจริงด้วยพลังของจิต ความคิด คำพูด และการลงมือทำ ‘มือหนึ่งกับใจหนึ่งเดียวกัน’ ทำให้คุณสามารถดึงทรัพยากรทั้งหมดรอบตัวมาใช้ได้อย่างมีเวทมนตร์",
-    keywords: [
-      "การสื่อสาร",
-      "เสน่ห์และคาริสมา",
-      "การลงมือทำ",
-      "ความสามารถ",
-      "การสร้างความเป็นจริง"
-    ]
-  },
-
-  // 2 THE HIGH PRIESTESS – Moon
-  {
-    number: 2,
-    name: "The High Priestess",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ประตูสู่โลกของจิตวิญญาณและความลับภายใน ผู้เฝ้าด่านระหว่างโลกเหตุผลกับโลกของสัญชาตญาณ เตือนให้เชื่อเสียงกระซิบจากข้างในมากกว่าความวุ่นวายภายนอก",
-    keywords: [
-      "ญาณ",
-      "สัญชาตญาณ",
-      "ความลับ",
-      "การทำงานทางจิต",
-      "Inner Knowledge"
-    ]
-  },
-
-  // 3 THE EMPRESS – Venus
-  {
-    number: 3,
-    name: "The Empress",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "พลังแห่งความอุดมสมบูรณ์ การให้กำเนิด และความรักที่โอบกอดทุกสิ่ง เตือนให้เปิดรับความสุข ความสบาย และการดูแลตัวเองในเชิงกายภาพและอารมณ์",
-    keywords: [
-      "ความอุดมสมบูรณ์",
-      "ความเป็นแม่",
-      "ความรัก",
-      "ความสวยงาม",
-      "ความคิดสร้างสรรค์"
-    ]
-  },
-
-  // 4 THE EMPEROR – Aries
-  {
-    number: 4,
-    name: "The Emperor",
-
-    zodiac_sign: "Aries (ราศีเมษ)",
-    zodiac_symbol: "♈",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Spring (ต้นฤดูใบไม้ผลิ)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    meaning_from_chart:
-      "พลังของผู้นำที่สร้างโครงสร้าง กฎเกณฑ์ และขอบเขตที่มั่นคง เพื่อปกป้องสิ่งที่ตนรัก ไม่ใช่การควบคุมคนอื่นเพียงอย่างเดียว แต่คือการจัดระบบชีวิตของตัวเองให้แข็งแรง",
-    keywords: [
-      "ผู้นำ",
-      "อำนาจ",
-      "โครงสร้าง",
-      "ความมั่นคง",
-      "การตัดสินใจเด็ดขาด"
-    ]
-  },
-
-  // 5 THE HIEROPHANT – Taurus
-  {
-    number: 5,
-    name: "The Hierophant",
-
-    zodiac_sign: "Taurus (ราศีพฤษภ)",
-    zodiac_symbol: "♉",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Spring (กลาง–ปลายฤดูใบไม้ผลิ)",
-    season_main_planet: "Venus (ดาวศุกร์)",
-    season_main_planet_symbol: "♀",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ครูทางจิตวิญญาณ ผู้ถ่ายทอดความรู้จากประเพณี ความเชื่อ และระบบคุณค่า เตือนว่า ‘ปัญญาที่แท้จริง’ ไม่ได้มีแค่การคิด แต่รวมถึงสิ่งที่สืบทอดและศรัทธาในหัวใจด้วย",
-    keywords: [
-      "ครู/เมนเทอร์",
-      "ศาสนาและพิธีกรรม",
-      "ประเพณี",
-      "ระบบความเชื่อ",
-      "คำแนะนำจากผู้รู้"
-    ]
-  },
-
-  // 6 THE LOVERS – Gemini
-  {
-    number: 6,
-    name: "The Lovers",
-
-    zodiac_sign: "Gemini (ราศีเมถุน)",
-    zodiac_symbol: "♊",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Late Spring – Early Summer (ปลายใบไม้ผลิ–ต้นฤดูร้อน)",
-    season_main_planet: "Mercury (ดาวพุธ)",
-    season_main_planet_symbol: "☿",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "การเลือกด้วยหัวใจระหว่างเส้นทางต่าง ๆ ไม่ใช่แค่เรื่องความรัก แต่คือการซื่อสัตย์ต่อความต้องการแท้จริงของตัวเอง การรวมกันของพลังสองด้านให้กลายเป็นหนึ่งเดียว",
-    keywords: [
-      "ความรัก",
-      "คู่สัมพันธ์",
-      "การเลือก",
-      "ความสอดคล้องของหัวใจกับเหตุผล"
-    ]
-  },
-
-  // 7 THE CHARIOT – Cancer
-  {
-    number: 7,
-    name: "The Chariot",
-
-    zodiac_sign: "Cancer (ราศีกรกฎ)",
-    zodiac_symbol: "♋",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Summer (ต้น–กลางฤดูร้อน)",
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ชัยชนะที่แท้จริงมาจากการควบคุมอารมณ์และทิศทางของหัวใจ ล้อทั้งสองคือตัวตนสองด้านที่ต้องวิ่งไปในเป้าหมายเดียวกัน ความมุ่งมั่น + วินัย = การก้าวไปข้างหน้า",
-    keywords: [
-      "การเคลื่อนที่",
-      "ชัยชนะ",
-      "ความมุ่งมั่น",
-      "การควบคุมอารมณ์",
-      "การตัดสินใจเดินหน้า"
-    ]
-  },
-
-  // 8 STRENGTH – Leo
-  {
-    number: 8,
-    name: "Strength",
-
-    zodiac_sign: "Leo (ราศีสิงห์)",
-    zodiac_symbol: "♌",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Sun (ดวงอาทิตย์)",
-    decan_ruler_symbol: "☉",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Summer (กลางฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "พลังของความกล้าหาญอ่อนโยน การเชื่องสิงโตด้วยหัวใจ ไม่ใช่กำลังแขน เตือนว่าความเข้มแข็งแท้จริงคือการยืนหยัดอยู่กับความกลัวแล้วไม่หนีไปจากมัน",
-    keywords: [
-      "ความอดทน",
-      "พลังใจ",
-      "การควบคุมตัวเอง",
-      "ความกล้าหาญ",
-      "ความอ่อนโยนที่มั่นคง"
-    ]
-  },
-
-  // 9 THE HERMIT – Virgo
-  {
-    number: 9,
-    name: "The Hermit",
-
-    zodiac_sign: "Virgo (ราศีกันย์)",
-    zodiac_symbol: "♍",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Summer (ปลายฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "การถอยออกมาจากความวุ่นวายเพื่อค้นหาความจริงภายใน แสงโคมในมือคือปัญญาที่ส่องให้เห็นเส้นทางของตัวเอง ไม่ใช่ทางที่คนอื่นบอกให้เดิน",
-    keywords: [
-      "การปลีกวิเวก",
-      "การใคร่ครวญ",
-      "งานจิตวิญญาณ",
-      "ค้นหาความหมายชีวิต",
-      "ปัญญาภายใน"
-    ]
-  },
-
-  // 10 WHEEL OF FORTUNE – Jupiter
-  {
-    number: 10,
-    name: "Wheel of Fortune",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Jupiter (ดาวพฤหัสบดี)",
-    decan_ruler_symbol: "♃",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "จุดเปลี่ยนของโชคชะตา วงล้อหมุนพาเราออกจากรอบเดิม ๆ สู่โอกาสใหม่ เตือนให้ยอมรับการเปลี่ยนแปลงด้วยหัวใจเปิดกว้าง เพราะไม่มีอะไรหยุดนิ่งจริง ๆ",
-    keywords: [
-      "โชคชะตา",
-      "การเปลี่ยนรอบชีวิต",
-      "โอกาสใหม่",
-      "วัฏจักร",
-      "การขยับขยาย"
-    ]
-  },
-
-  // 11 JUSTICE – Libra
-  {
-    number: 11,
-    name: "Justice",
-
-    zodiac_sign: "Libra (ราศีตุลย์)",
-    zodiac_symbol: "♎",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Autumn (ต้นฤดูใบไม้ร่วง)",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "กฎแห่งสมดุลและผลลัพธ์ของการกระทำ เตือนให้รับผิดชอบต่อสิ่งที่ตัวเองทำ ทั้งในอดีตและปัจจุบัน และตัดสินเรื่องต่าง ๆ ด้วยใจที่เที่ยงธรรมที่สุดเท่าที่ทำได้",
-    keywords: [
-      "ความยุติธรรม",
-      "กรรม",
-      "ความจริง",
-      "การตัดสิน",
-      "ความสมดุล"
-    ]
-  },
-
-  // 12 THE HANGED MAN – Neptune
-  {
-    number: 12,
-    name: "The Hanged Man",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Neptune (ดาวเนปจูน)",
-    decan_ruler_symbol: "♆",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ช่วงเวลาที่ต้องหยุดนิ่ง ยอมรับการเสียสละ หรือการรอคอยที่มีความหมาย เพื่อให้เห็นมุมมองใหม่ของชีวิต ยอมเปลี่ยนวิธีมอง เพื่อปลดล็อกเส้นทางต่อไป",
-    keywords: [
-      "การเสียสละ",
-      "การหยุดพัก",
-      "มุมมองใหม่",
-      "การยอมปล่อยวาง",
-      "การมองจากมุมกลับ"
-    ]
-  },
-
-  // 13 DEATH – Scorpio
-  {
-    number: 13,
-    name: "Death",
-
-    zodiac_sign: "Scorpio (ราศีพิจิก)",
-    zodiac_symbol: "♏",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Pluto (ดาวพลูโต)",
-    decan_ruler_symbol: "♇",
-
-    hidden_ruler: "Mars (ดาวอังคาร)",
-    hidden_ruler_symbol: "♂",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Autumn (กลางฤดูใบไม้ร่วง)",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "การปิดฉากเพื่อเริ่มรอบใหม่ พลังของการยอมให้สิ่งที่ตายแล้วจากไป ทั้งความสัมพันธ์ ความคิดเก่า หรือบทบาทเดิม เพื่อเปิดพื้นที่ให้ตัวตนใหม่เกิดขึ้นที่ทรงพลังยิ่งกว่า",
-    keywords: [
-      "การจบ",
-      "การเกิดใหม่",
-      "การเปลี่ยนแปลงลึก",
-      "การปล่อยสิ่งเก่า",
-      "การเปลี่ยนผ่าน"
-    ]
-  },
-
-  // 14 TEMPERANCE – Sagittarius
-  {
-    number: 14,
-    name: "Temperance",
-
-    zodiac_sign: "Sagittarius (ราศีธนู)",
-    zodiac_symbol: "♐",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Jupiter (ดาวพฤหัสบดี)",
-    decan_ruler_symbol: "♃",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Autumn–Winter (ปลายใบไม้ร่วง–ต้นฤดูหนาว)",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ศิลปะแห่งการผสมสิ่งตรงข้ามให้เกิดสมดุลใหม่ การเทของจากถ้วยหนึ่งสู่อีกถ้วยหนึ่งอย่างไม่เร่งรีบ เตือนให้ค่อย ๆ ปรับสมดุลของจิตใจ พฤติกรรม และพลังงานชีวิต",
-    keywords: [
-      "สมดุล",
-      "การเยียวยา",
-      "การผสมผสาน",
-      "ความพอดี",
-      "การเติบโตอย่างค่อยเป็นค่อยไป"
-    ]
-  },
-
-  // 15 THE DEVIL – Capricorn
-  {
-    number: 15,
-    name: "The Devil",
-
-    zodiac_sign: "Capricorn (ราศีมังกร)",
-    zodiac_symbol: "♑",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Saturn (ดาวเสาร์)",
-    decan_ruler_symbol: "♄",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Winter (ต้น–กลางฤดูหนาว)",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "เงาของความกลัว ความยึดติด และพันธนาการที่เราสร้างให้ตัวเอง ทั้งจากความอยาก ความกลัว และความรู้สึกด้อย เตือนให้รู้จักปีศาจในใจแล้วเลือก ‘ถอดโซ่’ ออกจากตัวเอง",
-    keywords: [
-      "พันธนาการ",
-      "การเสพติด",
-      "แรงปรารถนา",
-      "อำนาจมืด",
-      "การเผชิญเงา"
-    ]
-  },
-
-  // 16 THE TOWER – Mars
-  {
-    number: 16,
-    name: "The Tower",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "เหตุการณ์สายฟ้าฟาดที่พังโครงสร้างเก่าอย่างกะทันหัน เพื่อเปิดทางให้ความจริงปรากฏ แม้จะสั่นสะเทือน แต่คือการทุบบัลลังก์ที่สร้างบนพื้นฐานที่ไม่จริง",
-    keywords: [
-      "การเปลี่ยนแปลงฉับพลัน",
-      "การพังทลาย",
-      "เหตุการณ์ช็อก",
-      "การตื่นรู้แบบแรง"
-    ]
-  },
-
-  // 17 THE STAR – Aquarius
-  {
-    number: 17,
-    name: "The Star",
-
-    zodiac_sign: "Aquarius (ราศีกุมภ์)",
-    zodiac_symbol: "♒",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Uranus (ดาวยูเรนัส)",
-    decan_ruler_symbol: "♅",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Winter (ปลายฤดูหนาว)",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "แสงแห่งความหวังและการกลับคืนสู่ความเป็นตัวเองแท้ ๆ หลังผ่านพายุใหญ่มาแล้ว เตือนว่า ‘ยังมีดาวอยู่เสมอ’ และคุณยังสามารถรดน้ำให้ความฝันงอกใหม่ได้อีกครั้ง",
-    keywords: [
-      "ความหวัง",
-      "แรงบันดาลใจ",
-      "การเยียวยา",
-      "ความเป็นตัวเอง",
-      "ความสงบ"
-    ]
-  },
-
-  // 18 THE MOON – Pisces
-  {
-    number: 18,
-    name: "The Moon",
-
-    zodiac_sign: "Pisces (ราศีมีน)",
-    zodiac_symbol: "♓",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Winter (ปลายฤดูหนาว)",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ความลึกของจิตใต้สำนึก ความฝัน ภาพหลอน และความกลัวที่ยังไม่ถูกรับรู้ เตือนให้สำรวจเงา ความไม่แน่นอน และความรู้สึกที่พูดไม่ออก แต่ถ้าเข้าใจได้จะเกิดพลังใหม่มหาศาล",
-    keywords: [
-      "จิตใต้สำนึก",
-      "ความฝัน",
-      "ความกลัว",
-      "ภาพลวง",
-      "งานเงา / Shadow Work"
-    ]
-  },
-
-  // 19 THE SUN – Sun
-  {
-    number: 19,
-    name: "The Sun",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Sun (ดวงอาทิตย์)",
-    decan_ruler_symbol: "☉",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Summer (พลังแห่งแสงเต็มที่)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ความสุข ความชัดเจน ความสำเร็จ และการเฉลิมฉลองตัวตนแท้จริง แสงของคุณคือของขวัญให้โลกเห็น เตือนว่าอย่ากลัวที่จะเปล่งประกาย",
-    keywords: [
-      "ความสุข",
-      "ความสำเร็จ",
-      "ความชัดเจน",
-      "พลังชีวิต",
-      "การเฉลิมฉลอง"
-    ]
-  },
-
-  // 20 JUDGEMENT – Pluto
-  {
-    number: 20,
-    name: "Judgement",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Pluto (ดาวพลูโต)",
-    decan_ruler_symbol: "♇",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "เสียงเรียกให้ฟื้นคืนจากชีวิตเก่า การชำระล้างอดีต ปลดปล่อยสิ่งที่ตายไปแล้วในใจ แล้วลุกขึ้นอีกครั้งด้วยตัวตนที่ตื่นรู้กว่าเดิม เปรียบเหมือนการเกิดใหม่ทางจิตวิญญาณ",
-    keywords: [
-      "การชำระล้าง",
-      "การให้อภัย",
-      "การฟื้นคืนพลัง",
-      "การตื่นรู้",
-      "การเกิดใหม่ทางวิญญาณ"
-    ]
-  },
-
-  // 21 THE WORLD – Saturn
-  {
-    number: 21,
-    name: "The World",
-
-    zodiac_sign: "",
-    zodiac_symbol: "",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Saturn (ดาวเสาร์)",
-    decan_ruler_symbol: "♄",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "การจบสมบูรณ์ของวัฏจักรหนึ่ง การเก็บเกี่ยวบทเรียนทั้งหมดจากการเดินทางยาวนานและก้าวสู่ระดับใหม่ของตัวตน คุณคือจักรวาลที่เชื่อมโยงทุกประสบการณ์ที่ผ่านมาแล้วแปลงเป็นปัญญา",
-    keywords: [
-      "ความสำเร็จสูงสุด",
-      "การเดินทางครบวง",
-      "การจบสมบูรณ์",
-      "การบรรลุเป้าหมาย",
-      "การผสานทุกประสบการณ์เป็นหนึ่งเดียว"
-    ]
-  }
+/* ═══════════════════════════════════════════════════
+   PJOracles — Tarot App
+   Vanilla React (no build needed) for GitHub Pages
+   ═══════════════════════════════════════════════════ */
+const { useState, useEffect, useRef, createElement: h } = React;
+
+/* ── Card meaning data ── */
+const CARDS = [
+  { name:"The Fool",         emoji:"🌀", element:"Air",   planet:"♅ Uranus",   meaning:"พลังแห่งการเริ่มต้นครั้งใหม่ กระโดดออกจาก comfort zone ด้วยความศรัทธาในจักรวาล", keywords:["การเริ่มต้น","อิสระ","ความกล้า"] },
+  { name:"The Magician",     emoji:"✨", element:"Air",   planet:"☿ Mercury",  meaning:"สร้างความเป็นจริงด้วยพลังจิต คำพูด และการลงมือทำ มือหนึ่งกับใจหนึ่งเดียวกัน", keywords:["การสื่อสาร","คาริสมา","ลงมือทำ"] },
+  { name:"High Priestess",   emoji:"🌙", element:"Water", planet:"☽ Moon",     meaning:"ฟังเสียงกระซิบจากข้างในมากกว่าเสียงรบกวนภายนอก ความลับกำลังจะถูกเปิดเผย", keywords:["ญาณ","สัญชาตญาณ","ความลับ"] },
+  { name:"The Empress",      emoji:"🌸", element:"Earth", planet:"♀ Venus",    meaning:"พลังแห่งความอุดมสมบูรณ์ เปิดรับความสุข ดูแลตัวเองทั้งกายและใจ", keywords:["ความอุดมสมบูรณ์","ความรัก","สร้างสรรค์"] },
+  { name:"The Emperor",      emoji:"👑", element:"Fire",  planet:"♂ Mars",     meaning:"สร้างโครงสร้างและจัดระบบชีวิตให้แข็งแรง ความมั่นคงมาจากวินัยของตัวเอง", keywords:["ผู้นำ","อำนาจ","ความมั่นคง"] },
+  { name:"The Lovers",       emoji:"💕", element:"Air",   planet:"☿ Mercury",  meaning:"การเลือกด้วยหัวใจ ซื่อสัตย์ต่อความต้องการแท้จริงของตัวเอง", keywords:["ความรัก","การเลือก","คู่สัมพันธ์"] },
+  { name:"The Chariot",      emoji:"⚡", element:"Water", planet:"☽ Moon",     meaning:"ชัยชนะมาจากการควบคุมอารมณ์ ความมุ่งมั่น + วินัย = การก้าวหน้า", keywords:["ชัยชนะ","ความมุ่งมั่น","เดินหน้า"] },
+  { name:"Strength",         emoji:"🦁", element:"Fire",  planet:"☉ Sun",      meaning:"ความเข้มแข็งแท้จริงคือการยืนหยัดกับความกลัวโดยไม่หนี ใจนำกว่ากำลัง", keywords:["ความอดทน","พลังใจ","อ่อนโยน"] },
+  { name:"The Star",         emoji:"⭐", element:"Air",   planet:"♒ Aquarius", meaning:"ความหวังและการรักษาหลังพายุ จักรวาลกำลังส่งแสงนำทางมาให้คุณ", keywords:["ความหวัง","การรักษา","แสงสว่าง"] },
+  { name:"The Moon",         emoji:"🌕", element:"Water", planet:"♓ Pisces",   meaning:"บางอย่างยังซ่อนอยู่ในความมืด รอความชัดเจนก่อนตัดสินใจใหญ่", keywords:["ภาพลวงตา","ความกลัว","จิตใต้สำนึก"] },
+  { name:"The Sun",          emoji:"☀️", element:"Fire",  planet:"☉ Sun",      meaning:"พลังงานสดใส ความสุข และชัยชนะ แสดงออกตัวตนอย่างเต็มที่ได้เลย", keywords:["ความสุข","ชัยชนะ","พลังงาน"] },
+  { name:"Wheel of Fortune", emoji:"🎡", element:"Fire",  planet:"♃ Jupiter",  meaning:"วงล้อแห่งโชคชะตากำลังหมุน โอกาสใหม่กำลังมา ยอมรับการเปลี่ยนแปลง", keywords:["โชคชะตา","วัฏจักร","โอกาส"] },
+  { name:"Justice",          emoji:"⚖️", element:"Air",   planet:"♀ Venus",    meaning:"กรรมและสมดุล ผลลัพธ์สะท้อนสิ่งที่ทำ ตัดสินด้วยใจเที่ยงธรรม", keywords:["ยุติธรรม","กรรม","ความจริง"] },
+  { name:"The Tower",        emoji:"🗼", element:"Fire",  planet:"♂ Mars",     meaning:"สายฟ้าฟาดพังโครงสร้างเก่าเพื่อเปิดทางให้ความจริงปรากฏ แม้สั่นคลอนแต่จำเป็น", keywords:["เปลี่ยนฉับพลัน","พังทลาย","ตื่นรู้"] },
+  { name:"The World",        emoji:"🌍", element:"Earth", planet:"♄ Saturn",   meaning:"บรรลุเป้าหมายและความสมบูรณ์ จุดสิ้นสุดหนึ่งคือจุดเริ่มต้นใหม่ที่ยิ่งใหญ่กว่า", keywords:["สำเร็จ","สมบูรณ์","บรรลุ"] },
 ];
 
-  // 🔥 WANDS – Minor Arcana (14 ใบ)
-
-const wands = [
-  // Ace of Wands
-  {
-    name: "Ace of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/1/11/Wands01.jpg",
-
-    zodiac_sign: "Fire Signs (ราศีธาตุไฟ – เมษ สิงห์ ธนู)",
-    zodiac_symbol: "♈♌♐",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Root of Fire (รากแห่งธาตุไฟ)",
-    decan_ruler_symbol: "🔥",
-
-    hidden_ruler: "Sun (ดวงอาทิตย์)",
-    hidden_ruler_symbol: "☉",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "ประกายแรกแห่งแรงบันดาลใจ การเริ่มต้นพลังใหม่ ไอเดีย โปรเจกต์ หรือความหลงใหลบางอย่าง",
-    keywords: [
-      "เริ่มต้น",
-      "แรงบันดาลใจ",
-      "ไฟในใจ",
-      "โอกาสใหม่",
-      "การลงมือทำ"
-    ]
-  },
-
-  // 2 of Wands ─ Aries 0–10°
-  {
-    name: "Two of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/0/0f/Wands02.jpg",
-
-    zodiac_sign: "Aries (ราศีเมษ)",
-    zodiac_symbol: "♈",
-    degree: "0°–10° Aries (0–10 องศา เมษ)",
-    date_range: "Mar 21 – Mar 30 (21–30 มี.ค.)",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "Mars (ดาวอังคาร)", // 2–4 = Mars
-    hidden_ruler_symbol: "♂",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_main_planet_symbol: "♃",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งอำนาจและการครอบครอง พลังแห่งการกำหนดทิศทางและความเป็นผู้นำ การรอคอยผลลัพธ์จากสิ่งที่เริ่มลงมือแล้ว",
-    keywords: [
-      "การรอคอยผล",
-      "การวางแผน",
-      "การสำรวจโอกาส",
-      "เริ่มคุมเกม"
-    ]
-  },
-
-  // 3 of Wands ─ Aries 10–20°
-  {
-    name: "Three of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/f/ff/Wands03.jpg",
-
-    zodiac_sign: "Aries (ราศีเมษ)",
-    zodiac_symbol: "♈",
-    degree: "10°–20° Aries (10–20 องศา เมษ)",
-    date_range: "Mar 31 – Apr 10 (31 มี.ค. – 10 เม.ย.)",
-
-    decan_ruler: "Sun (ดวงอาทิตย์)",
-    decan_ruler_symbol: "☉",
-
-    hidden_ruler: "Mars (ดาวอังคาร)", // 2–4 = Mars
-    hidden_ruler_symbol: "♂",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_main_planet_symbol: "♃",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "พลังที่เริ่มมีความมั่นคง การลงมือทำเริ่มเห็นผล มองการณ์ไกล วางรากฐานเพื่อการเติบโตและการขยายโอกาส",
-    keywords: [
-      "การวางแผนระยะยาว",
-      "มองการณ์ไกล",
-      "เริ่มเห็นผล",
-      "การเติบโต",
-      "ขยายโอกาส"
-    ]
-  },
-
-  // 4 of Wands ─ Aries 20–30°
-  {
-    name: "Four of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/a/a4/Wands04.jpg",
-
-    zodiac_sign: "Aries (ราศีเมษ)",
-    zodiac_symbol: "♈",
-    degree: "20°–30° Aries (20–30 องศา เมษ)",
-    date_range: "Apr 11 – Apr 20 (11–20 เม.ย.)",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "Mars (ดาวอังคาร)", // 2–4 = Mars
-    hidden_ruler_symbol: "♂",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_main_planet_symbol: "♃",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งพลังงานที่สมบูรณ์แบบ ความสำเร็จที่เกิดจากการทุ่มเทเต็มที่ การเฉลิมฉลอง ความมั่นคงในความสัมพันธ์และงาน",
-    keywords: [
-      "การเฉลิมฉลอง",
-      "งานสำเร็จ",
-      "บ้าน/ความสัมพันธ์มั่นคง",
-      "ความสุขร่วมกัน"
-    ]
-  },
-
-  // 5 of Wands ─ Leo 0–10°
-  {
-    name: "Five of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/9/9d/Wands05.jpg",
-
-    zodiac_sign: "Leo (ราศีสิงห์)",
-    zodiac_symbol: "♌",
-    degree: "0°–10° Leo (0–10 องศา สิงห์)",
-    date_range: "Jul 23 – Aug 1 (23 ก.ค. – 1 ส.ค.)",
-
-    decan_ruler: "Saturn (ดาวเสาร์)",
-    decan_ruler_symbol: "♄",
-
-    hidden_ruler: "Sun (ดวงอาทิตย์)", // 5–7 = Sun
-    hidden_ruler_symbol: "☉",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Summer (ฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    meaning_from_chart:
-      "เจ้าแห่งความขัดแย้งและการแข่งขัน การปะทะกันของอีโก้และความต้องการของหลายฝ่าย เป็นแรงผลักให้เติบโต",
-    keywords: [
-      "การแข่งขัน",
-      "ความขัดแย้ง",
-      "การท้าทาย",
-      "การพิสูจน์ตัวเอง"
-    ]
-  },
-
-  // 6 of Wands ─ Leo 10–20°
-  {
-    name: "Six of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/1/16/Wands06.jpg",
-
-    zodiac_sign: "Leo (ราศีสิงห์)",
-    zodiac_symbol: "♌",
-    degree: "10°–20° Leo (10–20 องศา สิงห์)",
-    date_range: "Aug 2 – Aug 11 (2–11 ส.ค.)",
-
-    decan_ruler: "Jupiter (ดาวพฤหัสบดี)",
-    decan_ruler_symbol: "♃",
-
-    hidden_ruler: "Sun (ดวงอาทิตย์)", // 5–7 = Sun
-    hidden_ruler_symbol: "☉",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Summer (ฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    meaning_from_chart:
-      "เจ้าแห่งชัยชนะและการได้รับการยอมรับ ความสำเร็จที่คนเห็นและชื่นชม การเดินหน้าด้วยความมั่นใจ",
-    keywords: [
-      "ชัยชนะ",
-      "ได้รับการยกย่อง",
-      "ชื่อเสียง",
-      "ความภูมิใจ"
-    ]
-  },
-
-  // 7 of Wands ─ Leo 20–30°
-  {
-    name: "Seven of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/3/3b/Wands07.jpg",
-
-    zodiac_sign: "Leo (ราศีสิงห์)",
-    zodiac_symbol: "♌",
-    degree: "20°–30° Leo (20–30 องศา สิงห์)",
-    date_range: "Aug 12 – Aug 22 (12–22 ส.ค.)",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "Sun (ดวงอาทิตย์)", // 5–7 = Sun
-    hidden_ruler_symbol: "☉",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Summer (ฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    meaning_from_chart:
-      "เจ้าแห่งความกล้าหาญและการยืนหยัดปกป้องจุดยืนของตัวเอง แม้เจอแรงต้านก็ยังไม่ยอมถอย",
-    keywords: [
-      "ยืนหยัด",
-      "ปกป้องสิทธิ์",
-      "สู้ต่อแม้เหนื่อย",
-      "ไม่ยอมแพ้"
-    ]
-  },
-
-  // 8 of Wands ─ Sagittarius 0–10°
-  {
-    name: "Eight of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/3/3d/Wands08.jpg",
-
-    zodiac_sign: "Sagittarius (ราศีธนู)",
-    zodiac_symbol: "♐",
-    degree: "0°–10° Sagittarius (0–10 องศา ธนู)",
-    date_range: "Nov 23 – Dec 2 (23 พ.ย. – 2 ธ.ค.)",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "Jupiter (ดาวพฤหัสบดี)", // 8–10 = Jupiter
-    hidden_ruler_symbol: "♃",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "พลังแห่งความเร็วและการเคลื่อนไหว ข่าวดี การเดินทาง หรือเหตุการณ์ที่เปลี่ยนแปลงรวดเร็ว",
-    keywords: [
-      "ความเร็ว",
-      "ข่าวดี",
-      "การเดินทาง",
-      "จังหวะเปลี่ยนเร็ว"
-    ]
-  },
-
-  // 9 of Wands ─ Sagittarius 10–20°
-  {
-    name: "Nine of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/4/4d/Wands09.jpg",
-
-    zodiac_sign: "Sagittarius (ราศีธนู)",
-    zodiac_symbol: "♐",
-    degree: "10°–20° Sagittarius (10–20 องศา ธนู)",
-    date_range: "Dec 3 – Dec 12 (3–12 ธ.ค.)",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "Jupiter (ดาวพฤหัสบดี)", // 8–10 = Jupiter
-    hidden_ruler_symbol: "♃",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งพลังงานอันยิ่งใหญ่ ความอดทน แม้เหนื่อยแต่ยังยืนหยัดปกป้องตนเองและสิ่งที่สร้างมา",
-    keywords: [
-      "ความอดทน",
-      "การป้องกัน",
-      "ระวังตัว",
-      "สู้ต่อแม้เหนื่อย"
-    ]
-  },
-
-  // 10 of Wands ─ Sagittarius 20–30°
-  {
-    name: "Ten of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/0/0b/Wands10.jpg",
-
-    zodiac_sign: "Sagittarius (ราศีธนู)",
-    zodiac_symbol: "♐",
-    degree: "20°–30° Sagittarius (20–30 องศา ธนู)",
-    date_range: "Dec 13 – Dec 21 (13–21 ธ.ค.)",
-
-    decan_ruler: "Saturn (ดาวเสาร์)",
-    decan_ruler_symbol: "♄",
-
-    hidden_ruler: "Jupiter (ดาวพฤหัสบดี)", // 8–10 = Jupiter
-    hidden_ruler_symbol: "♃",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งภาระและการกดดัน แบกความรับผิดชอบจำนวนมาก เหนื่อยแต่เข้าใกล้เส้นชัย",
-    keywords: [
-      "ภาระหนัก",
-      "ความเครียด",
-      "ความรับผิดชอบสูง",
-      "ช่วงท้ายก่อนสำเร็จ"
-    ]
-  },
-
-  // Page of Wands ─ Court Card
-  {
-    name: "Page of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/6/6a/Wands11.jpg",
-
-    zodiac_sign: "Fire Signs (ราศีธาตุไฟ – เมษ สิงห์ ธนู)",
-    zodiac_symbol: "♈♌♐",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "",
-
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    // 🧡 ข้อมูลจากสไลด์ Court Card
-    court_theme: "ความอยากรู้อยากลอง / ความกล้าลองสิ่งใหม่ / การเริ่มต้นใหม่",
-    light_aspect:
-      "กล้า ทดลอง เรียนรู้สิ่งใหม่ รับแรงบันดาลใจแล้วเริ่มขยับตัว",
-    shadow_aspect:
-      "กลัวล้มเหลว ไม่กล้าก้าวต่อ ผัดวันประกันพรุ่ง ไม่ลงมือจริง",
-    mode_of_fire:
-      "Earth of Fire – เปลี่ยนแรงบันดาลใจให้เป็นการลงมือทำในโลกความจริง (physical form)",
-    noted: "ยังไม่ถึงเวลาต้องรีบ แต่ควรใช้เวลาเตรียมตัว วางแผน และลองทีละก้าว",
-    career_focus:
-      "เหมาะกับการเริ่มโปรเจกต์ใหม่ งานสร้างสรรค์ งานทดลองแนวทาง หรือเรียนรู้งานใหม่ ๆ",
-    quote:
-      "อย่าปล่อยมือก่อนจะเข้าใจทั้งหมด — แต่อย่ากลัวที่จะเริ่มก้าวแรก",
-
-    meaning_from_chart:
-      "พลังของความอยากรู้อยากลอง การเริ่มต้นเส้นทางใหม่ การทดลอง และการเรียนรู้จากประสบการณ์ตรง",
-    keywords: [
-      "เริ่มต้นใหม่",
-      "ทดลอง",
-      "เรียนรู้",
-      "ไฟในใจคนรุ่นใหม่"
-    ]
-  },
-
-  // Knight of Wands ─ Court Card
-  {
-    name: "Knight of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Wands12.jpg",
-
-    zodiac_sign: "Sagittarius (ราศีธนู)",
-    zodiac_symbol: "♐",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    court_theme: "ความกล้า / การเคลื่อนไหวเร็ว / พลังทะเยอทะยาน",
-    light_aspect:
-      "กล้า ลงมือจริง ทุ่มเทสุดตัว พร้อมลุยเพื่อให้บรรลุเป้าหมาย",
-    shadow_aspect:
-      "บุ่มบ่าม ผลีผลาม รีบร้อนเกินไป ไม่ได้วางแผนรอบคอบ",
-    mode_of_fire:
-      "Fire of Fire – พลังไฟทวีคูณ การเปลี่ยนแปลงฉับพลัน การเร่งเครื่องเต็มที่",
-    noted: "เหตุการณ์เคลื่อนไหวเร็ว ต้องใช้สติและทิศทางที่ชัดเจน ไม่ใช่รีบเพียงอย่างเดียว",
-    career_focus:
-      "เหมาะกับงานที่เกี่ยวกับการเดินทาง การขนส่ง การขาย การตลาด งานโปรเจกต์เร่งด่วน หรือสายงานที่ต้องลงมือเร็ว",
-    quote:
-      "ทำก่อน กลัวทีหลัง แต่ต้องโฟกัสไฟให้ถูกจุด ไม่ใช่เผาจนหมดแรง",
-
-    meaning_from_chart:
-      "พลังของนักลุย นักผจญภัย การเคลื่อนไหวรวดเร็ว การตัดสินใจฉับไว และการขับเคลื่อนอย่างร้อนแรง",
-    keywords: [
-      "ลงมือทันที",
-      "ความเร็ว",
-      "การเดินทาง",
-      "ความทะเยอทะยาน"
-    ]
-  },
-
-  // Queen of Wands ─ Court Card
-  {
-    name: "Queen of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/0/0d/Wands13.jpg",
-
-    zodiac_sign: "Aries (ราศีเมษ)",
-    zodiac_symbol: "♈",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-
-    season_main_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_main_planet_symbol: "♃",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    court_theme: "ความมั่นใจ / เสน่ห์ / พลังนำโดยความอบอุ่น",
-    light_aspect:
-      "นำทีมด้วยพลังบวก มั่นใจในตัวเอง แสดงออกชัดเจนและจริงใจ",
-    shadow_aspect:
-      "ซ่อนความไม่มั่นใจ กลัวถูกปฏิเสธ ไม่กล้าแสดงศักยภาพเต็มที่",
-    mode_of_fire:
-      "Water of Fire – ความอ่อนโยนที่ผสมกับความมุ่งมั่น นำด้วยหัวใจและความอบอุ่น",
-    noted: "ถึงเวลาขยับทุกอย่างให้เดินหน้าอย่างมั่นใจและมีเสน่ห์",
-    career_focus:
-      "เหมาะกับผู้นำหญิง เจ้าของแบรนด์ อินฟลูเอนเซอร์ หรืองานที่ต้องใช้เสน่ห์และความอบอุ่นในการบริหารคน",
-    quote:
-      "เธอไม่ต้องแข่งกับใคร เพราะเสน่ห์และพลังใจของเธอคืออาวุธสำคัญ",
-
-    meaning_from_chart:
-      "ผู้นำที่มีเสน่ห์ อบอุ่น มั่นใจ กล้าพูด กล้าทำ และสร้างแรงบันดาลใจให้คนรอบตัว",
-    keywords: [
-      "เสน่ห์",
-      "ความมั่นใจ",
-      "ภาวะผู้นำ",
-      "การดูแลคนรอบข้าง"
-    ]
-  },
-
-  // King of Wands ─ Court Card
-  {
-    name: "King of Wands",
-    image: "https://upload.wikimedia.org/wikipedia/en/c/ce/Wands14.jpg",
-
-    zodiac_sign: "Leo (ราศีสิงห์)",
-    zodiac_symbol: "♌",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Fire (ธาตุไฟ)",
-
-    season: "Summer (ฤดูร้อน)",
-
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    court_theme: "วิสัยทัศน์ / การเป็นผู้นำ / การสร้างแรงบันดาลใจ",
-    light_aspect:
-      "สร้างแรงบันดาลใจให้คนอื่น นำด้วยเป้าหมายชัดเจน กล้าตัดสินใจ",
-    shadow_aspect:
-      "เผลอใช้อีโก้สูง กดดันตัวเองและคนรอบข้างมากเกินไป หรือสั่งมากกว่าลงมือ",
-    mode_of_fire:
-      "Air of Fire – การใช้กลยุทธ์ ความคิด และวิสัยทัศน์เพื่อขับเคลื่อนไฟในตัวเองและทีม",
-    noted: "ถึงเวลาที่ต้องยืนในตำแหน่งผู้นำและตัดสินใจอย่างชัดเจน",
-    career_focus:
-      "เหมาะกับผู้บริหาร เจ้าของธุรกิจ ผู้นำโปรเจกต์ หรือคนที่ต้องวางกลยุทธ์ระยะยาวและนำทีม",
-    quote:
-      "เป็นผู้นำที่จุดไฟให้ตัวเอง และทำให้ไฟในใจคนอื่นลุกตามไปด้วย",
-
-    meaning_from_chart:
-      "ผู้นำที่มีวิสัยทัศน์กว้างไกล กล้าตัดสินใจ มีพลังในการขับเคลื่อนคนจำนวนมากสู่เป้าหมายเดียวกัน",
-    keywords: [
-      "วิสัยทัศน์",
-      "ภาวะผู้นำ",
-      "กลยุทธ์",
-      "แรงบันดาลใจ"
-    ]
-  }
-];
-
-  // 🌊 CUPS – Minor Arcana (Ace – King)
-
-const cups = [
-  // Ace of Cups
-  {
-    name: "Ace of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/0/04/Cups01.jpg",
-
-    zodiac_sign: "Water Signs (ราศีธาตุน้ำ – กรกฎ พิจิก มีน)",
-    zodiac_symbol: "♋♏♓",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Root of Water (รากแห่งธาตุน้ำ)",
-    decan_ruler_symbol: "💧",
-
-    hidden_ruler: "Moon (ดวงจันทร์)",
-    hidden_ruler_symbol: "☽",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "จุดเริ่มต้นของความรู้สึกใหม่ ความรัก เมตตา การเยียวยา และการเปิดหัวใจรับพลังงานดี ๆ",
-    keywords: [
-      "รักครั้งใหม่",
-      "เปิดใจ",
-      "เยียวยา",
-      "ความอ่อนโยน",
-      "อินทรีย์ละเอียดอ่อน"
-    ]
-  },
-
-  // 2 of Cups – Cancer 0–10°
-  {
-    name: "Two of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/f/f8/Cups02.jpg",
-
-    zodiac_sign: "Cancer (ราศีกรกฎ)",
-    zodiac_symbol: "♋",
-    degree: "0°–10° Cancer (0–10 องศา กรกฎ)",
-    date_range: "Jun 21 – Jun 30 (21–30 มิ.ย.)",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "Moon (ดวงจันทร์)", // 2–4 = Moon
-    hidden_ruler_symbol: "☽",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Summer (ฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    meaning_from_chart:
-      "เจ้าแห่งความรัก คู่พลังงานแห่งจิตวิญญาณที่ให้และรับอย่างเท่าเทียม การเปิดหัวใจเชื่อมโยงกับผู้อื่น",
-    keywords: [
-      "คู่รัก",
-      "พาร์ตเนอร์",
-      "ความเข้าใจกัน",
-      "พันธะสัญญา",
-      "การเริ่มต้นความสัมพันธ์"
-    ]
-  },
-
-  // 3 of Cups – Cancer 10–20°
-  {
-    name: "Three of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/7/7a/Cups03.jpg",
-
-    zodiac_sign: "Cancer (ราศีกรกฎ)",
-    zodiac_symbol: "♋",
-    degree: "10°–20° Cancer (10–20 องศา กรกฎ)",
-    date_range: "Jul 1 – Jul 10 (1–10 ก.ค.)",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "Moon (ดวงจันทร์)", // 2–4 = Moon
-    hidden_ruler_symbol: "☽",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Summer (ฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    meaning_from_chart:
-      "เจ้าแห่งความอุดมสมบูรณ์ พลังงานของความสุขที่เกิดจากการแบ่งปันความรู้สึกร่วมกัน มิตรภาพและการเฉลิมฉลอง",
-    keywords: [
-      "มิตรภาพ",
-      "การเฉลิมฉลอง",
-      "งานเลี้ยง",
-      "ความสัมพันธ์ที่เกื้อหนุนกัน",
-      "ความสุขร่วมกัน"
-    ]
-  },
-
-  // 4 of Cups – Cancer 20–30°
-  {
-    name: "Four of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/3/35/Cups04.jpg",
-
-    zodiac_sign: "Cancer (ราศีกรกฎ)",
-    zodiac_symbol: "♋",
-    degree: "20°–30° Cancer (20–30 องศา กรกฎ)",
-    date_range: "Jul 11 – Jul 20 (11–20 ก.ค.)",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "Moon (ดวงจันทร์)", // 2–4 = Moon
-    hidden_ruler_symbol: "☽",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Summer (ฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    meaning_from_chart:
-      "เจ้าแห่งความลับลา/ลังเลใจ โอกาสแห่งความสุขอยู่ตรงหน้า เพียงแค่เปิดหัวใจให้ได้มองเห็น การเรียนรู้ที่จะไม่ปิดใจต่อโอกาสใหม่ ๆ",
-    keywords: [
-      "เบื่อหน่าย",
-      "ลังเล",
-      "ไม่เห็นคุณค่า",
-      "โอกาสที่มองข้าม",
-      "ทบทวนความรู้สึก"
-    ]
-  },
-
-  // 5 of Cups – Scorpio 0–10°
-  {
-    name: "Five of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/d/d7/Cups05.jpg",
-
-    zodiac_sign: "Scorpio (ราศีพิจิก)",
-    zodiac_symbol: "♏",
-    degree: "0°–10° Scorpio (0–10 องศา พิจิก)",
-    date_range: "Oct 23 – Nov 1 (23 ต.ค. – 1 พ.ย.)",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "Pluto (ดาวพลูโต)",
-    hidden_ruler_symbol: "♇", // ใช้สัญลักษณ์พลูโตมาตรฐาน
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งการสูญเสียความสุข สิ่งที่หายไปไม่ใช่จุดจบ แต่คือพื้นที่ว่างเพื่อเปลี่ยนให้สิ่งใหม่เข้ามา ความเศร้าที่เรียกร้องให้ปล่อยวาง",
-    keywords: [
-      "ความเศร้า",
-      "ความผิดหวัง",
-      "เสียดายอดีต",
-      "โฟกัสด้านลบ",
-      "บทเรียนทางใจ"
-    ]
-  },
-
-  // 6 of Cups – Scorpio 10–20°
-  {
-    name: "Six of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/1/16/Cups06.jpg",
-
-    zodiac_sign: "Scorpio (ราศีพิจิก)",
-    zodiac_symbol: "♏",
-    degree: "10°–20° Scorpio (10–20 องศา พิจิก)",
-    date_range: "Nov 2 – Nov 11 (2–11 พ.ย.)",
-
-    decan_ruler: "Sun (ดวงอาทิตย์)",
-    decan_ruler_symbol: "☉",
-
-    hidden_ruler: "Pluto (ดาวพลูโต)", // 5–7 = Pluto
-    hidden_ruler_symbol: "♇",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งความสุข ความสุขที่เรียบง่าย การเยียวยาผ่านความทรงจำที่ดี ความสุขผ่านความทรงจำและความรัก",
-    keywords: [
-      "ความทรงจำดี ๆ",
-      "อดีต",
-      "บ้านเกิด",
-      "ความไร้เดียงสา",
-      "การเยียวยาผ่านความทรงจำ"
-    ]
-  },
-
-  // 7 of Cups – Scorpio 20–30°
-  {
-    name: "Seven of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/a/ae/Cups07.jpg",
-
-    zodiac_sign: "Scorpio (ราศีพิจิก)",
-    zodiac_symbol: "♏",
-    degree: "20°–30° Scorpio (20–30 องศา พิจิก)",
-    date_range: "Nov 12 – Nov 21 (12–21 พ.ย.)",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "Pluto (ดาวพลูโต)", // 5–7 = Pluto
-    hidden_ruler_symbol: "♇",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งการสวดจิต/สิ่งปรารถนา ลังเลระหว่าง “สิ่งที่ปรารถนา” กับ “สิ่งที่เป็นจริง” การเผชิญหน้ากับมายาและความฝัน",
-    keywords: [
-      "ตัวเลือกเยอะ",
-      "สับสน",
-      "ฝันเฟื่อง",
-      "ภาพลวงตา",
-      "ต้องโฟกัสสิ่งจริง"
-    ]
-  },
-
-  // 8 of Cups – Pisces 0–10°
-  {
-    name: "Eight of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/4/4b/Cups08.jpg",
-
-    zodiac_sign: "Pisces (ราศีมีน)",
-    zodiac_symbol: "♓",
-    degree: "0°–10° Pisces (0–10 องศา มีน)",
-    date_range: "Feb 19 – Feb 28 (19–28 ก.พ.)",
-
-    decan_ruler: "Saturn (ดาวเสาร์)",
-    decan_ruler_symbol: "♄",
-
-    hidden_ruler: "Neptune (ดาวเนปจูน)", // 8–10 = Neptune
-    hidden_ruler_symbol: "♆",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งการละทิ้ง การเดินจากสิ่งที่คุ้นเคยเพื่อค้นหาความหมายใหม่ของชีวิต ละทิ้งสิ่งเดิมเพื่อออกเดินทางสู่เส้นทางใหม่",
-    keywords: [
-      "เดินจากมา",
-      "ปล่อยวาง",
-      "ค้นหาความหมาย",
-      "เปลี่ยนเส้นทางชีวิต",
-      "การเดินทางในใจ"
-    ]
-  },
-
-  // 9 of Cups – Pisces 10–20°
-  {
-    name: "Nine of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/2/2f/Cups09.jpg",
-
-    zodiac_sign: "Pisces (ราศีมีน)",
-    zodiac_symbol: "♓",
-    degree: "10°–20° Pisces (10–20 องศา มีน)",
-    date_range: "Mar 1 – Mar 10 (1–10 มี.ค.)",
-
-    decan_ruler: "Jupiter (ดาวพฤหัสบดี)",
-    decan_ruler_symbol: "♃",
-
-    hidden_ruler: "Neptune (ดาวเนปจูน)", // 8–10 = Neptune
-    hidden_ruler_symbol: "♆",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งความสุขสมหวัง ความสุข ความสมหวัง ความสำเร็จด้านความปรารถนา ความสมบูรณ์แห่งความรู้สึกที่เอ่อล้น",
-    keywords: [
-      "สมหวัง",
-      "ความสุขส่วนตัว",
-      "พรสำเร็จ",
-      "ความพึงพอใจ",
-      "การเสพสุข"
-    ]
-  },
-
-  // 10 of Cups – Pisces 20–30°
-  {
-    name: "Ten of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/8/84/Cups10.jpg",
-
-    zodiac_sign: "Pisces (ราศีมีน)",
-    zodiac_symbol: "♓",
-    degree: "20°–30° Pisces (20–30 องศา มีน)",
-    date_range: "Mar 11 – Mar 20 (11–20 มี.ค.)",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "Neptune (ดาวเนปจูน)", // 8–10 = Neptune
-    hidden_ruler_symbol: "♆",
-
-    element: "Water (ธาตุน้ำ)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งความใส่ใจก็สมบูรณ์แบบ ความสุขที่สมบูรณ์แบบในทุกมิติของครอบครัวและจิตวิญญาณ",
-    keywords: [
-      "ครอบครัวสุขสันต์",
-      "ความสมบูรณ์แบบทางใจ",
-      "บรรยากาศดี",
-      "ความรักที่ปลอดภัย",
-      "ปลายทางแห่งความสุข"
-    ]
-  },
-
-  // Page of Cups – Court Card
-  {
-    name: "Page of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/3/39/Cups11.jpg",
-
-    zodiac_sign: "Water Signs (ราศีธาตุน้ำ – กรกฎ พิจิก มีน)",
-    zodiac_symbol: "♋♏♓",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-    season: "",
-
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    court_theme: "ความจริงใจ / การเริ่มเข้าใจอารมณ์ / ความอ่อนโยน",
-    light_aspect:
-      "อ่อนไหว เปิดใจ พร้อมเรียนรู้ความรักและความรู้สึกของตัวเองอย่างจริงใจ",
-    shadow_aspect:
-      "ปิดบังความรู้สึกจริง ใช้อารมณ์ปิดบังตัวเอง หนีจากความรู้สึกแท้ ๆ",
-    mode_of_water:
-      "Earth of Water – จุดเริ่มต้นของการนำความรู้สึกมาสร้างตัวตนและสัมพันธ์กับผู้อื่นในโลกจริง",
-    noted:
-      "เหมาะกับช่วงเริ่มเส้นทางศิลปะ การเยียวยา หรือการเรียนรู้ด้านอารมณ์ใหม่ ๆ",
-    career_focus:
-      "งานสายเยียวยา งานศิลปะ งานครีเอทีฟที่ใช้ความรู้สึก เช่น อาร์ต เทอราพี ศิลปิน หรือผู้ให้คำปรึกษาแบบอ่อนโยน",
-    quote:
-      "หัวใจที่รับรู้จริงที่สุด คือรูปแบบของการเยียวยาที่แท้จริง",
-
-    meaning_from_chart:
-      "เด็กแห่งถ้วย ผู้เริ่มเข้าใจหัวใจตัวเอง พร้อมเรียนรู้เกี่ยวกับความรักและความอ่อนโยน",
-    keywords: [
-      "ความไร้เดียงสาทางอารมณ์",
-      "สารจากหัวใจ",
-      "ข่าวดีด้านความรู้สึก",
-      "ความอ่อนโยน",
-      "โรแมนติกอ่อน ๆ"
-    ]
-  },
-
-  // Knight of Cups – Court Card
-  {
-    name: "Knight of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/e/eb/Cups12.jpg",
-
-    zodiac_sign: "Air–Water Mix (โดยมากโยงกับราศีมีน/ราศีธาตุน้ำ)",
-    zodiac_symbol: "♓",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-    season: "",
-
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    court_theme: "ความรัก / ความฝัน / การแสดงออกด้วยหัวใจ",
-    light_aspect:
-      "มอบแรงบันดาลใจ แสดงความรักให้เห็นจริง โรแมนติก กล้าพูดความรู้สึก",
-    shadow_aspect:
-      "หลงอยู่กับภาพฝันมากไป กลัวการเปิดใจจริง หรือตามอารมณ์จนไม่มั่นคง",
-    mode_of_water:
-      "Fire of Water – พลังของการเคลื่อนไหวโดยขับเคลื่อนด้วยความรู้สึกและแรงบันดาลใจ",
-    noted:
-      "การสารภาพใจ หรือการเริ่มแสดงความรู้สึกอย่างจริงจัง เป็นช่วงเวลาของการเดินหน้าเรื่องความรัก",
-    career_focus:
-      "เหมาะกับงานที่ใช้แรงบันดาลใจ เช่น นักเขียน นักดนตรี ศิลปิน นักโฆษณา หรือสายงานครีเอทีฟที่ต้องเล่าเรื่องผ่านอารมณ์",
-    quote:
-      "เมื่อหัวใจใส่ทุกอย่างที่สื่อออกไป จักรวาลจะตอบสนองด้วยความรักกลับมา",
-
-    meaning_from_chart:
-      "ผู้ส่งสารแห่งความรัก ความฝัน และความโรแมนติก การเสนอตัวเข้าหาโอกาสด้านความรู้สึกหรือความสร้างสรรค์",
-    keywords: [
-      "ข้อเสนอด้านความรัก",
-      "ความโรแมนติก",
-      "แรงบันดาลใจ",
-      "เดินหน้าด้วยหัวใจ"
-    ]
-  },
-
-  // Queen of Cups – Court Card
-  {
-    name: "Queen of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/4/42/Cups13.jpg",
-
-    zodiac_sign: "Cancer (ราศีกรกฎ)",
-    zodiac_symbol: "♋",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-    season: "Summer (ฤดูร้อน)",
-
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mars (ดาวอังคาร)",
-    season_sub_planet_symbol: "♂",
-
-    court_theme: "ความเข้าใจใจ / ความอ่อนโยน / การเยียวยา",
-    light_aspect:
-      "เข้าใจผู้อื่นลึกซึ้ง มีเมตตา รับฟังและเห็นอกเห็นใจ ผสานความรู้สึกกับการดูแล",
-    shadow_aspect:
-      "จมอยู่ในอารมณ์มากเกินไป แบกรับความรู้สึกคนอื่นจนล้า หรือหลีกหนีความจริง",
-    mode_of_water:
-      "Water of Water – ความลึกซึ้งทางอารมณ์ระดับสูง ส่งผ่านความรู้สึกให้ผู้อื่นได้รับการเยียวยา",
-    noted:
-      "ฟังด้วยหัวใจ และสื่อสารด้วยความอ่อนโยน เหมาะกับการเป็นผู้เยียวยาทางอารมณ์",
-    career_focus:
-      "ที่ปรึกษา นักบำบัด ครูที่เข้าใจเด็ก ศิลปินที่ใช้ความรู้สึกในการสร้างผลงาน หรืองานที่ต้องใช้ Empathy สูง",
-    quote:
-      "หัวใจที่เข้าใจ คือหัวใจที่เยียวยาได้ดีที่สุด",
-
-    meaning_from_chart:
-      "ราชินีแห่งน้ำ ผู้เข้าใจอารมณ์อย่างลึกซึ้ง เป็นที่พึ่งทางใจ และให้ความปลอดภัยด้านความรู้สึก",
-    keywords: [
-      "เยียวยา",
-      "เมตตา",
-      "เข้าใจอารมณ์",
-      "รับฟัง",
-      "สนับสนุนทางใจ"
-    ]
-  },
-
-  // King of Cups – Court Card
-  {
-    name: "King of Cups",
-    image: "https://upload.wikimedia.org/wikipedia/en/7/70/Cups14.jpg",
-
-    zodiac_sign: "Scorpio (ราศีพิจิก)",
-    zodiac_symbol: "♏",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Water (ธาตุน้ำ)",
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    court_theme: "ภาวะผู้นำทางอารมณ์ / การเข้าใจคน / ความมั่นคงทางใจ",
-    light_aspect:
-      "มีวุฒิภาวะทางอารมณ์สูง เข้าใจอารมณ์ตัวเองและคนอื่น ควบคุมอารมณ์ได้ดี ใช้เหตุผลกับความรู้สึกอย่างสมดุล",
-    shadow_aspect:
-      "ปิดอารมณ์เกินไป ระบายไม่เป็น หรือใช้ความนิ่งกดความรู้สึกจนแสดงออกไม่จริงใจ",
-    mode_of_water:
-      "Air of Water – การมองอารมณ์ด้วยเหตุผล วิเคราะห์และจัดการความรู้สึกได้ดี",
-    noted:
-      "สร้างสมดุลระหว่างเหตุผลและความรู้สึก ฟังผู้อื่นแต่ไม่หลงไปกับกระแสอารมณ์ทั้งหมด",
-    career_focus:
-      "เหมาะกับผู้นำ ผู้บริหาร นักบำบัดระดับสูง โค้ช ที่ต้องใช้ความเข้าใจคนและควบคุมอารมณ์ตนเองได้ดี",
-    quote:
-      "ผู้นำที่แท้จริงไม่ใช่คนที่ไม่รู้สึก แต่อยู่กับความรู้สึกแล้วไม่ปล่อยให้มันครอบงำ",
-
-    meaning_from_chart:
-      "กษัตริย์แห่งถ้วย ผู้มีภาวะผู้นำทางอารมณ์ มั่นคงภายใน ใจนิ่งและคอยดูแลคนอื่นด้วยความเข้าใจ",
-    keywords: [
-      "ผู้นำทางอารมณ์",
-      "ความนิ่งสงบ",
-      "ควบคุมอารมณ์",
-      "เข้าใจคน",
-      "โค้ช/ที่ปรึกษา"
-    ]
-  }
-];
-
-
-  // 💨 SWORDS – Minor Arcana (Ace – King)
-
-const swords = [
-  // Ace of Swords
-  {
-    name: "Ace of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/1/1a/Swords01.jpg",
-
-    zodiac_sign: "Air Signs (ราศีธาตุลม – เมถุน ตุลย์ กุมภ์)",
-    zodiac_symbol: "♊♎♒",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Root of Air (รากแห่งธาตุลม)",
-    decan_ruler_symbol: "💨",
-
-    hidden_ruler: "Mercury (ดาวพุธ)",
-    hidden_ruler_symbol: "☿",
-
-    element: "Air (ธาตุลม)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "จุดเริ่มต้นของความคิดชัดเจน ความจริง การตัดสินใจ และการสื่อสารที่ตรงไปตรงมา",
-    keywords: [
-      "ไอเดียใหม่",
-      "ความจริง",
-      "การตัดสินใจ",
-      "ความชัดเจน",
-      "สื่อสารตรงประเด็น"
-    ]
-  },
-
-  // 2 of Swords – Libra 0–10°
-  {
-    name: "Two of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/9/9e/Swords02.jpg",
-
-    zodiac_sign: "Libra (ราศีตุลย์)",
-    zodiac_symbol: "♎",
-    degree: "0°–10° Libra (0–10 องศา ตุลย์)",
-    date_range: "Sep 23 – Oct 2 (23 ก.ย. – 2 ต.ค.)",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "Venus (ดาวศุกร์)", // 2–4 = Venus
-    hidden_ruler_symbol: "♀",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งสันติที่กลับคืนมา การหยุดชั่วคราวเพื่อทบทวน เปิดทางสู่ปัญญาในการมองเห็นเส้นทางที่ชัดเจนขึ้น",
-    keywords: [
-      "ชั่งใจ",
-      "ลังเล",
-      "พักก่อนคิดต่อ",
-      "หาทางออกอย่างมีสติ"
-    ]
-  },
-
-  // 3 of Swords – Libra 10–20°
-  {
-    name: "Three of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/0/02/Swords03.jpg",
-
-    zodiac_sign: "Libra (ราศีตุลย์)",
-    zodiac_symbol: "♎",
-    degree: "10°–20° Libra (10–20 องศา ตุลย์)",
-    date_range: "Oct 3 – Oct 12 (3–12 ต.ค.)",
-
-    decan_ruler: "Saturn (ดาวเสาร์)",
-    decan_ruler_symbol: "♄",
-
-    hidden_ruler: "Venus (ดาวศุกร์)", // 2–4 = Venus
-    hidden_ruler_symbol: "♀",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งความเศร้า ความจริงที่ทำให้เจ็บปวด แต่เปิดทางให้ได้รักษาแผลใจอย่างตรงไปตรงมา",
-    keywords: [
-      "อกหัก",
-      "เจ็บปวด",
-      "ความจริงที่กัดใจ",
-      "การตัดขาด",
-      "เผชิญหน้าความรู้สึก"
-    ]
-  },
-
-  // 4 of Swords – Libra 20–30°
-  {
-    name: "Four of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/b/bf/Swords04.jpg",
-
-    zodiac_sign: "Libra (ราศีตุลย์)",
-    zodiac_symbol: "♎",
-    degree: "20°–30° Libra (20–30 องศา ตุลย์)",
-    date_range: "Oct 13 – Oct 22 (13–22 ต.ค.)",
-
-    decan_ruler: "Jupiter (ดาวพฤหัสบดี)",
-    decan_ruler_symbol: "♃",
-
-    hidden_ruler: "Venus (ดาวศุกร์)", // 2–4 = Venus
-    hidden_ruler_symbol: "♀",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งการพักจากความเหนื่อยล้า ความคิดที่ไม่ได้นิ่งเฉย แต่พักเพื่อรักษา ต้องการเวลาเยียวยาก่อนจะลุกขึ้นสู้ใหม่อีกครั้ง",
-    keywords: [
-      "พักผ่อน",
-      "ถอยตั้งหลัก",
-      "เยียวยาใจ",
-      "หยุดคิดชั่วคราว",
-      "ถอยหนึ่งก้าว"
-    ]
-  },
-
-  // 5 of Swords – Aquarius 0–10°
-  {
-    name: "Five of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/2/23/Swords05.jpg",
-
-    zodiac_sign: "Aquarius (ราศีกุมภ์)",
-    zodiac_symbol: "♒",
-    degree: "0°–10° Aquarius (0–10 องศา กุมภ์)",
-    date_range: "Jan 20 – Jan 29 (20–29 ม.ค.)",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "Uranus (ดาวยูเรนัส)", // 5–7 = Uranus
-    hidden_ruler_symbol: "♅",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งความพ่ายแพ้ พลังของการรู้จักความขัดแย้ง การชนะที่อาจแลกมาด้วยความสัมพันธ์ และบทเรียนในการปล่อยวางอัตตา",
-    keywords: [
-      "ชนะภายนอก แพ้ภายใน",
-      "ข้อขัดแย้ง",
-      "เสียหน้า",
-      "อัตตา",
-      "ยอมปล่อยวาง"
-    ]
-  },
-
-  // 6 of Swords – Aquarius 10–20°
-  {
-    name: "Six of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/2/29/Swords06.jpg",
-
-    zodiac_sign: "Aquarius (ราศีกุมภ์)",
-    zodiac_symbol: "♒",
-    degree: "10°–20° Aquarius (10–20 องศา กุมภ์)",
-    date_range: "Jan 30 – Feb 8 (30 ม.ค. – 8 ก.พ.)",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "Uranus (ดาวยูเรนัส)", // 5–7 = Uranus
-    hidden_ruler_symbol: "♅",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งความสำเร็จที่ได้มาด้วยการพยายาม พลังของการเยียวยาผ่านการเคลื่อนไหว การตัดสินใจเดินออกต่อไป เพื่อพาตัวเองไปสู่ชีวิตใหม่ที่ปลายทาง",
-    keywords: [
-      "เดินหน้าต่อ",
-      "ย้ายออก",
-      "เปลี่ยนสภาพแวดล้อม",
-      "ข้ามพ้นช่วงยาก",
-      "ฟื้นตัวช้า ๆ"
-    ]
-  },
-
-  // 7 of Swords – Aquarius 20–30°
-  {
-    name: "Seven of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/3/34/Swords07.jpg",
-
-    zodiac_sign: "Aquarius (ราศีกุมภ์)",
-    zodiac_symbol: "♒",
-    degree: "20°–30° Aquarius (20–30 องศา กุมภ์)",
-    date_range: "Feb 9 – Feb 18 (9–18 ก.พ.)",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "Uranus (ดาวยูเรนัส)", // 5–7 = Uranus
-    hidden_ruler_symbol: "♅",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งความไม่พร้อม ไม่พยายาม ใช้เล่ห์เหลี่ยมแทนความซื่อสัตย์และความจริงใจ เป็นพลังของการลัดขั้นที่อาจไปถึงเร็ว แต่ไปไม่ไกล",
-    keywords: [
-      "เล่ห์เหลี่ยม",
-      "หลบเลี่ยง",
-      "ทำเงียบ",
-      "ไม่ตรงไปตรงมา",
-      "วางแผนลับ"
-    ]
-  },
-
-  // 8 of Swords – Gemini 0–10°
-  {
-    name: "Eight of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/2/28/Swords08.jpg",
-
-    zodiac_sign: "Gemini (ราศีเมถุน)",
-    zodiac_symbol: "♊",
-    degree: "0°–10° Gemini (0–10 องศา เมถุน)",
-    date_range: "May 21 – May 30 (21–30 พ.ค.)",
-
-    decan_ruler: "Jupiter (ดาวพฤหัสบดี)",
-    decan_ruler_symbol: "♃",
-
-    hidden_ruler: "Mercury (ดาวพุธ)", // 8–10 = Mercury
-    hidden_ruler_symbol: "☿",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_main_planet_symbol: "♃",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งพลังงานที่ถูกจำกัด การกีดขวางเราไม่ได้มาจากภายนอก แต่มาจากจิตใจและความคิดของเราเอง",
-    keywords: [
-      "คิดมากเกินไป",
-      "รู้สึกติดกับดัก",
-      "มองไม่เห็นทางออก",
-      "จำกัดตัวเองด้วยความกลัว"
-    ]
-  },
-
-  // 9 of Swords – Gemini 10–20°
-  {
-    name: "Nine of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/2/2f/Swords09.jpg",
-
-    zodiac_sign: "Gemini (ราศีเมถุน)",
-    zodiac_symbol: "♊",
-    degree: "10°–20° Gemini (10–20 องศา เมถุน)",
-    date_range: "May 31 – Jun 9 (31 พ.ค. – 9 มิ.ย.)",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "Mercury (ดาวพุธ)", // 8–10 = Mercury
-    hidden_ruler_symbol: "☿",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_main_planet_symbol: "♃",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งความสิ้นหวังและความโหดร้าย อย่าให้ความคิดของคุณกลายเป็นอาวุธทำร้ายตัวเอง ความวิตกและความกลัวที่ขยายในหัว",
-    keywords: [
-      "นอนไม่หลับ",
-      "วิตกกังวล",
-      "คิดลบซ้ำ ๆ",
-      "กลัวอนาคต",
-      "ลงโทษตัวเอง"
-    ]
-  },
-
-  // 10 of Swords – Gemini 20–30°
-  {
-    name: "Ten of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/d/d4/Swords10.jpg",
-
-    zodiac_sign: "Gemini (ราศีเมถุน)",
-    zodiac_symbol: "♊",
-    degree: "20°–30° Gemini (20–30 องศา เมถุน)",
-    date_range: "Jun 10 – Jun 20 (10–20 มิ.ย.)",
-
-    decan_ruler: "Sun (ดวงอาทิตย์)",
-    decan_ruler_symbol: "☉",
-
-    hidden_ruler: "Mercury (ดาวพุธ)", // 8–10 = Mercury
-    hidden_ruler_symbol: "☿",
-
-    element: "Air (ธาตุลม)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_main_planet_symbol: "♃",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    meaning_from_chart:
-      "เจ้าแห่งความพินาศ 'จุดจบ' ในแง่หนึ่ง แต่ก็เป็น 'การปลดปล่อย' ในอีกแง่หนึ่งได้ สิ่งที่ถึงที่สุดแล้วและต้องเริ่มหน้าใหม่",
-    keywords: [
-      "จบสิ้น",
-      "เสียใจอย่างหนัก",
-      "ถึงที่สุดแล้ว",
-      "ปล่อยวางอดีต",
-      "เริ่มใหม่จากศูนย์"
-    ]
-  },
-
-  // Page of Swords – Court Card
-  {
-    name: "Page of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/4/4c/Swords11.jpg",
-
-    zodiac_sign: "Air Signs (ราศีธาตุลม – เมถุน ตุลย์ กุมภ์)",
-    zodiac_symbol: "♊♎♒",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-    season: "",
-
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    court_theme: "การสื่อสาร / การเรียนรู้ / ความอยากรู้อยากเห็น",
-    light_aspect:
-      "หัวไว สังเกตเก่ง ช่างคิด กล้าพูด กล้าตั้งคำถาม ไขข้อสงสัย",
-    shadow_aspect:
-      "ติดมากเกินไป คิดเยอะ พูดเยอะ สูญเสียความอยากรู้อยากเห็นที่บริสุทธิ์ กลายเป็นจับผิด",
-    mode_of_air:
-      "Earth of Air – การเปลี่ยนความคิดให้เป็นคำพูดและการสื่อสารที่เข้าใจจริงในโลกความจริง",
-    noted:
-      "รอ สังเกต และเรียนรู้ก่อนลงมือ รีเช็กข้อมูลก่อนพูดเสมอ",
-    career_focus:
-      "เหมาะกับคนเริ่มต้นสายสื่อสาร การคิดวิเคราะห์ การวางแผน งานคอนเทนต์ หรือรีเสิร์ช",
-    quote:
-      "ทุกคำถาม คือประตูสู่ปัญญาใหม่",
-
-    meaning_from_chart:
-      "พลังของผู้เรียนรู้ อยากรู้อยากเห็น สื่อสารเก่ง และพร้อมเปิดรับข้อมูลใหม่ตลอดเวลา",
-    keywords: [
-      "ข่าวสาร",
-      "การเรียนรู้",
-      "ตั้งคำถาม",
-      "สังเกตการณ์",
-      "พูดคุยเยอะ"
-    ]
-  },
-
-  // Knight of Swords – Court Card
-  {
-    name: "Knight of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/b/b0/Swords12.jpg",
-
-    zodiac_sign: "Mutable Air (โยงกับ Gemini – ราศีเมถุน)",
-    zodiac_symbol: "♊",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-    season: "",
-
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    court_theme: "ความรวดเร็ว / การลงมือด้วยไอเดีย / ความกล้าในความจริง",
-    light_aspect:
-      "กล้าบุกเบิกพูดความจริง พูดตรง คิดไว ทำไว ตัดสินใจตามข้อมูลและเหตุผล",
-    shadow_aspect:
-      "ใช้อารมณ์ทางความคิดรุนแรงเกินไป พูดโดยไม่คิด เสี่ยงทำร้ายคนอื่นด้วยคำพูด",
-    mode_of_air:
-      "Fire of Air – พลังของความคิดที่ถูกจุดไฟแรง การลงมือด้วยความมั่นใจและรวดเร็ว",
-    noted:
-      "เหตุการณ์เคลื่อนไหวเร็ว ต้องมีสติในการสื่อสารและตัดสินใจ",
-    career_focus:
-      "งานที่ต้องใช้ความเร็ว การคิดไว การตัดสินใจฉับพลัน เช่น นักข่าว ทนาย นักขาย นักวิเคราะห์เชิงกลยุทธ์",
-    quote:
-      "ความชัดเจนเหลือคม คือความซื่อสัตย์ที่ถืออาวุธ",
-
-    meaning_from_chart:
-      "นักรบแห่งความคิด ผู้พุ่งเข้าหาความจริงอย่างไม่กลัวเผชิญหน้า",
-    keywords: [
-      "เคลื่อนไหวเร็ว",
-      "การถกเถียง",
-      "พูดตรง",
-      "แอ็กชันตามไอเดีย"
-    ]
-  },
-
-  // Queen of Swords – Court Card
-  {
-    name: "Queen of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/e/e3/Swords13.jpg",
-
-    zodiac_sign: "Libra (ราศีตุลย์)",
-    zodiac_symbol: "♎",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-    season: "Autumn (ฤดูใบไม้ร่วง)",
-
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    court_theme: "ความชัดเจน / การสื่อสารด้วยเหตุผลและเมตตา",
-    light_aspect:
-      "พูดตรงแต่เมตตา มีเหตุผล ชัดเจน เปิดเผยความจริง และพยายามให้คนเข้าใจภาพรวม",
-    shadow_aspect:
-      "เย็นชา หรือยึดมั่นในเหตุผลมากเกินไป จนปิดกั้นอารมณ์ตัวเองและคนอื่น",
-    mode_of_air:
-      "Water of Air – ผสมอารมณ์กับเหตุผล ใช้ความเข้าใจใจคนเพื่ออธิบายความจริง",
-    noted:
-      "ควรสวยด้วยคำพูดที่ชัด แต่ไม่บาดใจเกินไป ระวังคำพูดคมเกินจำเป็น",
-    career_focus:
-      "เหมาะกับงานด้านสื่อสาร การให้คำแนะนำ การรีวิววิเคราะห์ งานเขียน หรืองานที่ต้องใช้เหตุผลกับคนจำนวนมาก",
-    quote:
-      "เธอพูดด้วยเหตุผล แต่หัวใจเธอเปี่ยมด้วยความเข้าใจ",
-
-    meaning_from_chart:
-      "ราชินีแห่งดาบ ผู้ใช้คำพูดและเหตุผลอย่างเฉียบคม ควบคู่กับความเข้าใจในจิตใจมนุษย์",
-    keywords: [
-      "พูดตรงมีสติ",
-      "ใช้เหตุผล",
-      "จัดการปัญหาด้วยความคิด",
-      "มองภาพรวมชัดเจน"
-    ]
-  },
-
-  // King of Swords – Court Card
-  {
-    name: "King of Swords",
-    image: "https://upload.wikimedia.org/wikipedia/en/3/33/Swords14.jpg",
-
-    zodiac_sign: "Aquarius (ราศีกุมภ์)",
-    zodiac_symbol: "♒",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Air (ธาตุลม)",
-    season: "Winter (ฤดูหนาว)",
-
-    season_main_planet: "Moon (ดวงจันทร์)",
-    season_main_planet_symbol: "☽",
-    season_sub_planet: "Venus (ดาวศุกร์)",
-    season_sub_planet_symbol: "♀",
-
-    court_theme: "วิสัยทัศน์ / การคิดวิเคราะห์ / ความยุติธรรม",
-    light_aspect:
-      "ชัดเจน มีตรรกะ ยืนหยัดในความถูกต้อง กล้าพูดความจริง ใช้ข้อมูลในการตัดสินใจ",
-    shadow_aspect:
-      "คิดเยอะจนแข็ง แยกตัวออกจากความรู้สึก ใช้เหตุผลเป็นกำแพง",
-    mode_of_air:
-      "Air of Air – ปัญญาบริสุทธิ์ ความเข้าใจในสาระ ใช้เหตุผลอย่างมั่นคงและมีโครงสร้าง",
-    noted:
-      "ถึงเวลาตัดสินใจเรื่องสำคัญด้วยหัวเย็นและข้อมูลครบถ้วน อย่าให้ความลำเอียงส่วนตัวมานำ",
-    career_focus:
-      "เหมาะกับผู้บริหาร นักกฎหมาย นักวิเคราะห์ระดับสูง หรือนักวางนโยบายที่ต้องใช้เหตุผลและความยุติธรรม",
-    quote:
-      "ปัญญาไม่ใช่อาวุธ… แต่มันคือดวงไฟชี้ทางต่อความจริง",
-
-    meaning_from_chart:
-      "กษัตริย์แห่งดาบ ผู้ใช้ปัญญาและความยุติธรรมเป็นหลักในการตัดสินใจ มีวิสัยทัศน์และความชัดเจนสูง",
-    keywords: [
-      "ปัญญา",
-      "การวิเคราะห์",
-      "ความยุติธรรม",
-      "ตัดสินใจบนข้อมูล",
-      "วิสัยทัศน์ระยะยาว"
-    ]
-  }
-];
-
-
-  // 🌍 PENTACLES – Minor Arcana (Ace – King)
-
-const pentacles = [
-  // Ace of Pentacles
-  {
-    name: "Ace of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/f/fd/Pents01.jpg",
-
-    zodiac_sign: "Earth Signs (ราศีธาตุดิน – พฤษภ กันย์ มังกร)",
-    zodiac_symbol: "♉♍♑",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "Root of Earth (รากแห่งธาตุดิน)",
-    decan_ruler_symbol: "🌱",
-
-    hidden_ruler: "Saturn (ดาวเสาร์)",
-    hidden_ruler_symbol: "♄",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "",
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    meaning_from_chart:
-      "โอกาสใหม่ด้านการเงิน การงาน หรือรูปธรรมในชีวิต เริ่มต้นสร้างความมั่นคงจากสิ่งที่จับต้องได้",
-    keywords: [
-      "โอกาสใหม่",
-      "เงิน/งาน",
-      "ความมั่นคง",
-      "เริ่มต้นลงมือจริง"
-    ]
-  },
-
-  // 2 of Pentacles – Capricorn 0–10°
-  {
-    name: "Two of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/9/9f/Pents02.jpg",
-
-    zodiac_sign: "Capricorn (ราศีมังกร)",
-    zodiac_symbol: "♑",
-    degree: "0°–10° Capricorn (0–10 องศา มังกร)",
-    date_range: "Dec 22 – Dec 30 (22–30 ธ.ค.)",
-
-    decan_ruler: "Jupiter (ดาวพฤหัสบดี)",
-    decan_ruler_symbol: "♃",
-
-    hidden_ruler: "Saturn (ดาวเสาร์)", // 2–4 = Saturn
-    hidden_ruler_symbol: "♄",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_sub_planet_symbol: "♃",
-
-    meaning_from_chart:
-      "เจ้าแห่งการเปลี่ยนแปลงกลมกลืน การจัดการหลายเรื่องพร้อมกันอย่างยืดหยุ่น การปรับตัวในโลกวัตถุ",
-    keywords: [
-      "บาลานซ์",
-      "จัดการหลายเรื่อง",
-      "การเงินขึ้น ๆ ลง ๆ",
-      "การปรับตัว"
-    ]
-  },
-
-  // 3 of Pentacles – Capricorn 10–20°
-  {
-    name: "Three of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/4/42/Pents03.jpg",
-
-    zodiac_sign: "Capricorn (ราศีมังกร)",
-    zodiac_symbol: "♑",
-    degree: "10°–20° Capricorn (10–20 องศา มังกร)",
-    date_range: "Dec 31 – Jan 9 (31 ธ.ค. – 9 ม.ค.)",
-
-    decan_ruler: "Mars (ดาวอังคาร)",
-    decan_ruler_symbol: "♂",
-
-    hidden_ruler: "Saturn (ดาวเสาร์)", // 2–4 = Saturn
-    hidden_ruler_symbol: "♄",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_sub_planet_symbol: "♃",
-
-    meaning_from_chart:
-      "เจ้าแห่งการทำงานทางวัตถุ พลังของความร่วมมือ งานทีม งานช่าง งานสร้างที่ต้องใช้ความชำนาญ",
-    keywords: [
-      "ทำงานร่วมกัน",
-      "ทีมเวิร์ก",
-      "ความเชี่ยวชาญ",
-      "สร้างผลงาน"
-    ]
-  },
-
-  // 4 of Pentacles – Capricorn 20–30°
-  {
-    name: "Four of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/3/35/Pents04.jpg",
-
-    zodiac_sign: "Capricorn (ราศีมังกร)",
-    zodiac_symbol: "♑",
-    degree: "20°–30° Capricorn (20–30 องศา มังกร)",
-    date_range: "Jan 10 – Jan 19 (10–19 ม.ค.)",
-
-    decan_ruler: "Sun (ดวงอาทิตย์)",
-    decan_ruler_symbol: "☉",
-
-    hidden_ruler: "Saturn (ดาวเสาร์)", // 2–4 = Saturn
-    hidden_ruler_symbol: "♄",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Winter (ฤดูหนาว)",
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_sub_planet_symbol: "♃",
-
-    meaning_from_chart:
-      "เจ้าแห่งพลังแห่งโลก การยึดเกาะกับวัตถุ การปกป้องทรัพย์สิน อย่ากอดแน่นจนปิดกั้นการไหลเวียนของพลังงาน",
-    keywords: [
-      "ยึดติด",
-      "เก็บเงินแน่น",
-      "กลัวเสีย",
-      "คุมทุกอย่างไว้ในมือ"
-    ]
-  },
-
-  // 5 of Pentacles – Taurus 0–10°
-  {
-    name: "Five of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/9/96/Pents05.jpg",
-
-    zodiac_sign: "Taurus (ราศีพฤษภ)",
-    zodiac_symbol: "♉",
-    degree: "0°–10° Taurus (0–10 องศา พฤษภ)",
-    date_range: "Apr 21 – Apr 30 (21–30 เม.ย.)",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "Venus (ดาวศุกร์)", // 5–7 = Venus
-    hidden_ruler_symbol: "♀",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Venus (ดาวศุกร์)",
-    season_main_planet_symbol: "♀",
-    season_sub_planet: "Moon (ดวงจันทร์)",
-    season_sub_planet_symbol: "☽",
-
-    meaning_from_chart:
-      "เจ้าแห่งความอยู่รอดทางวัตถุ แบกความยากลำบากอย่างมีแสงแห่งศรัทธารออยู่เสมอ อย่าเพิ่งยอมแพ้",
-    keywords: [
-      "ขาดแคลน",
-      "ลำบากเรื่องเงิน",
-      "รู้สึกโดดเดี่ยว",
-      "ศรัทธาที่ยังเหลืออยู่"
-    ]
-  },
-
-  // 6 of Pentacles – Taurus 10–20°
-  {
-    name: "Six of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/6/6a/Pents06.jpg",
-
-    zodiac_sign: "Taurus (ราศีพฤษภ)",
-    zodiac_symbol: "♉",
-    degree: "10°–20° Taurus (10–20 องศา พฤษภ)",
-    date_range: "May 1 – May 10 (1–10 พ.ค.)",
-
-    decan_ruler: "Moon (ดวงจันทร์)",
-    decan_ruler_symbol: "☽",
-
-    hidden_ruler: "Venus (ดาวศุกร์)", // 5–7 = Venus
-    hidden_ruler_symbol: "♀",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Venus (ดาวศุกร์)",
-    season_main_planet_symbol: "♀",
-    season_sub_planet: "Moon (ดวงจันทร์)",
-    season_sub_planet_symbol: "☽",
-
-    meaning_from_chart:
-      "เจ้าแห่งความสำเร็จทางวัตถุ พลังแห่งการแลกเปลี่ยน แบ่งปัน ความสมดุลและความมั่งคั่งที่เกิดจากการให้และรับ",
-    keywords: [
-      "แบ่งปัน",
-      "ให้ทาน",
-      "ช่วยเหลือกัน",
-      "สมดุลการให้-รับ"
-    ]
-  },
-
-  // 7 of Pentacles – Taurus 20–30°
-  {
-    name: "Seven of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/6/6f/Pents07.jpg",
-
-    zodiac_sign: "Taurus (ราศีพฤษภ)",
-    zodiac_symbol: "♉",
-    degree: "20°–30° Taurus (20–30 องศา พฤษภ)",
-    date_range: "May 11 – May 20 (11–20 พ.ค.)",
-
-    decan_ruler: "Saturn (ดาวเสาร์)",
-    decan_ruler_symbol: "♄",
-
-    hidden_ruler: "Venus (ดาวศุกร์)", // 5–7 = Venus
-    hidden_ruler_symbol: "♀",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Spring (ฤดูใบไม้ผลิ)",
-    season_main_planet: "Venus (ดาวศุกร์)",
-    season_main_planet_symbol: "♀",
-    season_sub_planet: "Moon (ดวงจันทร์)",
-    season_sub_planet_symbol: "☽",
-
-    meaning_from_chart:
-      "เจ้าแห่งความสำเร็จที่ยังไม่สมบูรณ์แบบ ความสำเร็จไม่ได้อยู่ที่ปลายทาง แต่อยู่ที่การเรียนรู้ระหว่างทางและความอดทน",
-    keywords: [
-      "รอดูผล",
-      "รอเก็บเกี่ยว",
-      "ทบทวนแผน",
-      "อดทนกับกระบวนการ"
-    ]
-  },
-
-  // 8 of Pentacles – Virgo 0–10°
-  {
-    name: "Eight of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/4/49/Pents08.jpg",
-
-    zodiac_sign: "Virgo (ราศีกันย์)",
-    zodiac_symbol: "♍",
-    degree: "0°–10° Virgo (0–10 องศา กันย์)",
-    date_range: "Aug 23 – Sep 1 (23 ส.ค. – 1 ก.ย.)",
-
-    decan_ruler: "Sun (ดวงอาทิตย์)",
-    decan_ruler_symbol: "☉",
-
-    hidden_ruler: "Mercury (ดาวพุธ)", // 8–10 = Mercury
-    hidden_ruler_symbol: "☿",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Summer (ปลายฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งความรอบคอบ พลังของการสร้างความเชี่ยวชาญด้วยการฝึกฝนซ้ำ ๆ ลงมือทำจริงเพื่อพัฒนาฝีมือ",
-    keywords: [
-      "ขยันฝึก",
-      "พัฒนาทักษะ",
-      "โฟกัสงาน",
-      "ลงมือทำซ้ำ ๆ"
-    ]
-  },
-
-  // 9 of Pentacles – Virgo 10–20°
-  {
-    name: "Nine of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/6/6a/Pents09.jpg",
-
-    zodiac_sign: "Virgo (ราศีกันย์)",
-    zodiac_symbol: "♍",
-    degree: "10°–20° Virgo (10–20 องศา กันย์)",
-    date_range: "Sep 2 – Sep 11 (2–11 ก.ย.)",
-
-    decan_ruler: "Venus (ดาวศุกร์)",
-    decan_ruler_symbol: "♀",
-
-    hidden_ruler: "Mercury (ดาวพุธ)", // 8–10 = Mercury
-    hidden_ruler_symbol: "☿",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Summer (ปลายฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งผลประโยชน์ทางวัตถุ พลังของความมั่งคั่ง ความอุดมสมบูรณ์ และความพึงพอใจในตัวเอง",
-    keywords: [
-      "ความมั่นคง",
-      "อยู่ได้ด้วยตัวเอง",
-      "เพลิดเพลินกับสิ่งที่มี",
-      "ความหรูหราเล็ก ๆ"
-    ]
-  },
-
-  // 10 of Pentacles – Virgo 20–30°
-  {
-    name: "Ten of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/4/42/Pents10.jpg",
-
-    zodiac_sign: "Virgo (ราศีกันย์)",
-    zodiac_symbol: "♍",
-    degree: "20°–30° Virgo (20–30 องศา กันย์)",
-    date_range: "Sep 12 – Sep 22 (12–22 ก.ย.)",
-
-    decan_ruler: "Mercury (ดาวพุธ)",
-    decan_ruler_symbol: "☿",
-
-    hidden_ruler: "Mercury (ดาวพุธ)", // 8–10 = Mercury
-    hidden_ruler_symbol: "☿",
-
-    element: "Earth (ธาตุดิน)",
-
-    season: "Summer (ปลายฤดูร้อน)",
-    season_main_planet: "Sun (ดวงอาทิตย์)",
-    season_main_planet_symbol: "☉",
-    season_sub_planet: "Mercury (ดาวพุธ)",
-    season_sub_planet_symbol: "☿",
-
-    meaning_from_chart:
-      "เจ้าแห่งความมั่งคั่ง พลังงานแห่งความมั่งคั่งที่ส่งต่อถึงครอบครัว ลูกหลาน มรดก และความมั่นคงระยะยาว",
-    keywords: [
-      "ครอบครัวมั่นคง",
-      "มรดก",
-      "ทรัพย์สินระยะยาว",
-      "เสถียรภาพ"
-    ]
-  },
-
-  // Page of Pentacles – Court Card
-  {
-    name: "Page of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/e/eb/Pents11.jpg",
-
-    zodiac_sign: "Earth Signs (ราศีธาตุดิน – พฤษภ กันย์ มังกร)",
-    zodiac_symbol: "♉♍♑",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-    season: "",
-
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    court_theme: "การเริ่มต้น / การเรียนรู้ / การวางรากฐาน",
-    light_aspect:
-      "กระตือรือร้น อยากเรียนรู้ ทดลองทำสิ่งใหม่ สนใจพัฒนาทักษะหรืออาชีพ",
-    shadow_aspect:
-      "ขาดแรงจูงใจ ไม่รู้จะเริ่มตรงไหน ผัดวันประกันพรุ่ง",
-    mode_of_earth:
-      "Earth of Earth – รากฐานของการสร้างสิ่งที่มั่นคง เริ่มจากเล็กแต่แน่น",
-    noted:
-      "ปล่อยให้สิ่งต่าง ๆ ค่อย ๆ เติบโต ไม่ต้องรีบแต่ต้องต่อเนื่อง",
-    career_focus:
-      "เหมาะกับช่วงเริ่มต้นของอาชีพใหม่ การฝึกฝนทักษะ หรือการวางแผนระยะยาว",
-    quote:
-      "รากฐานที่คุณปลูกวันนี้ คือความมั่นคงของคุณในวันหน้า",
-
-    meaning_from_chart:
-      "เด็กแห่งเหรียญ ผู้เริ่มมองหาโอกาสด้านงาน เงิน และการเรียนรู้เพื่อนำไปสร้างความมั่นคง",
-    keywords: [
-      "เริ่มเรียน",
-      "ทดลองทำ",
-      "นักศึกษาฝึกงาน",
-      "โอกาสงานเล็ก ๆ แต่สำคัญ"
-    ]
-  },
-
-  // Knight of Pentacles – Court Card
-  {
-    name: "Knight of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/d/d5/Pents12.jpg",
-
-    zodiac_sign: "Fixed Earth (โยงกับ Taurus – ราศีพฤษภ)",
-    zodiac_symbol: "♉",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-    season: "",
-
-    season_main_planet: "",
-    season_main_planet_symbol: "",
-    season_sub_planet: "",
-    season_sub_planet_symbol: "",
-
-    court_theme: "ความขยัน / การรับผิดชอบ / ความมั่นคง",
-    light_aspect:
-      "มุ่งมั่น ตั้งใจ ไม่ยอมแพ้ ขยัน อดทน ทำทีละขั้นจนสำเร็จ",
-    shadow_aspect:
-      "ใช้วิธีเดิมไปเรื่อย ๆ ดื้อ ไม่ยืดหยุ่น หรือกลายเป็นทำงานเพื่อทำเฉย ๆ",
-    mode_of_earth:
-      "Fire of Earth – พลังแห่งการสร้างจริงจัง ขับเคลื่อนด้วยความพยายามที่ต่อเนื่อง",
-    noted:
-      "พัฒนาอย่างต่อเนื่องดีกว่าการเร่งทำระยะสั้น ๆ แล้วหมดแรง",
-    career_focus:
-      "เหมาะกับงานที่ต้องใช้ความทนทาน ไม่พูดมาก เน้นระบบ และอยู่กับกระบวนการระยะยาว",
-    quote:
-      "การเติบโตที่แท้จริง…เกียรติเป็นการเติบโต จนงอกผลในที่สุด",
-
-    meaning_from_chart:
-      "อัศวินแห่งเหรียญ ผู้ค่อย ๆ เดินไปข้างหน้าด้วยความมั่นคงและความรับผิดชอบสูง",
-    keywords: [
-      "ทำงานหนัก",
-      "สม่ำเสมอ",
-      "ลงมือทำจริง",
-      "ความอดทน"
-    ]
-  },
-
-  // Queen of Pentacles – Court Card
-  {
-    name: "Queen of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/f/fd/RWS_Tarot_Queen_of_Pentacles.jpg",
-
-    zodiac_sign: "Capricorn (ราศีมังกร)",
-    zodiac_symbol: "♑",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-    season: "Winter (ฤดูหนาว)",
-
-    season_main_planet: "Saturn (ดาวเสาร์)",
-    season_main_planet_symbol: "♄",
-    season_sub_planet: "Jupiter (ดาวพฤหัสบดี)",
-    season_sub_planet_symbol: "♃",
-
-    court_theme: "ความอุดมสมบูรณ์ / การดูแล / การสร้างพื้นที่ปลอดภัย",
-    light_aspect:
-      "ใจดี มีเมตตา เอื้อเฟื้อดูแลคนรอบข้าง สร้างความมั่นคงทั้งกายและใจ",
-    shadow_aspect:
-      "เก็บตัว ปิดใจ หรือแบกรับทุกอย่างไว้คนเดียวจนล้า",
-    mode_of_earth:
-      "Water of Earth – พลังของความรักที่แสดงออกผ่านการดูแลอย่างมั่นคง",
-    noted:
-      "ถึงเวลาหันมาดูแลตัวเองด้วย ไม่ใช่แค่รับผิดชอบทุกคนรอบตัว",
-    career_focus:
-      "เหมาะกับบทบาทหัวหน้าแม่บ้าน ผู้จัดการ ผู้ดูแลทีม หรืองานที่ทำให้คนรู้สึกปลอดภัยและมั่นคง",
-    quote:
-      "เธอสร้างความมั่นคง ไม่ใช่แค่ให้ตัวเอง…แต่ให้ทุกคนที่อยู่ใกล้ด้วย",
-
-    meaning_from_chart:
-      "ราชินีแห่งเหรียญ ผู้หล่อเลี้ยง ดูแล และสร้างความอุดมสมบูรณ์ให้กับสภาพแวดล้อมของตัวเอง",
-    keywords: [
-      "เลี้ยงดู",
-      "ดูแล",
-      "แม่บ้าน/ผู้จัดการบ้าน",
-      "ความมั่นคงที่อบอุ่น"
-    ]
-  },
-
-  // King of Pentacles – Court Card
-  {
-    name: "King of Pentacles",
-    image: "https://upload.wikimedia.org/wikipedia/en/5/5a/Pents14.jpg",
-
-    zodiac_sign: "Taurus (ราศีพฤษภ)",
-    zodiac_symbol: "♉",
-    degree: "",
-    date_range: "",
-
-    decan_ruler: "",
-    decan_ruler_symbol: "",
-    hidden_ruler: "",
-    hidden_ruler_symbol: "",
-
-    element: "Earth (ธาตุดิน)",
-    season: "Spring (ฤดูใบไม้ผลิ)",
-
-    season_main_planet: "Venus (ดาวศุกร์)",
-    season_main_planet_symbol: "♀",
-    season_sub_planet: "Moon (ดวงจันทร์)",
-    season_sub_planet_symbol: "☽",
-
-    court_theme: "ความมั่งคั่ง / การเป็นผู้นำ / การสร้างระบบที่ยั่งยืน",
-    light_aspect:
-      "มั่งคั่ง ประสบความสำเร็จ เป็นผู้นำที่มีสติและรับผิดชอบ ใช้ทรัพยากรเป็น",
-    shadow_aspect:
-      "กลัวสูญเสียทรัพย์ หรือควบคุมทุกอย่างมากเกินไป เกิดความตระหนี่หรือยึดติด",
-    mode_of_earth:
-      "Air of Earth – ผสมระหว่างวิสัยทัศน์กับความมั่นคง แปลงไอเดียให้กลายเป็นผลลัพธ์จับต้องได้",
-    noted:
-      "ถึงเวลาตัดสินใจเรื่องการลงทุน/สร้างฐานะอย่างมีสติและมองระยะยาว",
-    career_focus:
-      "เหมาะกับเจ้าของกิจการ นักลงทุน นักบัญชี หรือผู้นำที่ต้องสร้างระบบทรัพยากรให้มั่นคง",
-    quote:
-      "ความมั่งคั่งที่แท้จริง ไม่ได้มาจากทรัพย์สินอย่างเดียว แต่จากความสามารถในการสร้างและรักษาภาพใหญ่ให้ยั่งยืน",
-
-    meaning_from_chart:
-      "กษัตริย์แห่งเหรียญ ผู้สร้างจักรวาลแห่งความมั่นคง ระบบ และทรัพย์สินให้เติบโตอย่างยั่งยืน",
-    keywords: [
-      "เจ้าของกิจการ",
-      "ผู้บริหารการเงิน",
-      "ผู้นำที่มั่นคง",
-      "การสร้างทรัพย์สินระยะยาว"
-    ]
-  }
-];
-//-----------------------------------------------------
-// ✅ Auto Assign รูปไพ่จากโฟลเดอร์ images/
-//-----------------------------------------------------
-
-// ฟังก์ชันแปลงเลขเป็น 2 หลัก เช่น 1 → 01
-function pad2(num) {
-  return num.toString().padStart(2, "0");
-}
-
-// Major Arcana → images/01.jpg - 22.jpg
-majorArcana.forEach((card, index) => {
-  const fileNo = pad2(index + 1);
-  card.image = `images/${fileNo}.jpg`;
-});
-
-// Wands → images/w01.jpg - w14.jpg
-wands.forEach((card, index) => {
-  const fileNo = pad2(index + 1);
-  card.image = `images/w${fileNo}.jpg`;
-});
-
-// Cups → images/c01.jpg - c14.jpg
-cups.forEach((card, index) => {
-  const fileNo = pad2(index + 1);
-  card.image = `images/c${fileNo}.jpg`;
-});
-
-// Swords → images/s01.jpg - s14.jpg
-swords.forEach((card, index) => {
-  const fileNo = pad2(index + 1);
-  card.image = `images/s${fileNo}.jpg`;
-});
-
-// Pentacles → images/p01.jpg - p14.jpg
-pentacles.forEach((card, index) => {
-  const fileNo = pad2(index + 1);
-  card.image = `images/p${fileNo}.jpg`;
-});
-
-
-//-----------------------------------------------------
-// 2) ชื่อตำแหน่งไพ่ 11 ใบ
-//-----------------------------------------------------
-
-const spread11Positions = [
-  "ไพ่ประจำหกเดือน",
-  "การงาน",
-  "การเงิน",
-  "ความรัก",
-  "สุขภาพ",
-  "เดือนที่ 1",
-  "เดือนที่ 2",
-  "เดือนที่ 3",
-  "เดือนที่ 4",
-  "เดือนที่ 5",
-  "เดือนที่ 6"
-];
-
-//-----------------------------------------------------
-// 3) เก็บ element
-//-----------------------------------------------------
-
-const spreadSelect = document.getElementById("spread-size");
-const startBtn = document.getElementById("start-btn");
-const deckArea = document.getElementById("deck-area");
-const resultArea = document.getElementById("result-area");
-const statusEl = document.getElementById("status");
-const slotArea = document.getElementById("slot-area");
-
-let maxSelect = 1;
-let selectedCards = [];
-let currentDeck = [];
-
-// รวมไพ่ + สับ
-function getShuffledDeck() {
-  const fullDeck = [
-    ...majorArcana,
-    ...wands,
-    ...cups,
-    ...swords,
-    ...pentacles
+const TOPICS     = ["💕 ความรัก","💼 การงาน","💰 การเงิน","🌿 สุขภาพ","🌟 ภาพรวมชีวิต","🃏 คำถามทั่วไป"];
+const CUSTOM_KEY = "🃏 คำถามทั่วไป";
+const POS_3      = ["อดีต","ปัจจุบัน","อนาคต"];
+const POS_11     = ["ไพ่ประจำหกเดือน","การงาน","การเงิน","ความรัก","สุขภาพ","เดือนที่ 1","เดือนที่ 2","เดือนที่ 3","เดือนที่ 4","เดือนที่ 5","เดือนที่ 6"];
+
+/* ── Full 78-card deck ── */
+function buildDeck() {
+  const major = [
+    {name:"The Fool",no:"0",suit:"Major"},{name:"The Magician",no:"I",suit:"Major"},
+    {name:"The High Priestess",no:"II",suit:"Major"},{name:"The Empress",no:"III",suit:"Major"},
+    {name:"The Emperor",no:"IV",suit:"Major"},{name:"The Hierophant",no:"V",suit:"Major"},
+    {name:"The Lovers",no:"VI",suit:"Major"},{name:"The Chariot",no:"VII",suit:"Major"},
+    {name:"Strength",no:"VIII",suit:"Major"},{name:"The Hermit",no:"IX",suit:"Major"},
+    {name:"Wheel of Fortune",no:"X",suit:"Major"},{name:"Justice",no:"XI",suit:"Major"},
+    {name:"The Hanged Man",no:"XII",suit:"Major"},{name:"Death",no:"XIII",suit:"Major"},
+    {name:"Temperance",no:"XIV",suit:"Major"},{name:"The Devil",no:"XV",suit:"Major"},
+    {name:"The Tower",no:"XVI",suit:"Major"},{name:"The Star",no:"XVII",suit:"Major"},
+    {name:"The Moon",no:"XVIII",suit:"Major"},{name:"The Sun",no:"XIX",suit:"Major"},
+    {name:"Judgement",no:"XX",suit:"Major"},{name:"The World",no:"XXI",suit:"Major"},
   ];
-  const deck = [...fullDeck];
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-  }
-  return deck;
+  const suits = ["Wands","Cups","Swords","Pentacles"];
+  const pips  = ["Ace","2","3","4","5","6","7","8","9","10","Page","Knight","Queen","King"];
+  const minor = suits.flatMap(s => pips.map(p => ({name:`${p} of ${s}`,no:p,suit:s})));
+  return shuffle([...major,...minor]);
 }
 
-function getSlotTitle(i) {
-  if (maxSelect === 11) {
-    return spread11Positions[i - 1];
-  }
-  return `ใบที่ ${i}`;
-}
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
 
-//-----------------------------------------------------
-// 4) สร้าง layout ช่องผลการทำนาย
-//-----------------------------------------------------
+/* ── Style tokens ── */
+const C = {
+  gold:"#e8c97a", goldDim:"#c9a84c", moon:"#b8c9e8", teal:"#5fb3a8", pink:"#d4748c",
+  muted:"rgba(240,238,234,.55)", dim:"rgba(240,238,234,.35)", border:"rgba(232,201,122,.18)",
+  bg:"#0a0d14", bgCard:"#111827", bgSurf:"#1a2235", bgElev:"#1f2d42",
+};
+const cardBox = { background:"linear-gradient(160deg,#131d2e,#0d1520)", border:`1px solid ${C.border}`, borderRadius:22, padding:"32px 24px 24px", maxWidth:420, width:"100%", textAlign:"center", position:"relative", overflow:"hidden", boxShadow:"0 0 60px rgba(232,201,122,.06),0 24px 80px rgba(0,0,0,.6)" };
+const btnGold = { background:"linear-gradient(135deg,#c9a84c,#a07832)", color:"#0a0d14", border:"none", borderRadius:14, padding:"13px 20px", fontFamily:"'Cinzel',serif", fontSize:15, fontWeight:700, letterSpacing:1, cursor:"pointer", width:"100%" };
+const btnGhost = { background:"rgba(255,255,255,.04)", border:`1px solid ${C.border}`, borderRadius:10, padding:"9px 20px", color:"rgba(240,238,234,.6)", fontFamily:"inherit", fontSize:13, cursor:"pointer" };
 
-function buildResultLayout() {
-  resultArea.innerHTML = "<h2>ไพ่ที่เลือก</h2>";
-
-  const container = document.createElement("div");
-  container.id = "spread-container";
-  resultArea.appendChild(container);
-
-  // ✅ ฟังก์ชันสร้างแถวแบบ Center + Scroll
-  function createRow(start, end) {
-    const row = document.createElement("div");
-    row.className = "spread-row";
-
-    const scrollWrap = document.createElement("div");
-    scrollWrap.className = "spread-scroll";
-
-    for (let i = start; i <= end; i++) {
-      const cardDiv = document.createElement("div");
-      cardDiv.className = "result-card";
-      cardDiv.id = "result-slot-" + i;
-      cardDiv.innerHTML = `
-        <h3>${getSlotTitle(i)}</h3>
-        <p style="opacity:0.7;">ยังไม่ได้เลือกไพ่</p>
-      `;
-      scrollWrap.appendChild(cardDiv);
-    }
-
-    row.appendChild(scrollWrap);
-    container.appendChild(row);
-  }
-
-  // ✅ 1 ใบ
-  if (maxSelect === 1) {
-    createRow(1, 1);
-  }
-
-  // ✅ 3 ใบ / 5 ใบ
-  else if (maxSelect === 3 || maxSelect === 5) {
-    createRow(1, maxSelect);
-  }
-
-  // ✅ 11 ใบ (แบ่ง 3 แถวอัตโนมัติ)
-  else if (maxSelect === 11) {
-    createRow(1, 1);     // ไพ่ประจำหกเดือน
-    createRow(2, 5);     // การงาน / เงิน / ความรัก / สุขภาพ
-    createRow(6, 11);    // เดือนที่ 1–6
-  }
-}
-
-
-//-----------------------------------------------------
-// 5) เริ่มการวางไพ่
-//-----------------------------------------------------
-
-function startSpread() {
-  maxSelect = parseInt(spreadSelect.value, 10);
-  selectedCards = [];
-
-  alert(
-    "ตั้งจิตอธิษฐานตามนี้นะ\n\n" +
-      "“ข้าพเจ้า ชื่อ…นามสกุล…เกิดวันที่… ขออนุญาตสิ่งศักดิ์สิทธิ์ ผู้รักษากายสังขารของข้าพเจ้า " +
-      "ขออนุญาตเทพ เทวดา ครูบาอาจารย์ทั้งหลาย ตลอดจนเจ้ากรรมนายเวร เจ้าเกณฑ์ชะตาในการเปิดดวงชะตาครั้งนี้ " +
-      "รวมถึงข้าพเจ้าขออโหสิกรรมแก่ผู้ทำนาย มิให้ติดบ่วงกรรมต่อกัน”" +
-    "หลังจากนั้น ตั้งคำถามให้แนวแน่ ชัดเจน ก่อนเลือกไพ่น้าาาาาา"
+/* ── TopBar ── */
+function TopBar({ topic }) {
+  return h("div", { style:{ position:"sticky", top:0, zIndex:100, background:"rgba(10,13,20,.92)", backdropFilter:"blur(16px)", borderBottom:`1px solid ${C.border}`, padding:"12px 20px" } },
+    h("div", { style:{ maxWidth:680, margin:"0 auto", display:"flex", alignItems:"center", justifyContent:"space-between" } },
+      h("span", { style:{ fontFamily:"'Cinzel',serif", fontSize:17, color:C.gold, letterSpacing:2 } }, "🌙 PJOracles"),
+      topic && h("span", { style:{ fontSize:12, color:C.pink, background:"rgba(212,116,140,.1)", border:"1px solid rgba(212,116,140,.3)", borderRadius:20, padding:"3px 10px" } }, topic)
+    )
   );
-
-deckArea.innerHTML = `
-  <div style="
-    width:100%;
-    text-align:center;
-    font-size:13px;
-    opacity:0.75;
-    margin-bottom:8px;
-  ">
-    👉 เลื่อนซ้าย–ขวาเพื่อเลือกไพ่
-  </div>
-`;
-
-  // ✅ รีเซ็ตกองไพ่ให้กลับมาแสดงใหม่ทุกครั้ง
-deckArea.style.display = "flex";
-deckArea.style.opacity = "1";
-deckArea.style.transform = "scale(1)";
-resultArea.innerHTML = "";
-
-// ✅ ดัน deckArea ขึ้นไปอยู่เหนือ resultArea เสมอ
-resultArea.parentNode.insertBefore(deckArea, resultArea);
-
-  if (slotArea) slotArea.innerHTML = "";
-  statusEl.textContent = `เลือกไพ่ได้อีก ${maxSelect} ใบ`;
-
-  const oldBtn = document.getElementById("reveal-btn");
-  if (oldBtn) oldBtn.remove();
-
-  buildResultLayout();
-
-  currentDeck = getShuffledDeck();
-
-  currentDeck.forEach((card, i) => {
-  const div = document.createElement("div");
-  div.className = "card";
-  div.dataset.index = i;
-
-  div.innerHTML = `
-    <div class="card-number">${i + 1}</div>
-    <img src="${cardBackUrl}" class="card-img" />
-  `;
-
-  div.addEventListener("click", handleCardClick);
-  deckArea.appendChild(div);
-});
-
-} // ✅ ปิด startSpread()
-
-//-----------------------------------------------------
-// 6) เลือกไพ่
-//-----------------------------------------------------
-
-function handleCardClick(e) {
-  const cardDiv = e.currentTarget;
-  const index = parseInt(cardDiv.dataset.index, 10);
-
-  if (cardDiv.classList.contains("selected")) return;
-  if (selectedCards.length >= maxSelect) return;
-
-  cardDiv.classList.add("selected");
-  cardDiv.style.opacity = "0.5";
-
-  selectedCards.push(currentDeck[index]); // ✅ ใช้ currentDeck
-
-  const slotIndex = selectedCards.length;
-  const slot = document.getElementById("result-slot-" + slotIndex);
-  if (slot) {
-    slot.innerHTML = `
-      <h3>${getSlotTitle(slotIndex)}</h3>
-      <img src="${cardBackUrl}" style="width:120px;border-radius:8px;margin-bottom:8px;" />
-      <p style="opacity:0.7;">เลือกไพ่แล้ว </p>
-    `;
-  }
-
-  const remain = maxSelect - selectedCards.length;
-  if (remain > 0) {
-    statusEl.textContent = `เลือกไพ่ได้อีก ${remain} ใบ`;
-  } else {
-  statusEl.textContent = `เลือกครบแล้ว คลิก "เปิดไพ่ทั้งหมด"`;
-  showRevealButton();
-
-  // ✅ ✅ ✅ ซ่อนกองไพ่เมื่อเลือกครบ
-  deckArea.style.transition = "all 0.4s ease";
-  deckArea.style.opacity = "0";
-  deckArea.style.transform = "scale(0.9)";
-
-  setTimeout(() => {
-    deckArea.style.display = "none";
-  }, 400);
-}
 }
 
-//-----------------------------------------------------
-// 7) ปุ่มเปิดไพ่
-//-----------------------------------------------------
+/* ══ SCREEN 1: INTRO ══ */
+function ScreenIntro({ onNext }) {
+  const [topic, setTopic]   = useState("");
+  const [customQ, setCustomQ] = useState("");
+  const isCustom   = topic === CUSTOM_KEY;
+  const finalTopic = isCustom ? customQ.trim() : topic;
+  const canGo      = topic && (!isCustom || customQ.trim().length > 0);
 
-function showRevealButton() {
-  const btn = document.createElement("button");
-  btn.id = "reveal-btn";
-  btn.textContent = "เปิดไพ่ทั้งหมด";
-  btn.style.marginTop = "20px";
-  btn.onclick = revealAllCards;
-
-  resultArea.appendChild(btn);
+  return h("div", { style:{ position:"relative", zIndex:1, display:"flex", alignItems:"center", justifyContent:"center", minHeight:"100vh", padding:20 } },
+    h("div", { style:cardBox },
+      h("div", { style:{ position:"absolute", top:0, left:"50%", transform:"translateX(-50%)", width:200, height:2, background:"linear-gradient(90deg,transparent,#e8c97a,transparent)" } }),
+      h("div", { style:{ color:C.goldDim, letterSpacing:6, fontSize:13, marginBottom:14, opacity:.7 } }, "✦ ✧ ✦"),
+      h("div", { className:"moon-float", style:{ fontSize:52, marginBottom:10, filter:"drop-shadow(0 0 18px rgba(232,201,122,.5))" } }, "🌙"),
+      h("h2", { style:{ fontFamily:"'Cinzel',serif", fontSize:26, color:C.gold, letterSpacing:3, marginBottom:4 } }, "PJOracles"),
+      h("p",  { style:{ fontSize:13, color:C.muted, marginBottom:20, letterSpacing:1 } }, "หมอดูชุดนอน"),
+      h("p",  { style:{ fontSize:15, lineHeight:1.7, marginBottom:22 } },
+        "วันนี้จักรวาลมีอะไรจะบอกคุณ?", h("br"),
+        h("span", { style:{ color:C.goldDim, fontSize:14 } }, "ตั้งคำถามในใจแล้วเริ่มได้เลย 🔮")
+      ),
+      h("p", { style:{ fontSize:12, color:C.muted, textTransform:"uppercase", letterSpacing:1.5, marginBottom:10 } }, "เลือกหัวข้อที่อยากถาม"),
+      h("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom: isCustom ? 12 : 20 } },
+        ...TOPICS.map(t => h("button", {
+          key:t, onClick:() => { setTopic(t); if(t !== CUSTOM_KEY) setCustomQ(""); },
+          style:{ background: topic===t ? "linear-gradient(135deg,#2a1f08,#1a1408)" : C.bgElev, border: topic===t ? `1px solid ${C.gold}` : `1px solid ${C.border}`, borderRadius:8, color: topic===t ? C.gold : C.muted, padding:"10px 8px", fontFamily:"inherit", fontSize:13, cursor:"pointer", boxShadow: topic===t ? "0 0 12px rgba(232,201,122,.18)" : "none", transition:"all .2s" }
+        }, t))
+      ),
+      isCustom && h("div", { style:{ marginBottom:20, textAlign:"left" } },
+        h("p", { style:{ fontSize:12, color:C.goldDim, marginBottom:6 } }, "✏️ พิมพ์คำถามของคุณ"),
+        h("textarea", {
+          value:customQ,
+          onChange: e => setCustomQ(e.target.value),
+          placeholder:"เช่น ช่วงนี้ควรเปลี่ยนงานไหม? หรือ ความสัมพันธ์นี้จะไปต่อได้ไหม?",
+          maxLength:120, rows:3,
+          style:{ width:"100%", background:"#0d1520", border:`1px solid rgba(232,201,122,.35)`, borderRadius:10, padding:"10px 12px", color:"#f0eeea", fontFamily:"inherit", fontSize:13, lineHeight:1.7, resize:"none" }
+        }),
+        h("p", { style:{ fontSize:11, color:C.dim, textAlign:"right", marginTop:3 } }, `${customQ.length}/120`)
+      ),
+      h("button", {
+        onClick:() => canGo && onNext(finalTopic),
+        style:{ ...btnGold, opacity: canGo ? 1 : .35, cursor: canGo ? "pointer" : "not-allowed", marginBottom:12 }
+      }, "เริ่มดูดวง →"),
+      h("p", { style:{ fontSize:11, color:C.dim, lineHeight:1.5 } }, "* ไพ่ทาโรต์เพื่อการพัฒนาตัวเอง ไม่ใช่การพยากรณ์แทนวิจารณญาณ")
+    )
+  );
 }
 
-//-----------------------------------------------------
-// 8) เปิดไพ่ทั้งหมด
-//-----------------------------------------------------
-
-function revealAllCards() {
-  for (let i = 1; i <= selectedCards.length; i++) {
-    const card = selectedCards[i - 1];
-    const slot = document.getElementById("result-slot-" + i);
-    if (!slot) continue;
-
-    const mainStarLine = card.decan_ruler
-      ? `<p><strong>ดาวประจำไพ่ (หลัก):</strong> ${card.decan_ruler_symbol || ""} ${card.decan_ruler}</p>`
-      : "";
-
-    const hiddenStarLine = card.hidden_ruler
-      ? `<p><strong>ดาวซ่อน (รอง):</strong> ${card.hidden_ruler_symbol || ""} ${card.hidden_ruler}</p>`
-      : "";
-
-    const keywordList = card.keywords
-      ? `<ul>${card.keywords.map(k => `<li>${k}</li>`).join("")}</ul>`
-      : "";
-
-    slot.innerHTML = `
-      <h3>${getSlotTitle(i)}</h3>
-
-      <img 
-        src="${card.image}" 
-        style="width:150px;border-radius:10px;margin-bottom:8px;cursor:pointer;" 
-        data-index="${i - 1}"
-        class="revealed-card"
-      />
-
-      <p style="font-weight:bold;margin-bottom:6px;">${card.name}</p>
-
-      <div class="astro-info" style="font-size:13px;line-height:1.4;">
-        ${mainStarLine}
-        ${hiddenStarLine}
-      </div>
-
-      <p style="opacity:0.6;font-size:12px;margin-top:6px;">
-        👉 คลิกที่ไพ่เพื่อดูความหมาย
-      </p>
-
-      <div class="card-detail" id="detail-${i}" style="display:none;">
-        <p><strong>ความหมาย:</strong><br>${card.meaning_from_chart || "—"}</p>
-        <p><strong>Keywords:</strong></p>
-        ${keywordList}
-      </div>
-    `;
-  }
-
-  enableCardDetailToggle();
-}
-function enableCardDetailToggle() {
-  const cards = document.querySelectorAll(".revealed-card");
-
-  cards.forEach(img => {
-    img.addEventListener("click", () => {
-      const index = parseInt(img.dataset.index, 10) + 1;
-      const detailBox = document.getElementById("detail-" + index);
-
-      if (!detailBox) return;
-
-      const isOpen = detailBox.style.display === "block";
-      detailBox.style.display = isOpen ? "none" : "block";
-    });
-  });
+/* ══ SCREEN 2: PRAYER ══ */
+function ScreenPrayer({ onNext }) {
+  return h("div", { style:{ position:"relative", zIndex:1, display:"flex", alignItems:"center", justifyContent:"center", minHeight:"100vh", padding:20 } },
+    h("div", { style:{ ...cardBox, maxWidth:420 } },
+      h("div", { style:{ position:"absolute", top:0, left:"50%", transform:"translateX(-50%)", width:200, height:2, background:"linear-gradient(90deg,transparent,#e8c97a,transparent)" } }),
+      h("div", { style:{ fontSize:48, marginBottom:14 } }, "🙏"),
+      h("h3", { style:{ fontFamily:"'Cinzel',serif", color:C.gold, fontSize:16, letterSpacing:2, marginBottom:14 } }, "ตั้งจิตอธิษฐาน"),
+      h("p",  { style:{ fontSize:13, lineHeight:1.9, color:"rgba(240,238,234,.8)", background:"rgba(255,255,255,.03)", border:`1px solid ${C.border}`, borderRadius:12, padding:"14px 16px", marginBottom:16, textAlign:"left" } },
+        '"ข้าพเจ้า ชื่อ…นามสกุล…เกิดวันที่… ขออนุญาตสิ่งศักดิ์สิทธิ์ ผู้รักษากายสังขารของข้าพเจ้า ขออนุญาตเทพ เทวดา ครูบาอาจารย์ทั้งหลาย ตลอดจนเจ้ากรรมนายเวร เจ้าเกณฑ์ชะตา ในการเปิดดวงชะตาครั้งนี้"'
+      ),
+      h("p", { style:{ fontSize:13, color:"rgba(232,201,122,.7)", marginBottom:22 } }, "หลังจากนั้น ตั้งคำถามให้แน่วแน่ ชัดเจน ก่อนเลือกไพ่น้า 🌙"),
+      h("button", { onClick:onNext, style:btnGold }, "พร้อมแล้ว เลือกไพ่ →")
+    )
+  );
 }
 
+/* ══ FAN SPREAD ══ */
+function FanSpread({ deck, picked, size, onPick, onReveal }) {
+  const [hovered, setHovered] = useState(null);
+  const total  = deck.length;
+  const done   = picked.length >= size;
+  const FAN    = 160, R = 260, CW = 44, CH = 70;
 
-//-----------------------------------------------------
-// 9) Event start
-//-----------------------------------------------------
+  return h("div", { style:{ width:"100%", display:"flex", flexDirection:"column", alignItems:"center" } },
 
-startBtn.addEventListener("click", startSpread);
+    /* status row */
+    h("div", { style:{ display:"flex", alignItems:"center", gap:12, margin:"18px 0 6px" } },
+      h("div", { style:{ display:"flex", gap:5 } },
+        ...Array.from({length:size}).map((_,i) =>
+          h("div", { key:i, style:{ width:28, height:40, borderRadius:5, border: i<picked.length ? `1.5px solid ${C.gold}` : "1.5px dashed rgba(232,201,122,.25)", background: i<picked.length ? "rgba(232,201,122,.1)" : "transparent", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, transition:"all .3s" } },
+            i < picked.length ? "🃏" : h("span", { style:{ opacity:.2, fontSize:11 } }, "✦")
+          )
+        )
+      ),
+      h("p", { style:{ fontSize:13, color: done ? C.gold : C.goldDim, margin:0, fontWeight:600 } },
+        done ? "เลือกครบแล้ว! 🎉" : `เหลืออีก ${size - picked.length} ใบ`
+      )
+    ),
+
+    !done && h("p", { style:{ fontSize:11, color:C.dim, marginBottom:4 } }, "แตะที่ไพ่เพื่อเลือก"),
+
+    /* fan area */
+    h("div", { style:{ position:"relative", width:"100%", height: R + CH + 20, overflow:"visible" } },
+      ...deck.map((card, i) => {
+        const isPicked  = picked.includes(i);
+        const pickOrder = picked.indexOf(i);
+        const isHov     = hovered === i && !isPicked && !done;
+        const deg       = -FAN/2 + (i/(total-1))*FAN;
+        const rad       = (deg-90)*Math.PI/180;
+        const cx        = Math.cos(rad)*R;
+        const cy        = Math.sin(rad)*R;
+        const liftY     = isPicked ? -24 : isHov ? -16 : 0;
+        const scale     = isPicked ? 1.08 : isHov ? 1.1 : 1;
+        const opacity   = isPicked ? 0.3 : done ? 0.5 : 1;
+
+        return h("div", {
+          key:i,
+          onClick:   () => !isPicked && !done && onPick(i),
+          onMouseEnter: () => setHovered(i),
+          onMouseLeave: () => setHovered(null),
+          style:{
+            position:"absolute",
+            width:CW, height:CH,
+            left:`calc(50% + ${cx}px - ${CW/2}px)`,
+            top:`${R + CH/2 + cy - CH/2}px`,
+            transform:`rotate(${deg}deg) translateY(${liftY}px) scale(${scale})`,
+            transformOrigin:"bottom center",
+            transition:"transform .2s ease, opacity .2s",
+            cursor: isPicked||done ? "default" : "pointer",
+            opacity, borderRadius:6,
+            background: isPicked ? "rgba(232,201,122,.06)" : "linear-gradient(170deg,#1e3050,#0d1520)",
+            border: isPicked ? `1.5px solid rgba(232,201,122,.4)` : isHov ? `1.5px solid ${C.gold}` : "1.5px solid rgba(232,201,122,.22)",
+            boxShadow: isHov ? "0 0 14px rgba(232,201,122,.35),0 6px 20px rgba(0,0,0,.6)" : "0 2px 8px rgba(0,0,0,.5)",
+            display:"flex", alignItems:"center", justifyContent:"center",
+            zIndex: isHov ? 50 : i, overflow:"hidden",
+          }
+        },
+          !isPicked && h("div", { style:{ position:"absolute", inset:0, background:"repeating-linear-gradient(45deg,rgba(232,201,122,.04) 0px,rgba(232,201,122,.04) 1px,transparent 1px,transparent 6px)" } }),
+          h("span", { style:{ fontSize:16, opacity: isPicked ? .06 : .22, pointerEvents:"none" } }, "🌙"),
+          isPicked && pickOrder >= 0 && h("div", { style:{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" } },
+            h("span", { style:{ background:C.gold, color:"#0a0d14", borderRadius:"50%", width:22, height:22, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:800 } }, pickOrder+1)
+          )
+        );
+      })
+    ),
+
+    done && h("div", { style:{ textAlign:"center", marginTop:16, marginBottom:8 } },
+      h("button", { onClick:onReveal, style:{ ...btnGold, width:"auto", padding:"12px 44px", fontSize:14 } }, "🔮 เปิดไพ่ทั้งหมด")
+    )
+  );
+}
+
+/* ══ SCREEN 3: PICK ══ */
+function ScreenPick({ topic, onReveal }) {
+  const [size, setSize]       = useState(3);
+  const [deck]                = useState(() => buildDeck());
+  const [picked, setPicked]   = useState([]);
+  const [started, setStarted] = useState(false);
+
+  const startDeal = () => { setPicked([]); setStarted(true); };
+  const pickCard  = (idx) => { if(picked.includes(idx) || picked.length >= size) return; setPicked(p => [...p, idx]); };
+
+  const spreadBtn = (n) => h("button", {
+    key:n, onClick:() => { setSize(n); setPicked([]); setStarted(false); },
+    style:{ background: size===n ? "linear-gradient(135deg,#2a1f08,#1a1408)" : C.bgSurf, border: size===n ? `1px solid ${C.gold}` : `1px solid ${C.border}`, borderRadius:8, color: size===n ? C.gold : C.muted, padding:"8px 22px", fontFamily:"inherit", fontSize:14, cursor:"pointer", transition:"all .2s" }
+  }, `${n} ใบ`);
+
+  return h("div", { style:{ position:"relative", zIndex:1 } },
+    h(TopBar, { topic }),
+    h("div", { style:{ maxWidth:480, margin:"16px auto 0", padding:"0 16px", textAlign:"center" } },
+      h("p", { style:{ fontSize:12, color:C.muted, textTransform:"uppercase", letterSpacing:1.5, marginBottom:10 } }, "เลือกจำนวนไพ่"),
+      h("div", { style:{ display:"flex", gap:8, justifyContent:"center", flexWrap:"wrap", marginBottom:12 } }, ...[1,3,5].map(spreadBtn)),
+      h("button", { onClick:startDeal, style:{ ...btnGold, width:"auto", padding:"11px 36px", fontSize:14 } }, "✨ เริ่มวางไพ่"),
+      started && h(FanSpread, { deck, picked, size, onPick:pickCard, onReveal:() => onReveal(deck, picked, size) })
+    )
+  );
+}
+
+/* ══ SCREEN 4: REVEAL + AI ══ */
+function ScreenReveal({ topic, deck, picked, size, onRestart }) {
+  const [open, setOpen]         = useState({});
+  const [aiText, setAiText]     = useState(null);
+  const [aiLoading, setAiLoad]  = useState(true);
+  const aiRef = useRef(null);
+
+  const enrich = (card) => {
+    const f = CARDS.find(c => c.name.toLowerCase() === card.name.toLowerCase());
+    return f || { ...card, emoji:"🃏", element:card.suit, planet:"—", meaning:`ไพ่ ${card.name} — ${card.suit}`, keywords:[card.suit] };
+  };
+  const cards  = picked.map(i => enrich(deck[i]));
+  const getPos = (i) => size===3 ? POS_3[i] : size===1 ? "ไพ่ประจำวัน" : size===11 ? POS_11[i] : `ใบที่ ${i+1}`;
+
+  useEffect(() => {
+    if(aiRef.current) aiRef.current.scrollIntoView({ behavior:"smooth", block:"nearest" });
+    loadAI();
+  }, []);
+
+  const loadAI = async () => {
+    const cardList = cards.map((c,i) => `- ตำแหน่ง "${getPos(i)}": ${c.name} (${c.element}) — ${c.meaning}`).join("\n");
+    const prompt = `คุณคือ PJOracles หมอดูชุดนอน โทนเป็นกันเองแต่น่าเชื่อถือ พูดเหมือนเพื่อนที่รู้ดวง ใช้ภาษาไทยทั้งหมด\n\nคนนี้มาถามเรื่อง "${topic}" โดยเฉพาะ ขอให้ทุกส่วนเน้นตอบในมุมของ ${topic}\n\nไพ่ที่เปิดได้:\n${cardList}\n\nสรุปภาพรวมเป็น 3 ส่วน ขึ้นต้นด้วย emoji + ชื่อหัวข้อ แล้วขึ้นบรรทัดใหม่เขียนเนื้อหา:\n\n✨ ภาพรวมพลังงาน\n(2-3 ประโยค)\n\n⚠️ สิ่งที่ควรระวัง\n(1-2 ประโยค)\n\n🌙 ข้อความจากจักรวาล\n(1-2 ประโยค ให้กำลังใจ)\n\nห้ามใช้ ** markdown ห้ามใช้ #`;
+    try {
+      const res  = await fetch("https://api.anthropic.com/v1/messages", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:800, messages:[{role:"user",content:prompt}] }) });
+      const data = await res.json();
+      setAiText((data.content||[]).map(b=>b.text||"").join("") || null);
+    } catch { setAiText(null); }
+    setAiLoad(false);
+  };
+
+  const parseAI = (text) => text.split(/\n(?=[✨⚠️🌙])/).map(b => { const lines=b.trim().split("\n"); return { title:lines[0], body:lines.slice(1).join("\n").trim() }; }).filter(b=>b.body);
+  const blockColor = (t) => t?.includes("⚠️") ? "#e8a45a" : t?.includes("🌙") ? C.moon : C.teal;
+
+  return h("div", { style:{ position:"relative", zIndex:1 } },
+    h(TopBar, { topic }),
+
+    /* cards row */
+    h("p", { style:{ fontFamily:"'Cinzel',serif", color:C.gold, fontSize:15, letterSpacing:2, textAlign:"center", margin:"20px 0 14px", textTransform:"uppercase" } }, "ไพ่ที่เปิดได้"),
+    h("div", { style:{ display:"flex", gap:12, overflowX:"auto", padding:"10px 16px 16px", WebkitOverflowScrolling:"touch" } },
+      ...cards.map((card, i) =>
+        h("div", { key:i, style:{ background:"linear-gradient(160deg,#1a2235,#111827)", border:`1px solid ${C.border}`, borderRadius:14, padding:"14px 12px", width:155, flexShrink:0, textAlign:"center" } },
+          h("p",  { style:{ fontSize:11, color:C.goldDim, letterSpacing:1, textTransform:"uppercase", marginBottom:8 } }, getPos(i)),
+          h("div", {
+            onClick:() => setOpen(o => ({...o,[i]:!o[i]})),
+            style:{ width:110, height:150, margin:"0 auto 10px", borderRadius:10, border: open[i] ? `2px solid ${C.gold}` : "2px solid rgba(232,201,122,.4)", background:"linear-gradient(160deg,#1e3050,#0d1a2e)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", cursor:"pointer", boxShadow: open[i] ? "0 0 16px rgba(232,201,122,.18)" : "0 4px 14px rgba(0,0,0,.4)", transition:"all .2s" }
+          },
+            h("span", { style:{ fontSize:32 } }, card.emoji),
+            h("span", { style:{ fontFamily:"'Cinzel',serif", fontSize:10, color:C.goldDim, letterSpacing:.5, textAlign:"center", padding:"4px 4px 0" } }, card.name)
+          ),
+          h("p", { style:{ fontSize:11, color:C.moon, marginBottom:4 } }, `${card.planet} · ${card.element}`),
+          h("p", { style:{ fontSize:10, color:C.dim } }, "👉 แตะที่ไพ่"),
+          open[i] && h("div", { style:{ marginTop:8, padding:"10px", background:"rgba(10,13,20,.8)", borderRadius:8, border:"1px solid rgba(232,201,122,.1)", fontSize:12, lineHeight:1.75, textAlign:"left" } },
+            h("p", { style:{ color:C.goldDim, fontSize:11, marginBottom:4 } }, "ความหมาย:"),
+            h("p", { style:{ color:"#f0eeea", marginBottom:6 } }, card.meaning),
+            h("p", { style:{ color:C.goldDim, fontSize:11, marginBottom:3 } }, "Keywords:"),
+            h("p", { style:{ color:C.moon, fontSize:11 } }, card.keywords.map(k=>"• "+k).join("  "))
+          )
+        )
+      )
+    ),
+
+    /* AI Summary */
+    h("div", { ref:aiRef, style:{ maxWidth:640, margin:"20px auto", padding:"0 16px" } },
+      h("div", { style:{ background:"linear-gradient(160deg,#131d30,#0d1520)", border:"1px solid rgba(95,179,168,.3)", borderRadius:22, padding:"24px 20px", position:"relative", overflow:"hidden" } },
+        h("div", { style:{ position:"absolute", top:0, left:"50%", transform:"translateX(-50%)", width:160, height:"1.5px", background:"linear-gradient(90deg,transparent,#5fb3a8,transparent)" } }),
+        h("div", { style:{ display:"flex", alignItems:"center", gap:10, marginBottom:8 } },
+          h("span", { style:{ fontSize:22 } }, "🔮"),
+          h("h3",  { style:{ fontFamily:"'Cinzel',serif", fontSize:14, color:C.teal, letterSpacing:1.5 } }, "สรุปภาพรวมจากไพ่ทั้งหมด")
+        ),
+        h("div", { style:{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(212,116,140,.12)", border:"1px solid rgba(212,116,140,.3)", borderRadius:20, padding:"4px 12px", marginBottom:16 } },
+          h("span", { style:{ fontSize:12 } }, "หัวข้อ:"),
+          h("span", { style:{ fontSize:13, color:C.pink, fontWeight:600 } }, topic)
+        ),
+        aiLoading
+          ? h("div", { style:{ display:"flex", flexDirection:"column", alignItems:"center", gap:12, padding:24, color:C.muted } },
+              h("div", { style:{ width:28, height:28, border:"2px solid rgba(95,179,168,.2)", borderTopColor:C.teal, borderRadius:"50%", animation:"spin .8s linear infinite" } }),
+              h("p", null, "กำลังอ่านพลังงานของไพ่...")
+            )
+          : aiText
+            ? parseAI(aiText).map((block,i) =>
+                h("div", { key:i, style:{ marginBottom:12, padding:"12px 14px", background:"rgba(255,255,255,.03)", borderRadius:8, borderLeft:`2px solid ${blockColor(block.title)}` } },
+                  h("p", { style:{ fontSize:11, color:blockColor(block.title), textTransform:"uppercase", letterSpacing:1.5, marginBottom:6 } }, block.title),
+                  h("p", { style:{ fontSize:13, lineHeight:1.85, color:"#f0eeea" } }, block.body)
+                )
+              )
+            : h("div", { style:{ padding:"12px 14px", background:"rgba(255,255,255,.03)", borderRadius:8, borderLeft:`2px solid ${C.teal}` } },
+                h("p", { style:{ fontSize:13, color:C.muted } }, "ไม่สามารถโหลด AI Reading ได้ในขณะนี้ ลองดูความหมายของแต่ละใบด้านบนได้เลยน้า 🌙")
+              ),
+        h("p", { style:{ marginTop:14, fontSize:11, color:C.dim, textAlign:"center" } }, "✦ วิเคราะห์โดย หมอดูชุดนอน AI — ใช้เป็นแนวทางสำหรับการตีความเพิ่มเติม")
+      )
+    ),
+
+    /* restart */
+    h("div", { style:{ textAlign:"center", margin:"8px 0 32px" } },
+      h("button", { onClick:onRestart, style:btnGhost }, "🔄 เริ่มใหม่อีกครั้ง")
+    ),
+
+    /* CTA footer */
+    h("div", { style:{ marginTop:8, padding:"28px 20px 40px", background:"linear-gradient(180deg,transparent,rgba(232,201,122,.04))", borderTop:`1px solid ${C.border}`, textAlign:"center" } },
+      h("p", { style:{ fontSize:14, color:C.muted, marginBottom:6 } }, "อยากดูดวงลึกขึ้น?"),
+      h("p", { style:{ fontSize:14, color:"#f0eeea", marginBottom:16 } }, "มาคุยกับหมอดูชุดนอนได้ที่"),
+      h("div", { style:{ display:"flex", justifyContent:"center", gap:8, marginBottom:14, flexWrap:"wrap" } },
+        h("a", { href:"https://www.tiktok.com/@pjoracles", target:"_blank", rel:"noreferrer", style:{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 18px", borderRadius:12, fontSize:13, fontWeight:600, textDecoration:"none", background:"rgba(255,255,255,.07)", color:"#f0eeea", border:"1px solid rgba(255,255,255,.15)" } }, "▶ TikTok"),
+        h("a", { href:"https://www.facebook.com/pjoracles", target:"_blank", rel:"noreferrer", style:{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 18px", borderRadius:12, fontSize:13, fontWeight:600, textDecoration:"none", background:"rgba(24,119,242,.15)", color:"#6aaeff", border:"1px solid rgba(24,119,242,.3)" } }, "f Facebook"),
+        h("a", { href:"https://line.me/R/ti/p/@pjoracles", target:"_blank", rel:"noreferrer", style:{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 18px", borderRadius:12, fontSize:13, fontWeight:600, textDecoration:"none", background:"rgba(0,185,0,.12)", color:"#4cd964", border:"1px solid rgba(0,185,0,.3)" } }, "LINE @pjoracles")
+      ),
+      h("p", { style:{ fontFamily:"'Cinzel',serif", fontSize:13, color:C.goldDim, letterSpacing:2, opacity:.7 } }, "🌙 PJOracles — หมอดูชุดนอน")
+    ),
+
+    h("style", null, "@keyframes spin{to{transform:rotate(360deg);}}")
+  );
+}
+
+/* ══ ROOT APP ══ */
+function App() {
+  const [step, setStep]           = useState("intro");
+  const [topic, setTopic]         = useState("");
+  const [revealData, setReveal]   = useState(null);
+
+  return h("div", { style:{ fontFamily:"'Sarabun','Prompt',sans-serif", background:"#0a0d14", color:"#f0eeea", minHeight:"100vh", overflowX:"hidden" } },
+    step === "intro"  && h(ScreenIntro,  { onNext: t  => { setTopic(t); setStep("prayer"); } }),
+    step === "prayer" && h(ScreenPrayer, { onNext: () => setStep("pick") }),
+    step === "pick"   && h(ScreenPick,   { topic, onReveal: (d,p,s) => { setReveal({deck:d,picked:p,size:s}); setStep("reveal"); } }),
+    step === "reveal" && revealData && h(ScreenReveal, { topic, ...revealData, onRestart: () => { setStep("intro"); setReveal(null); } })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
