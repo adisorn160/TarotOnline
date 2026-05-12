@@ -1,50 +1,19 @@
 <!DOCTYPE html>
 <html lang="th">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>สุ่มไพ่ทาโรต์</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css" />
-
-    <!-- ฟอนต์ -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-
-  <body>
-<h1>🃏 สุ่มไพ่ทาโรต์</h1>
-
-<!-- ส่วนเลือกจำนวนไพ่ -->
-<div class="controls">
-  <label for="spread-size">เลือกจำนวนไพ่ :</label>
-  <select id="spread-size">
-    <option value="1">1 ใบ</option>
-    <option value="3">3 ใบ</option>
-    <option value="5">5 ใบ</option>
-    <option value="11">11 ใบ</option>
-  </select>
-
-  <button id="start-btn">เริ่มวางไพ่</button>
-</div>
-
-<!-- ข้อความสถานะ -->
-<p id="status"></p>
-
-<!-- พื้นที่แสดงผลลัพธ์ (ใช้ช่องนี้แทน slot-area) -->
-<div id="result-area"></div>
-
-<!-- พื้นที่แสดงไพ่ด้านหลังที่ให้เลือก -->
-<div id="deck-area"></div>
-
-<!-- พื้นที่วางไพ่ (ถ้าต้องการใช้ slot-area แยก) -->
-<div id="slot-area"></div>
-
-<!-- โหลด JS -->
-<script src="script.js"></script>
-
-  </body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔮 PJOracles — สุ่มไพ่ทาโรต์</title>
+  <meta name="description" content="ดูดวงไพ่ทาโรต์ออนไลน์ โดย PJOracles หมอดูชุดนอน"/>
+  <meta property="og:title" content="PJOracles — สุ่มไพ่ทาโรต์"/>
+  <meta property="og:description" content="วันนี้จักรวาลมีอะไรจะบอกคุณ? ดูดวงไพ่ทาโรต์กับหมอดูชุดนอน"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="app.js"></script>
+</body>
 </html>
