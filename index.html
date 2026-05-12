@@ -29,82 +29,143 @@
   </style>
 </head>
 <body>
-<div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#c9a84c;font-size:14px">กำลังโหลด...</div></div>
+<div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#c9a84c;font-size:14px">🌙 กำลังโหลด...</div></div>
 
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel" data-presets="react">
-
 const { useState, useEffect, useRef } = React;
 
+/* ═══════════════════════════════════════════
+   IMAGE BASE URL — GitHub raw images
+═══════════════════════════════════════════ */
+const IMG = "https://raw.githubusercontent.com/adisorn160/TarotOnline/main/images/";
+const pad2 = n => n.toString().padStart(2,"0");
+
+/* ═══════════════════════════════════════════
+   78 CARD DATA (from script.js)
+═══════════════════════════════════════════ */
+const ALL_CARDS = [
+  // ── MAJOR ARCANA (index 0–21 → images/01.jpg–22.jpg) ──
+  {name:"The Fool",        image:IMG+"01.jpg", element:"Air",   decan:"Uranus (ดาวยูเรนัส)",    decan_s:"♅", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"พลังแห่งการเริ่มต้นครั้งใหม่แบบไร้ข้อจำกัด กระโดดออกจาก comfort zone ด้วยความศรัทธาและความไว้ใจในจักรวาล",keywords:["การเริ่มต้นใหม่","อิสระ","ความกล้า","การเดินทาง","ศรัทธาในเส้นทางของตัวเอง"]},
+  {name:"The Magician",    image:IMG+"02.jpg", element:"Air",   decan:"Mercury (ดาวพุธ)",        decan_s:"☿", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"จุดเริ่มต้นของการสร้างความเป็นจริงด้วยพลังของจิต ความคิด คำพูด และการลงมือทำ",keywords:["การสื่อสาร","เสน่ห์และคาริสมา","การลงมือทำ","ความสามารถ","การสร้างความเป็นจริง"]},
+  {name:"The High Priestess",image:IMG+"03.jpg",element:"Water",decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"ประตูสู่โลกของจิตวิญญาณและความลับภายใน เตือนให้เชื่อเสียงกระซิบจากข้างในมากกว่าความวุ่นวายภายนอก",keywords:["ญาณ","สัญชาตญาณ","ความลับ","การทำงานทางจิต","Inner Knowledge"]},
+  {name:"The Empress",     image:IMG+"04.jpg", element:"Earth", decan:"Venus (ดาวศุกร์)",        decan_s:"♀", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"พลังแห่งความอุดมสมบูรณ์ การให้กำเนิด และความรักที่โอบกอดทุกสิ่ง",keywords:["ความอุดมสมบูรณ์","ความเป็นแม่","ความรัก","ความสวยงาม","ความคิดสร้างสรรค์"]},
+  {name:"The Emperor",     image:IMG+"05.jpg", element:"Fire",  decan:"Mars (ดาวอังคาร)",        decan_s:"♂", hidden:"",                     hidden_s:"",  zodiac:"Aries (ราศีเมษ) ♈",    meaning:"พลังของผู้นำที่สร้างโครงสร้าง กฎเกณฑ์ และขอบเขตที่มั่นคง ไม่ใช่การควบคุมคนอื่น แต่คือการจัดระบบชีวิตของตัวเองให้แข็งแรง",keywords:["ผู้นำ","อำนาจ","โครงสร้าง","ความมั่นคง","การตัดสินใจเด็ดขาด"]},
+  {name:"The Hierophant",  image:IMG+"06.jpg", element:"Earth", decan:"Venus (ดาวศุกร์)",        decan_s:"♀", hidden:"",                     hidden_s:"",  zodiac:"Taurus (ราศีพฤษภ) ♉",  meaning:"ครูทางจิตวิญญาณ ผู้ถ่ายทอดความรู้จากประเพณี ความเชื่อ และระบบคุณค่า",keywords:["ครู/เมนเทอร์","ศาสนาและพิธีกรรม","ประเพณี","ระบบความเชื่อ","คำแนะนำจากผู้รู้"]},
+  {name:"The Lovers",      image:IMG+"07.jpg", element:"Air",   decan:"Mercury (ดาวพุธ)",        decan_s:"☿", hidden:"",                     hidden_s:"",  zodiac:"Gemini (ราศีเมถุน) ♊",  meaning:"การเลือกด้วยหัวใจระหว่างเส้นทางต่าง ๆ ไม่ใช่แค่เรื่องความรัก แต่คือการซื่อสัตย์ต่อความต้องการแท้จริงของตัวเอง",keywords:["ความรัก","คู่สัมพันธ์","การเลือก","ความสอดคล้องของหัวใจกับเหตุผล"]},
+  {name:"The Chariot",     image:IMG+"08.jpg", element:"Water", decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"",                     hidden_s:"",  zodiac:"Cancer (ราศีกรกฎ) ♋",  meaning:"ชัยชนะที่แท้จริงมาจากการควบคุมอารมณ์และทิศทางของหัวใจ ความมุ่งมั่น + วินัย = การก้าวไปข้างหน้า",keywords:["การเคลื่อนที่","ชัยชนะ","ความมุ่งมั่น","การควบคุมอารมณ์","การตัดสินใจเดินหน้า"]},
+  {name:"Strength",        image:IMG+"09.jpg", element:"Fire",  decan:"Sun (ดวงอาทิตย์)",        decan_s:"☉", hidden:"",                     hidden_s:"",  zodiac:"Leo (ราศีสิงห์) ♌",    meaning:"พลังของความกล้าหาญอ่อนโยน ความเข้มแข็งแท้จริงคือการยืนหยัดอยู่กับความกลัวแล้วไม่หนีไปจากมัน",keywords:["ความอดทน","พลังใจ","การควบคุมตัวเอง","ความกล้าหาญ","ความอ่อนโยนที่มั่นคง"]},
+  {name:"The Hermit",      image:IMG+"10.jpg", element:"Earth", decan:"Mercury (ดาวพุธ)",        decan_s:"☿", hidden:"",                     hidden_s:"",  zodiac:"Virgo (ราศีกันย์) ♍",  meaning:"การถอยออกมาจากความวุ่นวายเพื่อค้นหาความจริงภายใน แสงโคมในมือคือปัญญาที่ส่องให้เห็นเส้นทางของตัวเอง",keywords:["การปลีกวิเวก","การใคร่ครวญ","งานจิตวิญญาณ","ค้นหาความหมายชีวิต","ปัญญาภายใน"]},
+  {name:"Wheel of Fortune",image:IMG+"11.jpg", element:"Fire",  decan:"Jupiter (ดาวพฤหัสบดี)",   decan_s:"♃", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"จุดเปลี่ยนของโชคชะตา วงล้อหมุนพาเราออกจากรอบเดิม ๆ สู่โอกาสใหม่ เตือนให้ยอมรับการเปลี่ยนแปลงด้วยหัวใจเปิดกว้าง",keywords:["โชคชะตา","การเปลี่ยนรอบชีวิต","โอกาสใหม่","วัฏจักร","การขยับขยาย"]},
+  {name:"Justice",         image:IMG+"12.jpg", element:"Air",   decan:"Venus (ดาวศุกร์)",        decan_s:"♀", hidden:"",                     hidden_s:"",  zodiac:"Libra (ราศีตุลย์) ♎",  meaning:"กฎแห่งสมดุลและผลลัพธ์ของการกระทำ เตือนให้รับผิดชอบต่อสิ่งที่ตัวเองทำ และตัดสินเรื่องต่าง ๆ ด้วยใจที่เที่ยงธรรม",keywords:["ความยุติธรรม","กรรม","ความจริง","การตัดสิน","ความสมดุล"]},
+  {name:"The Hanged Man",  image:IMG+"13.jpg", element:"Water", decan:"Neptune (ดาวเนปจูน)",     decan_s:"♆", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"ช่วงเวลาที่ต้องหยุดนิ่ง ยอมรับการเสียสละ หรือการรอคอยที่มีความหมาย เพื่อให้เห็นมุมมองใหม่ของชีวิต",keywords:["การเสียสละ","การหยุดพัก","มุมมองใหม่","การยอมปล่อยวาง","การมองจากมุมกลับ"]},
+  {name:"Death",           image:IMG+"14.jpg", element:"Water", decan:"Pluto (ดาวพลูโต)",        decan_s:"♇", hidden:"Mars (ดาวอังคาร)",     hidden_s:"♂", zodiac:"Scorpio (ราศีพิจิก) ♏",meaning:"การปิดฉากเพื่อเริ่มรอบใหม่ พลังของการยอมให้สิ่งที่ตายแล้วจากไป เพื่อเปิดพื้นที่ให้ตัวตนใหม่เกิดขึ้น",keywords:["การจบ","การเกิดใหม่","การเปลี่ยนแปลงลึก","การปล่อยสิ่งเก่า","การเปลี่ยนผ่าน"]},
+  {name:"Temperance",      image:IMG+"15.jpg", element:"Fire",  decan:"Jupiter (ดาวพฤหัสบดี)",   decan_s:"♃", hidden:"",                     hidden_s:"",  zodiac:"Sagittarius (ราศีธนู) ♐",meaning:"ศิลปะแห่งการผสมสิ่งตรงข้ามให้เกิดสมดุลใหม่ เตือนให้ค่อย ๆ ปรับสมดุลของจิตใจ พฤติกรรม และพลังงานชีวิต",keywords:["สมดุล","การเยียวยา","การผสมผสาน","ความพอดี","การเติบโตอย่างค่อยเป็นค่อยไป"]},
+  {name:"The Devil",       image:IMG+"16.jpg", element:"Earth", decan:"Saturn (ดาวเสาร์)",        decan_s:"♄", hidden:"",                     hidden_s:"",  zodiac:"Capricorn (ราศีมังกร) ♑",meaning:"เงาของความกลัว ความยึดติด และพันธนาการที่เราสร้างให้ตัวเอง เตือนให้รู้จักปีศาจในใจแล้วเลือกถอดโซ่ออก",keywords:["พันธนาการ","การเสพติด","แรงปรารถนา","อำนาจมืด","การเผชิญเงา"]},
+  {name:"The Tower",       image:IMG+"17.jpg", element:"Fire",  decan:"Mars (ดาวอังคาร)",        decan_s:"♂", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"เหตุการณ์สายฟ้าฟาดที่พังโครงสร้างเก่าอย่างกะทันหัน เพื่อเปิดทางให้ความจริงปรากฏ แม้จะสั่นสะเทือนแต่จำเป็น",keywords:["การเปลี่ยนแปลงฉับพลัน","การพังทลาย","เหตุการณ์ช็อก","การตื่นรู้แบบแรง"]},
+  {name:"The Star",        image:IMG+"18.jpg", element:"Air",   decan:"Uranus (ดาวยูเรนัส)",    decan_s:"♅", hidden:"",                     hidden_s:"",  zodiac:"Aquarius (ราศีกุมภ์) ♒",meaning:"แสงแห่งความหวังและการกลับคืนสู่ความเป็นตัวเองแท้ ๆ หลังผ่านพายุใหญ่มาแล้ว จักรวาลยังส่องแสงอยู่เสมอ",keywords:["ความหวัง","แรงบันดาลใจ","การเยียวยา","ความเป็นตัวเอง","ความสงบ"]},
+  {name:"The Moon",        image:IMG+"19.jpg", element:"Water", decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"",                     hidden_s:"",  zodiac:"Pisces (ราศีมีน) ♓",   meaning:"ความลึกของจิตใต้สำนึก ความฝัน ภาพหลอน และความกลัวที่ยังไม่ถูกรับรู้ ถ้าเข้าใจได้จะเกิดพลังใหม่มหาศาล",keywords:["จิตใต้สำนึก","ความฝัน","ความกลัว","ภาพลวง","งานเงา / Shadow Work"]},
+  {name:"The Sun",         image:IMG+"20.jpg", element:"Fire",  decan:"Sun (ดวงอาทิตย์)",        decan_s:"☉", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"ความสุข ความชัดเจน ความสำเร็จ และการเฉลิมฉลองตัวตนแท้จริง แสงของคุณคือของขวัญให้โลกเห็น",keywords:["ความสุข","ความสำเร็จ","ความชัดเจน","พลังชีวิต","การเฉลิมฉลอง"]},
+  {name:"Judgement",       image:IMG+"21.jpg", element:"Fire",  decan:"Pluto (ดาวพลูโต)",        decan_s:"♇", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"เสียงเรียกให้ฟื้นคืนจากชีวิตเก่า การชำระล้างอดีต ปลดปล่อยสิ่งที่ตายไปแล้วในใจ แล้วลุกขึ้นอีกครั้งด้วยตัวตนที่ตื่นรู้กว่าเดิม",keywords:["การชำระล้าง","การให้อภัย","การฟื้นคืนพลัง","การตื่นรู้","การเกิดใหม่ทางวิญญาณ"]},
+  {name:"The World",       image:IMG+"22.jpg", element:"Earth", decan:"Saturn (ดาวเสาร์)",        decan_s:"♄", hidden:"",                     hidden_s:"",  zodiac:"",                      meaning:"การจบสมบูรณ์ของวัฏจักรหนึ่ง การเก็บเกี่ยวบทเรียนทั้งหมดจากการเดินทางยาวนาน คุณคือจักรวาลที่เชื่อมโยงทุกประสบการณ์เป็นปัญญา",keywords:["ความสำเร็จสูงสุด","การเดินทางครบวง","การจบสมบูรณ์","การบรรลุเป้าหมาย","การผสานทุกประสบการณ์"]},
+
+  // ── WANDS (w01–w14) ──
+  {name:"Ace of Wands",    image:IMG+"w01.jpg",element:"Fire",  decan:"Root of Fire",            decan_s:"🔥",hidden:"Sun (ดวงอาทิตย์)",     hidden_s:"☉", zodiac:"ราศีธาตุไฟ ♈♌♐",       meaning:"ประกายแรกแห่งแรงบันดาลใจ การเริ่มต้นพลังใหม่ ไอเดีย โปรเจกต์ หรือความหลงใหลบางอย่าง",keywords:["เริ่มต้น","แรงบันดาลใจ","ไฟในใจ","โอกาสใหม่","การลงมือทำ"]},
+  {name:"Two of Wands",    image:IMG+"w02.jpg",element:"Fire",  decan:"Mars (ดาวอังคาร)",        decan_s:"♂", hidden:"Mars (ดาวอังคาร)",     hidden_s:"♂", zodiac:"Aries 0–10° ♈",        meaning:"เจ้าแห่งอำนาจและการครอบครอง พลังแห่งการกำหนดทิศทางและความเป็นผู้นำ การรอคอยผลลัพธ์",keywords:["การรอคอยผล","การวางแผน","การสำรวจโอกาส","เริ่มคุมเกม"]},
+  {name:"Three of Wands",  image:IMG+"w03.jpg",element:"Fire",  decan:"Sun (ดวงอาทิตย์)",        decan_s:"☉", hidden:"Mars (ดาวอังคาร)",     hidden_s:"♂", zodiac:"Aries 10–20° ♈",       meaning:"พลังที่เริ่มมีความมั่นคง การลงมือทำเริ่มเห็นผล มองการณ์ไกล วางรากฐานเพื่อการเติบโต",keywords:["การวางแผนระยะยาว","มองการณ์ไกล","เริ่มเห็นผล","การเติบโต","ขยายโอกาส"]},
+  {name:"Four of Wands",   image:IMG+"w04.jpg",element:"Fire",  decan:"Venus (ดาวศุกร์)",        decan_s:"♀", hidden:"Mars (ดาวอังคาร)",     hidden_s:"♂", zodiac:"Aries 20–30° ♈",       meaning:"เจ้าแห่งพลังงานที่สมบูรณ์แบบ ความสำเร็จที่เกิดจากการทุ่มเทเต็มที่ การเฉลิมฉลองและความมั่นคง",keywords:["การเฉลิมฉลอง","งานสำเร็จ","บ้าน/ความสัมพันธ์มั่นคง","ความสุขร่วมกัน"]},
+  {name:"Five of Wands",   image:IMG+"w05.jpg",element:"Fire",  decan:"Saturn (ดาวเสาร์)",       decan_s:"♄", hidden:"Sun (ดวงอาทิตย์)",     hidden_s:"☉", zodiac:"Leo 0–10° ♌",          meaning:"เจ้าแห่งความขัดแย้งและการแข่งขัน การปะทะกันของอีโก้และความต้องการของหลายฝ่าย เป็นแรงผลักให้เติบโต",keywords:["การแข่งขัน","ความขัดแย้ง","การท้าทาย","การพิสูจน์ตัวเอง"]},
+  {name:"Six of Wands",    image:IMG+"w06.jpg",element:"Fire",  decan:"Jupiter (ดาวพฤหัสบดี)",   decan_s:"♃", hidden:"Sun (ดวงอาทิตย์)",     hidden_s:"☉", zodiac:"Leo 10–20° ♌",         meaning:"เจ้าแห่งชัยชนะและการได้รับการยอมรับ ความสำเร็จที่คนเห็นและชื่นชม การเดินหน้าด้วยความมั่นใจ",keywords:["ชัยชนะ","ได้รับการยกย่อง","ชื่อเสียง","ความภูมิใจ"]},
+  {name:"Seven of Wands",  image:IMG+"w07.jpg",element:"Fire",  decan:"Mars (ดาวอังคาร)",        decan_s:"♂", hidden:"Sun (ดวงอาทิตย์)",     hidden_s:"☉", zodiac:"Leo 20–30° ♌",         meaning:"เจ้าแห่งความกล้าหาญและการยืนหยัดปกป้องจุดยืนของตัวเอง แม้เจอแรงต้านก็ยังไม่ยอมถอย",keywords:["ยืนหยัด","ปกป้องสิทธิ์","สู้ต่อแม้เหนื่อย","ไม่ยอมแพ้"]},
+  {name:"Eight of Wands",  image:IMG+"w08.jpg",element:"Fire",  decan:"Mercury (ดาวพุธ)",        decan_s:"☿", hidden:"Jupiter (ดาวพฤหัสบดี)",hidden_s:"♃", zodiac:"Sagittarius 0–10° ♐",  meaning:"พลังแห่งความเร็วและการเคลื่อนไหว ข่าวดี การเดินทาง หรือเหตุการณ์ที่เปลี่ยนแปลงรวดเร็ว",keywords:["ความเร็ว","ข่าวดี","การเดินทาง","จังหวะเปลี่ยนเร็ว"]},
+  {name:"Nine of Wands",   image:IMG+"w09.jpg",element:"Fire",  decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"Jupiter (ดาวพฤหัสบดี)",hidden_s:"♃", zodiac:"Sagittarius 10–20° ♐", meaning:"เจ้าแห่งพลังงานอันยิ่งใหญ่ ความอดทน แม้เหนื่อยแต่ยังยืนหยัดปกป้องตนเองและสิ่งที่สร้างมา",keywords:["ความอดทน","การป้องกัน","ระวังตัว","สู้ต่อแม้เหนื่อย"]},
+  {name:"Ten of Wands",    image:IMG+"w10.jpg",element:"Fire",  decan:"Saturn (ดาวเสาร์)",       decan_s:"♄", hidden:"Jupiter (ดาวพฤหัสบดี)",hidden_s:"♃", zodiac:"Sagittarius 20–30° ♐", meaning:"เจ้าแห่งภาระและการกดดัน แบกความรับผิดชอบจำนวนมาก เหนื่อยแต่เข้าใกล้เส้นชัย",keywords:["ภาระหนัก","ความเครียด","ความรับผิดชอบสูง","ช่วงท้ายก่อนสำเร็จ"]},
+  {name:"Page of Wands",   image:IMG+"w11.jpg",element:"Fire",  decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"ราศีธาตุไฟ ♈♌♐",       meaning:"พลังของความอยากรู้อยากลอง การเริ่มต้นเส้นทางใหม่ การทดลอง และการเรียนรู้จากประสบการณ์ตรง",keywords:["เริ่มต้นใหม่","ทดลอง","เรียนรู้","ไฟในใจคนรุ่นใหม่"]},
+  {name:"Knight of Wands", image:IMG+"w12.jpg",element:"Fire",  decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Sagittarius ♐",         meaning:"พลังของนักลุย นักผจญภัย การเคลื่อนไหวรวดเร็ว การตัดสินใจฉับไว และการขับเคลื่อนอย่างร้อนแรง",keywords:["ลงมือทันที","ความเร็ว","การเดินทาง","ความทะเยอทะยาน"]},
+  {name:"Queen of Wands",  image:IMG+"w13.jpg",element:"Fire",  decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Aries ♈",              meaning:"ผู้นำที่มีเสน่ห์ อบอุ่น มั่นใจ กล้าพูด กล้าทำ และสร้างแรงบันดาลใจให้คนรอบตัว",keywords:["เสน่ห์","ความมั่นใจ","ภาวะผู้นำ","การดูแลคนรอบข้าง"]},
+  {name:"King of Wands",   image:IMG+"w14.jpg",element:"Fire",  decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Leo ♌",                meaning:"ผู้นำที่มีวิสัยทัศน์กว้างไกล กล้าตัดสินใจ มีพลังในการขับเคลื่อนคนจำนวนมากสู่เป้าหมายเดียวกัน",keywords:["วิสัยทัศน์","ภาวะผู้นำ","กลยุทธ์","แรงบันดาลใจ"]},
+
+  // ── CUPS (c01–c14) ──
+  {name:"Ace of Cups",     image:IMG+"c01.jpg",element:"Water", decan:"Root of Water",           decan_s:"💧",hidden:"Moon (ดวงจันทร์)",     hidden_s:"☽", zodiac:"ราศีธาตุน้ำ ♋♏♓",      meaning:"จุดเริ่มต้นของความรู้สึกใหม่ ความรัก เมตตา การเยียวยา และการเปิดหัวใจรับพลังงานดี ๆ",keywords:["รักครั้งใหม่","เปิดใจ","เยียวยา","ความอ่อนโยน","อินทรีย์ละเอียดอ่อน"]},
+  {name:"Two of Cups",     image:IMG+"c02.jpg",element:"Water", decan:"Venus (ดาวศุกร์)",        decan_s:"♀", hidden:"Moon (ดวงจันทร์)",     hidden_s:"☽", zodiac:"Cancer 0–10° ♋",        meaning:"เจ้าแห่งความรัก คู่พลังงานแห่งจิตวิญญาณที่ให้และรับอย่างเท่าเทียม การเปิดหัวใจเชื่อมโยงกับผู้อื่น",keywords:["คู่รัก","พาร์ตเนอร์","ความเข้าใจกัน","พันธะสัญญา","การเริ่มต้นความสัมพันธ์"]},
+  {name:"Three of Cups",   image:IMG+"c03.jpg",element:"Water", decan:"Mercury (ดาวพุธ)",        decan_s:"☿", hidden:"Moon (ดวงจันทร์)",     hidden_s:"☽", zodiac:"Cancer 10–20° ♋",       meaning:"เจ้าแห่งความอุดมสมบูรณ์ พลังงานของความสุขที่เกิดจากการแบ่งปันความรู้สึกร่วมกัน มิตรภาพและการเฉลิมฉลอง",keywords:["มิตรภาพ","การเฉลิมฉลอง","งานเลี้ยง","ความสัมพันธ์ที่เกื้อหนุนกัน","ความสุขร่วมกัน"]},
+  {name:"Four of Cups",    image:IMG+"c04.jpg",element:"Water", decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"Moon (ดวงจันทร์)",     hidden_s:"☽", zodiac:"Cancer 20–30° ♋",       meaning:"เจ้าแห่งความลับลา/ลังเลใจ โอกาสแห่งความสุขอยู่ตรงหน้า เพียงแค่เปิดหัวใจให้ได้มองเห็น",keywords:["เบื่อหน่าย","ลังเล","ไม่เห็นคุณค่า","โอกาสที่มองข้าม","ทบทวนความรู้สึก"]},
+  {name:"Five of Cups",    image:IMG+"c05.jpg",element:"Water", decan:"Mars (ดาวอังคาร)",        decan_s:"♂", hidden:"Pluto (ดาวพลูโต)",     hidden_s:"♇", zodiac:"Scorpio 0–10° ♏",       meaning:"เจ้าแห่งการสูญเสียที่สูญเสีย ความเศร้าโศก แต่ยังมีถ้วยที่เหลืออยู่ การเรียนรู้จากความสูญเสีย",keywords:["สูญเสีย","เศร้า","เสียใจ","ยังมีสิ่งดีเหลืออยู่","ก้าวข้ามอดีต"]},
+  {name:"Six of Cups",     image:IMG+"c06.jpg",element:"Water", decan:"Sun (ดวงอาทิตย์)",        decan_s:"☉", hidden:"Pluto (ดาวพลูโต)",     hidden_s:"♇", zodiac:"Scorpio 10–20° ♏",      meaning:"เจ้าแห่งความสุขในอดีต ความทรงจำที่หวานชื่น การกลับมาของสิ่งที่คุ้นเคย",keywords:["ความทรงจำดี","อดีต","ความบริสุทธิ์","ของขวัญจากใจ","คนจากอดีตกลับมา"]},
+  {name:"Seven of Cups",   image:IMG+"c07.jpg",element:"Water", decan:"Venus (ดาวศุกร์)",        decan_s:"♀", hidden:"Pluto (ดาวพลูโต)",     hidden_s:"♇", zodiac:"Scorpio 20–30° ♏",      meaning:"เจ้าแห่งความลวงตาและภาพลวง ตัวเลือกมากมายที่ทำให้สับสน ต้องตัดสินใจด้วยความชัดเจน",keywords:["ภาพลวงตา","ความสับสน","ตัวเลือกมาก","ความฝัน","ระวังการหลอกลวง"]},
+  {name:"Eight of Cups",   image:IMG+"c08.jpg",element:"Water", decan:"Saturn (ดาวเสาร์)",       decan_s:"♄", hidden:"Neptune (ดาวเนปจูน)",   hidden_s:"♆", zodiac:"Pisces 0–10° ♓",        meaning:"เจ้าแห่งการละทิ้งและก้าวต่อ การยอมปล่อยสิ่งที่เคยให้ความสุขเพื่อค้นหาสิ่งที่มีความหมายลึกกว่า",keywords:["เดินจากไป","ปล่อยวาง","ค้นหาความหมาย","เริ่มต้นใหม่","ออกเดินทาง"]},
+  {name:"Nine of Cups",    image:IMG+"c09.jpg",element:"Water", decan:"Jupiter (ดาวพฤหัสบดี)",   decan_s:"♃", hidden:"Neptune (ดาวเนปจูน)",   hidden_s:"♆", zodiac:"Pisces 10–20° ♓",       meaning:"เจ้าแห่งความสุขและความพึงพอใจ ความปรารถนาที่เป็นจริง ความสมหวังในชีวิต",keywords:["ความปรารถนาสำเร็จ","ความสุข","ความพึงพอใจ","สมหวัง","ไพ่แห่งความปรารถนา"]},
+  {name:"Ten of Cups",     image:IMG+"c10.jpg",element:"Water", decan:"Mars (ดาวอังคาร)",        decan_s:"♂", hidden:"Neptune (ดาวเนปจูน)",   hidden_s:"♆", zodiac:"Pisces 20–30° ♓",       meaning:"เจ้าแห่งความสุขสมบูรณ์ ครอบครัวที่อบอุ่น ความสัมพันธ์ที่ดี และความสมหวังในทุกด้าน",keywords:["ครอบครัวอบอุ่น","ความสุขสมบูรณ์","ความสัมพันธ์ดี","สมหวังทุกด้าน"]},
+  {name:"Page of Cups",    image:IMG+"c11.jpg",element:"Water", decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"ราศีธาตุน้ำ ♋♏♓",      meaning:"ผู้ส่งสารแห่งความรู้สึก ข่าวดีเกี่ยวกับความรัก ความสร้างสรรค์ หรือการเปิดใจรับสิ่งใหม่",keywords:["ข่าวดีด้านความรัก","ความสร้างสรรค์","จินตนาการ","เปิดใจรับ"]},
+  {name:"Knight of Cups",  image:IMG+"c12.jpg",element:"Water", decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Pisces ♓",              meaning:"ผู้ส่งสารแห่งความรัก ความฝัน และความโรแมนติก การเสนอตัวเข้าหาโอกาสด้านความรู้สึก",keywords:["ข้อเสนอด้านความรัก","ความโรแมนติก","แรงบันดาลใจ","เดินหน้าด้วยหัวใจ"]},
+  {name:"Queen of Cups",   image:IMG+"c13.jpg",element:"Water", decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Cancer ♋",              meaning:"ราชินีแห่งน้ำ ผู้เข้าใจอารมณ์อย่างลึกซึ้ง เป็นที่พึ่งทางใจ และให้ความปลอดภัยด้านความรู้สึก",keywords:["เยียวยา","เมตตา","เข้าใจอารมณ์","รับฟัง","สนับสนุนทางใจ"]},
+  {name:"King of Cups",    image:IMG+"c14.jpg",element:"Water", decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Scorpio ♏",             meaning:"กษัตริย์แห่งถ้วย ผู้มีภาวะผู้นำทางอารมณ์ มั่นคงภายใน ใจนิ่งและคอยดูแลคนอื่นด้วยความเข้าใจ",keywords:["ผู้นำทางอารมณ์","ความนิ่งสงบ","ควบคุมอารมณ์","เข้าใจคน","โค้ช/ที่ปรึกษา"]},
+
+  // ── SWORDS (s01–s14) ──
+  {name:"Ace of Swords",   image:IMG+"s01.jpg",element:"Air",   decan:"Root of Air",             decan_s:"💨",hidden:"Mercury (ดาวพุธ)",     hidden_s:"☿", zodiac:"ราศีธาตุลม ♊♎♒",       meaning:"จุดเริ่มต้นของความคิดชัดเจน ความจริง การตัดสินใจ และการสื่อสารที่ตรงไปตรงมา",keywords:["ไอเดียใหม่","ความจริง","การตัดสินใจ","ความชัดเจน","สื่อสารตรงประเด็น"]},
+  {name:"Two of Swords",   image:IMG+"s02.jpg",element:"Air",   decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"Venus (ดาวศุกร์)",      hidden_s:"♀", zodiac:"Libra 0–10° ♎",         meaning:"เจ้าแห่งสันติที่กลับคืนมา การหยุดชั่วคราวเพื่อทบทวน เปิดทางสู่ปัญญาในการมองเห็นเส้นทางที่ชัดเจนขึ้น",keywords:["ชั่งใจ","ลังเล","พักก่อนคิดต่อ","หาทางออกอย่างมีสติ"]},
+  {name:"Three of Swords", image:IMG+"s03.jpg",element:"Air",   decan:"Saturn (ดาวเสาร์)",       decan_s:"♄", hidden:"Venus (ดาวศุกร์)",      hidden_s:"♀", zodiac:"Libra 10–20° ♎",        meaning:"เจ้าแห่งความเศร้า ความจริงที่ทำให้เจ็บปวด แต่เปิดทางให้ได้รักษาแผลใจอย่างตรงไปตรงมา",keywords:["อกหัก","เจ็บปวด","ความจริงที่กัดใจ","การตัดขาด","เผชิญหน้าความรู้สึก"]},
+  {name:"Four of Swords",  image:IMG+"s04.jpg",element:"Air",   decan:"Jupiter (ดาวพฤหัสบดี)",   decan_s:"♃", hidden:"Venus (ดาวศุกร์)",      hidden_s:"♀", zodiac:"Libra 20–30° ♎",        meaning:"เจ้าแห่งการพักจากความเหนื่อยล้า ต้องการเวลาเยียวยาก่อนจะลุกขึ้นสู้ใหม่อีกครั้ง",keywords:["พักผ่อน","ถอยตั้งหลัก","เยียวยาใจ","หยุดคิดชั่วคราว","ถอยหนึ่งก้าว"]},
+  {name:"Five of Swords",  image:IMG+"s05.jpg",element:"Air",   decan:"Venus (ดาวศุกร์)",        decan_s:"♀", hidden:"Uranus (ดาวยูเรนัส)",  hidden_s:"♅", zodiac:"Aquarius 0–10° ♒",      meaning:"เจ้าแห่งความพ่ายแพ้ พลังของการรู้จักความขัดแย้ง การชนะที่อาจแลกมาด้วยความสัมพันธ์",keywords:["ชนะภายนอก แพ้ภายใน","ข้อขัดแย้ง","เสียหน้า","อัตตา","ยอมปล่อยวาง"]},
+  {name:"Six of Swords",   image:IMG+"s06.jpg",element:"Air",   decan:"Mercury (ดาวพุธ)",        decan_s:"☿", hidden:"Uranus (ดาวยูเรนัส)",  hidden_s:"♅", zodiac:"Aquarius 10–20° ♒",     meaning:"เจ้าแห่งความสำเร็จที่ได้มาด้วยการพยายาม พลังของการเยียวยาผ่านการเคลื่อนไหว การตัดสินใจเดินออกต่อไป",keywords:["เดินหน้าต่อ","ย้ายออก","เปลี่ยนสภาพแวดล้อม","ข้ามพ้นช่วงยาก","ฟื้นตัวช้า ๆ"]},
+  {name:"Seven of Swords", image:IMG+"s07.jpg",element:"Air",   decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"Uranus (ดาวยูเรนัส)",  hidden_s:"♅", zodiac:"Aquarius 20–30° ♒",     meaning:"เจ้าแห่งความไม่พร้อม ไม่พยายาม ใช้เล่ห์เหลี่ยมแทนความซื่อสัตย์ เป็นพลังของการลัดขั้น",keywords:["เล่ห์เหลี่ยม","หลบเลี่ยง","ทำเงียบ","ไม่ตรงไปตรงมา","วางแผนลับ"]},
+  {name:"Eight of Swords", image:IMG+"s08.jpg",element:"Air",   decan:"Jupiter (ดาวพฤหัสบดี)",   decan_s:"♃", hidden:"Mercury (ดาวพุธ)",     hidden_s:"☿", zodiac:"Gemini 0–10° ♊",        meaning:"เจ้าแห่งพลังงานที่ถูกจำกัด การกีดขวางไม่ได้มาจากภายนอก แต่มาจากจิตใจและความคิดของเราเอง",keywords:["คิดมากเกินไป","รู้สึกติดกับดัก","มองไม่เห็นทางออก","จำกัดตัวเองด้วยความกลัว"]},
+  {name:"Nine of Swords",  image:IMG+"s09.jpg",element:"Air",   decan:"Mars (ดาวอังคาร)",        decan_s:"♂", hidden:"Mercury (ดาวพุธ)",     hidden_s:"☿", zodiac:"Gemini 10–20° ♊",       meaning:"เจ้าแห่งความสิ้นหวังและความโหดร้าย อย่าให้ความคิดกลายเป็นอาวุธทำร้ายตัวเอง ความวิตกที่ขยายในหัว",keywords:["นอนไม่หลับ","วิตกกังวล","คิดลบซ้ำ ๆ","กลัวอนาคต","ลงโทษตัวเอง"]},
+  {name:"Ten of Swords",   image:IMG+"s10.jpg",element:"Air",   decan:"Sun (ดวงอาทิตย์)",        decan_s:"☉", hidden:"Mercury (ดาวพุธ)",     hidden_s:"☿", zodiac:"Gemini 20–30° ♊",       meaning:"เจ้าแห่งความพินาศ จุดจบในแง่หนึ่ง แต่ก็เป็นการปลดปล่อยในอีกแง่หนึ่ง สิ่งที่ถึงที่สุดแล้วต้องเริ่มหน้าใหม่",keywords:["จบสิ้น","เสียใจอย่างหนัก","ถึงที่สุดแล้ว","ปล่อยวางอดีต","เริ่มใหม่จากศูนย์"]},
+  {name:"Page of Swords",  image:IMG+"s11.jpg",element:"Air",   decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"ราศีธาตุลม ♊♎♒",       meaning:"พลังของผู้เรียนรู้ อยากรู้อยากเห็น สื่อสารเก่ง และพร้อมเปิดรับข้อมูลใหม่ตลอดเวลา",keywords:["ข่าวสาร","การเรียนรู้","ตั้งคำถาม","สังเกตการณ์","พูดคุยเยอะ"]},
+  {name:"Knight of Swords",image:IMG+"s12.jpg",element:"Air",   decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Gemini ♊",              meaning:"พลังของนักลุยแห่งดาบ การเคลื่อนไหวด้วยความคิดและความจริง กล้าพูดความจริงแม้จะเจ็บปวด",keywords:["ลงมือเร็ว","พูดตรง","ปราดเปรียว","กล้าเผชิญความจริง"]},
+  {name:"Queen of Swords", image:IMG+"s13.jpg",element:"Air",   decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Libra ♎",               meaning:"ราชินีแห่งดาบ ผู้ใช้คำพูดและเหตุผลอย่างเฉียบคม ควบคู่กับความเข้าใจในจิตใจมนุษย์",keywords:["พูดตรงมีสติ","ใช้เหตุผล","จัดการปัญหาด้วยความคิด","มองภาพรวมชัดเจน"]},
+  {name:"King of Swords",  image:IMG+"s14.jpg",element:"Air",   decan:"",                        decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Aquarius ♒",            meaning:"กษัตริย์แห่งดาบ ผู้ใช้ปัญญาและความยุติธรรมเป็นหลักในการตัดสินใจ มีวิสัยทัศน์และความชัดเจนสูง",keywords:["ปัญญา","การวิเคราะห์","ความยุติธรรม","ตัดสินใจบนข้อมูล","วิสัยทัศน์ระยะยาว"]},
+
+  // ── PENTACLES (p01–p14) ──
+  {name:"Ace of Pentacles", image:IMG+"p01.jpg",element:"Earth",decan:"Root of Earth",           decan_s:"🌱",hidden:"Saturn (ดาวเสาร์)",    hidden_s:"♄", zodiac:"ราศีธาตุดิน ♉♍♑",      meaning:"โอกาสใหม่ด้านการเงิน การงาน หรือรูปธรรมในชีวิต เริ่มต้นสร้างความมั่นคงจากสิ่งที่จับต้องได้",keywords:["โอกาสใหม่","เงิน/งาน","ความมั่นคง","เริ่มต้นลงมือจริง"]},
+  {name:"Two of Pentacles", image:IMG+"p02.jpg",element:"Earth",decan:"Jupiter (ดาวพฤหัสบดี)",   decan_s:"♃", hidden:"Saturn (ดาวเสาร์)",    hidden_s:"♄", zodiac:"Capricorn 0–10° ♑",     meaning:"เจ้าแห่งการเปลี่ยนแปลงกลมกลืน การจัดการหลายเรื่องพร้อมกันอย่างยืดหยุ่น การปรับตัวในโลกวัตถุ",keywords:["บาลานซ์","จัดการหลายเรื่อง","การเงินขึ้น ๆ ลง ๆ","การปรับตัว"]},
+  {name:"Three of Pentacles",image:IMG+"p03.jpg",element:"Earth",decan:"Mars (ดาวอังคาร)",       decan_s:"♂", hidden:"Saturn (ดาวเสาร์)",    hidden_s:"♄", zodiac:"Capricorn 10–20° ♑",    meaning:"เจ้าแห่งการทำงานทางวัตถุ พลังของความร่วมมือ งานทีม งานช่าง งานสร้างที่ต้องใช้ความชำนาญ",keywords:["ทำงานร่วมกัน","ทีมเวิร์ก","ความเชี่ยวชาญ","สร้างผลงาน"]},
+  {name:"Four of Pentacles",image:IMG+"p04.jpg",element:"Earth",decan:"Sun (ดวงอาทิตย์)",        decan_s:"☉", hidden:"Saturn (ดาวเสาร์)",    hidden_s:"♄", zodiac:"Capricorn 20–30° ♑",    meaning:"เจ้าแห่งพลังแห่งโลก การยึดเกาะกับวัตถุ การปกป้องทรัพย์สิน อย่ากอดแน่นจนปิดกั้นการไหลเวียน",keywords:["ยึดติด","เก็บเงินแน่น","กลัวเสีย","คุมทุกอย่างไว้ในมือ"]},
+  {name:"Five of Pentacles",image:IMG+"p05.jpg",element:"Earth",decan:"Mercury (ดาวพุธ)",        decan_s:"☿", hidden:"Venus (ดาวศุกร์)",      hidden_s:"♀", zodiac:"Taurus 0–10° ♉",        meaning:"เจ้าแห่งความอยู่รอดทางวัตถุ แบกความยากลำบากอย่างมีแสงแห่งศรัทธารออยู่เสมอ อย่าเพิ่งยอมแพ้",keywords:["ขาดแคลน","ลำบากเรื่องเงิน","รู้สึกโดดเดี่ยว","ศรัทธาที่ยังเหลืออยู่"]},
+  {name:"Six of Pentacles", image:IMG+"p06.jpg",element:"Earth",decan:"Moon (ดวงจันทร์)",        decan_s:"☽", hidden:"Venus (ดาวศุกร์)",      hidden_s:"♀", zodiac:"Taurus 10–20° ♉",       meaning:"เจ้าแห่งความสำเร็จทางวัตถุ พลังแห่งการแลกเปลี่ยน แบ่งปัน และความมั่งคั่งที่เกิดจากการให้และรับ",keywords:["แบ่งปัน","ให้ทาน","ช่วยเหลือกัน","สมดุลการให้-รับ"]},
+  {name:"Seven of Pentacles",image:IMG+"p07.jpg",element:"Earth",decan:"Saturn (ดาวเสาร์)",      decan_s:"♄", hidden:"Venus (ดาวศุกร์)",      hidden_s:"♀", zodiac:"Taurus 20–30° ♉",       meaning:"เจ้าแห่งความสำเร็จที่ยังไม่สมบูรณ์แบบ ความสำเร็จอยู่ที่การเรียนรู้ระหว่างทางและความอดทน",keywords:["รอดูผล","รอเก็บเกี่ยว","ทบทวนแผน","อดทนกับกระบวนการ"]},
+  {name:"Eight of Pentacles",image:IMG+"p08.jpg",element:"Earth",decan:"Sun (ดวงอาทิตย์)",       decan_s:"☉", hidden:"Mercury (ดาวพุธ)",     hidden_s:"☿", zodiac:"Virgo 0–10° ♍",         meaning:"เจ้าแห่งความรอบคอบ พลังของการสร้างความเชี่ยวชาญด้วยการฝึกฝนซ้ำ ๆ ลงมือทำจริงเพื่อพัฒนาฝีมือ",keywords:["ขยันฝึก","พัฒนาทักษะ","โฟกัสงาน","ลงมือทำซ้ำ ๆ"]},
+  {name:"Nine of Pentacles", image:IMG+"p09.jpg",element:"Earth",decan:"Venus (ดาวศุกร์)",       decan_s:"♀", hidden:"Mercury (ดาวพุธ)",     hidden_s:"☿", zodiac:"Virgo 10–20° ♍",        meaning:"เจ้าแห่งผลประโยชน์ทางวัตถุ พลังของความมั่งคั่ง ความอุดมสมบูรณ์ และความพึงพอใจในตัวเอง",keywords:["ความมั่นคง","อยู่ได้ด้วยตัวเอง","เพลิดเพลินกับสิ่งที่มี","ความหรูหราเล็ก ๆ"]},
+  {name:"Ten of Pentacles",  image:IMG+"p10.jpg",element:"Earth",decan:"Mercury (ดาวพุธ)",       decan_s:"☿", hidden:"Mercury (ดาวพุธ)",     hidden_s:"☿", zodiac:"Virgo 20–30° ♍",        meaning:"เจ้าแห่งความมั่งคั่ง พลังงานแห่งความมั่งคั่งที่ส่งต่อถึงครอบครัว ลูกหลาน มรดก และความมั่นคงระยะยาว",keywords:["ครอบครัวมั่นคง","มรดก","ทรัพย์สินระยะยาว","เสถียรภาพ"]},
+  {name:"Page of Pentacles", image:IMG+"p11.jpg",element:"Earth",decan:"",                       decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"ราศีธาตุดิน ♉♍♑",      meaning:"เด็กแห่งเหรียญ ผู้เริ่มมองหาโอกาสด้านงาน เงิน และการเรียนรู้เพื่อนำไปสร้างความมั่นคง",keywords:["เริ่มเรียน","ทดลองทำ","นักศึกษาฝึกงาน","โอกาสงานเล็ก ๆ แต่สำคัญ"]},
+  {name:"Knight of Pentacles",image:IMG+"p12.jpg",element:"Earth",decan:"",                      decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Taurus ♉",              meaning:"อัศวินแห่งเหรียญ ผู้ค่อย ๆ เดินไปข้างหน้าด้วยความมั่นคงและความรับผิดชอบสูง",keywords:["ทำงานหนัก","สม่ำเสมอ","ลงมือทำจริง","ความอดทน"]},
+  {name:"Queen of Pentacles",image:IMG+"p13.jpg",element:"Earth",decan:"",                       decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Capricorn ♑",           meaning:"ราชินีแห่งเหรียญ ผู้หล่อเลี้ยง ดูแล และสร้างความอุดมสมบูรณ์ให้กับสภาพแวดล้อมของตัวเอง",keywords:["เลี้ยงดู","ดูแล","แม่บ้าน/ผู้จัดการบ้าน","ความมั่นคงที่อบอุ่น"]},
+  {name:"King of Pentacles", image:IMG+"p14.jpg",element:"Earth",decan:"",                       decan_s:"",  hidden:"",                     hidden_s:"",  zodiac:"Taurus ♉",              meaning:"กษัตริย์แห่งเหรียญ ผู้สร้างจักรวาลแห่งความมั่นคง ระบบ และทรัพย์สินให้เติบโตอย่างยั่งยืน",keywords:["เจ้าของกิจการ","ผู้บริหารการเงิน","ผู้นำที่มั่นคง","การสร้างทรัพย์สินระยะยาว"]},
+];
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* ── Color tokens ── */
 const C = {
-  gold:"#e8c97a", dim2:"#c9a84c", moon:"#b8c9e8", teal:"#5fb3a8", pink:"#d4748c",
-  muted:"rgba(240,238,234,.55)", dim:"rgba(240,238,234,.35)", border:"rgba(232,201,122,.18)",
-  bgElev:"#1f2d42", bgSurf:"#1a2235",
+  gold:"#e8c97a",dim2:"#c9a84c",moon:"#b8c9e8",teal:"#5fb3a8",pink:"#d4748c",
+  muted:"rgba(240,238,234,.55)",dim:"rgba(240,238,234,.35)",border:"rgba(232,201,122,.18)",
+  bgElev:"#1f2d42",bgSurf:"#1a2235",
 };
 const btnGold  = {background:"linear-gradient(135deg,#c9a84c,#a07832)",color:"#0a0d14",border:"none",borderRadius:14,padding:"13px 20px",fontFamily:"'Cinzel',serif",fontSize:15,fontWeight:700,letterSpacing:1,cursor:"pointer",width:"100%"};
-const btnGhost = {background:"rgba(255,255,255,.04)",border:"1px solid rgba(232,201,122,.18)",borderRadius:10,padding:"9px 20px",color:"rgba(240,238,234,.6)",fontFamily:"inherit",fontSize:13,cursor:"pointer"};
-const cardBox  = {background:"linear-gradient(160deg,#131d2e,#0d1520)",border:"1px solid rgba(232,201,122,.18)",borderRadius:22,padding:"32px 24px 24px",maxWidth:420,width:"100%",textAlign:"center",position:"relative",overflow:"hidden",boxShadow:"0 0 60px rgba(232,201,122,.06),0 24px 80px rgba(0,0,0,.6)"};
-
-const MEANINGS = [
-  {name:"The Fool",emoji:"🌀",element:"Air",planet:"♅ Uranus",meaning:"พลังแห่งการเริ่มต้นครั้งใหม่ กระโดดออกจาก comfort zone ด้วยความศรัทธาในจักรวาล",keywords:["การเริ่มต้น","อิสระ","ความกล้า"]},
-  {name:"The Magician",emoji:"✨",element:"Air",planet:"☿ Mercury",meaning:"สร้างความเป็นจริงด้วยพลังจิต คำพูด และการลงมือทำ",keywords:["การสื่อสาร","คาริสมา","ลงมือทำ"]},
-  {name:"High Priestess",emoji:"🌙",element:"Water",planet:"☽ Moon",meaning:"ฟังเสียงกระซิบจากข้างในมากกว่าเสียงรบกวนภายนอก ความลับกำลังจะถูกเปิดเผย",keywords:["ญาณ","สัญชาตญาณ","ความลับ"]},
-  {name:"The Empress",emoji:"🌸",element:"Earth",planet:"♀ Venus",meaning:"พลังแห่งความอุดมสมบูรณ์ เปิดรับความสุข ดูแลตัวเองทั้งกายและใจ",keywords:["ความอุดมสมบูรณ์","ความรัก","สร้างสรรค์"]},
-  {name:"The Emperor",emoji:"👑",element:"Fire",planet:"♂ Mars",meaning:"สร้างโครงสร้างและจัดระบบชีวิตให้แข็งแรง ความมั่นคงมาจากวินัยของตัวเอง",keywords:["ผู้นำ","อำนาจ","ความมั่นคง"]},
-  {name:"The Lovers",emoji:"💕",element:"Air",planet:"☿ Mercury",meaning:"การเลือกด้วยหัวใจ ซื่อสัตย์ต่อความต้องการแท้จริงของตัวเอง",keywords:["ความรัก","การเลือก","คู่สัมพันธ์"]},
-  {name:"The Chariot",emoji:"⚡",element:"Water",planet:"☽ Moon",meaning:"ชัยชนะมาจากการควบคุมอารมณ์ ความมุ่งมั่น + วินัย = การก้าวหน้า",keywords:["ชัยชนะ","ความมุ่งมั่น","เดินหน้า"]},
-  {name:"Strength",emoji:"🦁",element:"Fire",planet:"☉ Sun",meaning:"ความเข้มแข็งแท้จริงคือการยืนหยัดกับความกลัวโดยไม่หนี ใจนำกว่ากำลัง",keywords:["ความอดทน","พลังใจ","อ่อนโยน"]},
-  {name:"The Star",emoji:"⭐",element:"Air",planet:"♒ Aquarius",meaning:"ความหวังและการรักษาหลังพายุ จักรวาลกำลังส่งแสงนำทางมาให้คุณ",keywords:["ความหวัง","การรักษา","แสงสว่าง"]},
-  {name:"The Moon",emoji:"🌕",element:"Water",planet:"♓ Pisces",meaning:"บางอย่างยังซ่อนอยู่ในความมืด รอความชัดเจนก่อนตัดสินใจใหญ่",keywords:["ภาพลวงตา","ความกลัว","จิตใต้สำนึก"]},
-  {name:"The Sun",emoji:"☀️",element:"Fire",planet:"☉ Sun",meaning:"พลังงานสดใส ความสุข และชัยชนะ แสดงออกตัวตนอย่างเต็มที่ได้เลย",keywords:["ความสุข","ชัยชนะ","พลังงาน"]},
-  {name:"Wheel of Fortune",emoji:"🎡",element:"Fire",planet:"♃ Jupiter",meaning:"วงล้อแห่งโชคชะตากำลังหมุน โอกาสใหม่กำลังมา ยอมรับการเปลี่ยนแปลง",keywords:["โชคชะตา","วัฏจักร","โอกาส"]},
-  {name:"Justice",emoji:"⚖️",element:"Air",planet:"♀ Venus",meaning:"กรรมและสมดุล ผลลัพธ์สะท้อนสิ่งที่ทำ ตัดสินด้วยใจเที่ยงธรรม",keywords:["ยุติธรรม","กรรม","ความจริง"]},
-  {name:"The Tower",emoji:"🗼",element:"Fire",planet:"♂ Mars",meaning:"สายฟ้าฟาดพังโครงสร้างเก่าเพื่อเปิดทางให้ความจริงปรากฏ",keywords:["เปลี่ยนฉับพลัน","พังทลาย","ตื่นรู้"]},
-  {name:"The World",emoji:"🌍",element:"Earth",planet:"♄ Saturn",meaning:"บรรลุเป้าหมายและความสมบูรณ์ จุดสิ้นสุดหนึ่งคือจุดเริ่มต้นใหม่ที่ยิ่งใหญ่กว่า",keywords:["สำเร็จ","สมบูรณ์","บรรลุ"]},
-];
+const btnGhost = {background:"rgba(255,255,255,.04)",border:`1px solid ${C.border}`,borderRadius:10,padding:"9px 20px",color:"rgba(240,238,234,.6)",fontFamily:"inherit",fontSize:13,cursor:"pointer"};
+const cardBox  = {background:"linear-gradient(160deg,#131d2e,#0d1520)",border:`1px solid ${C.border}`,borderRadius:22,padding:"32px 24px 24px",maxWidth:420,width:"100%",textAlign:"center",position:"relative",overflow:"hidden",boxShadow:"0 0 60px rgba(232,201,122,.06),0 24px 80px rgba(0,0,0,.6)"};
 
 const TOPICS     = ["💕 ความรัก","💼 การงาน","💰 การเงิน","🌿 สุขภาพ","🌟 ภาพรวมชีวิต","🃏 คำถามทั่วไป"];
 const CUSTOM_KEY = "🃏 คำถามทั่วไป";
 const POS_3      = ["อดีต","ปัจจุบัน","อนาคต"];
 const POS_11     = ["ไพ่ประจำหกเดือน","การงาน","การเงิน","ความรัก","สุขภาพ","เดือนที่ 1","เดือนที่ 2","เดือนที่ 3","เดือนที่ 4","เดือนที่ 5","เดือนที่ 6"];
 
-function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
-function buildDeck(){
-  const major=[
-    {name:"The Fool",no:"0",suit:"Major"},{name:"The Magician",no:"I",suit:"Major"},
-    {name:"The High Priestess",no:"II",suit:"Major"},{name:"The Empress",no:"III",suit:"Major"},
-    {name:"The Emperor",no:"IV",suit:"Major"},{name:"The Hierophant",no:"V",suit:"Major"},
-    {name:"The Lovers",no:"VI",suit:"Major"},{name:"The Chariot",no:"VII",suit:"Major"},
-    {name:"Strength",no:"VIII",suit:"Major"},{name:"The Hermit",no:"IX",suit:"Major"},
-    {name:"Wheel of Fortune",no:"X",suit:"Major"},{name:"Justice",no:"XI",suit:"Major"},
-    {name:"The Hanged Man",no:"XII",suit:"Major"},{name:"Death",no:"XIII",suit:"Major"},
-    {name:"Temperance",no:"XIV",suit:"Major"},{name:"The Devil",no:"XV",suit:"Major"},
-    {name:"The Tower",no:"XVI",suit:"Major"},{name:"The Star",no:"XVII",suit:"Major"},
-    {name:"The Moon",no:"XVIII",suit:"Major"},{name:"The Sun",no:"XIX",suit:"Major"},
-    {name:"Judgement",no:"XX",suit:"Major"},{name:"The World",no:"XXI",suit:"Major"},
-  ];
-  const suits=["Wands","Cups","Swords","Pentacles"];
-  const pips=["Ace","2","3","4","5","6","7","8","9","10","Page","Knight","Queen","King"];
-  const minor=suits.flatMap(s=>pips.map(p=>({name:`${p} of ${s}`,no:p,suit:s})));
-  return shuffle([...major,...minor]);
-}
-
 /* ══ TopBar ══ */
 function TopBar({topic}){
   return (
-    <div style={{position:"sticky",top:0,zIndex:100,background:"rgba(10,13,20,.92)",backdropFilter:"blur(16px)",borderBottom:"1px solid rgba(232,201,122,.18)",padding:"12px 20px"}}>
+    <div style={{position:"sticky",top:0,zIndex:100,background:"rgba(10,13,20,.92)",backdropFilter:"blur(16px)",borderBottom:`1px solid ${C.border}`,padding:"12px 20px"}}>
       <div style={{maxWidth:680,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         <span style={{fontFamily:"'Cinzel',serif",fontSize:17,color:C.gold,letterSpacing:2}}>🌙 PJOracles</span>
-        {topic && <span style={{fontSize:12,color:C.pink,background:"rgba(212,116,140,.1)",border:"1px solid rgba(212,116,140,.3)",borderRadius:20,padding:"3px 10px"}}>{topic}</span>}
+        {topic&&<span style={{fontSize:12,color:C.pink,background:"rgba(212,116,140,.1)",border:"1px solid rgba(212,116,140,.3)",borderRadius:20,padding:"3px 10px"}}>{topic}</span>}
       </div>
     </div>
   );
 }
 
-/* ══ SCREEN 1 ══ */
+/* ══ SCREEN 1: INTRO ══ */
 function ScreenIntro({onNext}){
   const [topic,setTopic]=useState("");
   const [customQ,setCustomQ]=useState("");
@@ -119,15 +180,12 @@ function ScreenIntro({onNext}){
         <div className="moon-anim" style={{fontSize:52,marginBottom:10,filter:"drop-shadow(0 0 18px rgba(232,201,122,.5))"}}>🌙</div>
         <h2 style={{fontFamily:"'Cinzel',serif",fontSize:26,color:C.gold,letterSpacing:3,marginBottom:4}}>PJOracles</h2>
         <p style={{fontSize:13,color:C.muted,marginBottom:20,letterSpacing:1}}>หมอดูชุดนอน</p>
-        <p style={{fontSize:15,lineHeight:1.7,marginBottom:22}}>
-          วันนี้จักรวาลมีอะไรจะบอกคุณ?<br/>
-          <span style={{color:C.dim2,fontSize:14}}>ตั้งคำถามในใจแล้วเริ่มได้เลย 🔮</span>
-        </p>
+        <p style={{fontSize:15,lineHeight:1.7,marginBottom:22}}>วันนี้จักรวาลมีอะไรจะบอกคุณ?<br/><span style={{color:C.dim2,fontSize:14}}>ตั้งคำถามในใจแล้วเริ่มได้เลย 🔮</span></p>
         <p style={{fontSize:12,color:C.muted,textTransform:"uppercase",letterSpacing:1.5,marginBottom:10}}>เลือกหัวข้อที่อยากถาม</p>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:isCustom?12:20}}>
           {TOPICS.map(t=>(
             <button key={t} onClick={()=>{setTopic(t);if(t!==CUSTOM_KEY)setCustomQ("");}}
-              style={{background:topic===t?"linear-gradient(135deg,#2a1f08,#1a1408)":C.bgElev,border:topic===t?"1px solid #e8c97a":"1px solid rgba(232,201,122,.18)",borderRadius:8,color:topic===t?C.gold:C.muted,padding:"10px 8px",fontFamily:"inherit",fontSize:13,cursor:"pointer",transition:"all .2s"}}>
+              style={{background:topic===t?"linear-gradient(135deg,#2a1f08,#1a1408)":C.bgElev,border:topic===t?`1px solid ${C.gold}`:`1px solid ${C.border}`,borderRadius:8,color:topic===t?C.gold:C.muted,padding:"10px 8px",fontFamily:"inherit",fontSize:13,cursor:"pointer",transition:"all .2s"}}>
               {t}
             </button>
           ))}
@@ -135,24 +193,19 @@ function ScreenIntro({onNext}){
         {isCustom&&(
           <div style={{marginBottom:20,textAlign:"left"}}>
             <p style={{fontSize:12,color:C.dim2,marginBottom:6}}>✏️ พิมพ์คำถามของคุณ</p>
-            <textarea value={customQ} onChange={e=>setCustomQ(e.target.value)}
-              placeholder="เช่น ช่วงนี้ควรเปลี่ยนงานไหม?"
-              maxLength={120} rows={3}
+            <textarea value={customQ} onChange={e=>setCustomQ(e.target.value)} placeholder="เช่น ช่วงนี้ควรเปลี่ยนงานไหม?" maxLength={120} rows={3}
               style={{width:"100%",background:"#0d1520",border:"1px solid rgba(232,201,122,.35)",borderRadius:10,padding:"10px 12px",color:"#f0eeea",fontFamily:"inherit",fontSize:13,lineHeight:1.7,resize:"none"}}/>
             <p style={{fontSize:11,color:C.dim,textAlign:"right",marginTop:3}}>{customQ.length}/120</p>
           </div>
         )}
-        <button onClick={()=>canGo&&onNext(finalTopic)}
-          style={{...btnGold,opacity:canGo?1:.35,cursor:canGo?"pointer":"not-allowed",marginBottom:12}}>
-          เริ่มดูดวง →
-        </button>
+        <button onClick={()=>canGo&&onNext(finalTopic)} style={{...btnGold,opacity:canGo?1:.35,cursor:canGo?"pointer":"not-allowed",marginBottom:12}}>เริ่มดูดวง →</button>
         <p style={{fontSize:11,color:C.dim,lineHeight:1.5}}>* ไพ่ทาโรต์เพื่อการพัฒนาตัวเอง ไม่ใช่การพยากรณ์แทนวิจารณญาณ</p>
       </div>
     </div>
   );
 }
 
-/* ══ SCREEN 2 ══ */
+/* ══ SCREEN 2: PRAYER ══ */
 function ScreenPrayer({onNext}){
   return (
     <div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",padding:20}}>
@@ -160,7 +213,7 @@ function ScreenPrayer({onNext}){
         <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:200,height:2,background:"linear-gradient(90deg,transparent,#e8c97a,transparent)"}}/>
         <div style={{fontSize:48,marginBottom:14}}>🙏</div>
         <h3 style={{fontFamily:"'Cinzel',serif",color:C.gold,fontSize:16,letterSpacing:2,marginBottom:14}}>ตั้งจิตอธิษฐาน</h3>
-        <p style={{fontSize:13,lineHeight:1.9,color:"rgba(240,238,234,.8)",background:"rgba(255,255,255,.03)",border:"1px solid rgba(232,201,122,.18)",borderRadius:12,padding:"14px 16px",marginBottom:16,textAlign:"left"}}>
+        <p style={{fontSize:13,lineHeight:1.9,color:"rgba(240,238,234,.8)",background:"rgba(255,255,255,.03)",border:`1px solid ${C.border}`,borderRadius:12,padding:"14px 16px",marginBottom:16,textAlign:"left"}}>
           "ข้าพเจ้า ชื่อ…นามสกุล…เกิดวันที่… ขออนุญาตสิ่งศักดิ์สิทธิ์ ผู้รักษากายสังขารของข้าพเจ้า ขออนุญาตเทพ เทวดา ครูบาอาจารย์ทั้งหลาย ตลอดจนเจ้ากรรมนายเวร เจ้าเกณฑ์ชะตา ในการเปิดดวงชะตาครั้งนี้"
         </p>
         <p style={{fontSize:13,color:"rgba(232,201,122,.7)",marginBottom:22}}>หลังจากนั้น ตั้งคำถามให้แน่วแน่ ชัดเจน ก่อนเลือกไพ่น้า 🌙</p>
@@ -180,14 +233,12 @@ function FanSpread({deck,picked,size,onPick,onReveal}){
       <div style={{display:"flex",alignItems:"center",gap:12,margin:"18px 0 6px"}}>
         <div style={{display:"flex",gap:5}}>
           {Array.from({length:size}).map((_,i)=>(
-            <div key={i} style={{width:28,height:40,borderRadius:5,border:i<picked.length?"1.5px solid #e8c97a":"1.5px dashed rgba(232,201,122,.25)",background:i<picked.length?"rgba(232,201,122,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,transition:"all .3s"}}>
+            <div key={i} style={{width:28,height:40,borderRadius:5,border:i<picked.length?`1.5px solid ${C.gold}`:"1.5px dashed rgba(232,201,122,.25)",background:i<picked.length?"rgba(232,201,122,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,transition:"all .3s"}}>
               {i<picked.length?"🃏":<span style={{opacity:.2,fontSize:11}}>✦</span>}
             </div>
           ))}
         </div>
-        <p style={{fontSize:13,color:done?C.gold:C.dim2,margin:0,fontWeight:600}}>
-          {done?"เลือกครบแล้ว! 🎉":`เหลืออีก ${size-picked.length} ใบ`}
-        </p>
+        <p style={{fontSize:13,color:done?C.gold:C.dim2,margin:0,fontWeight:600}}>{done?"เลือกครบแล้ว! 🎉":`เหลืออีก ${size-picked.length} ใบ`}</p>
       </div>
       {!done&&<p style={{fontSize:11,color:C.dim,marginBottom:4}}>แตะที่ไพ่เพื่อเลือก</p>}
       <div style={{position:"relative",width:"100%",height:R+CH+20,overflow:"visible"}}>
@@ -198,43 +249,35 @@ function FanSpread({deck,picked,size,onPick,onReveal}){
           const rad=(deg-90)*Math.PI/180;
           const cx=Math.cos(rad)*R,cy=Math.sin(rad)*R;
           return (
-            <div key={i}
-              onClick={()=>!isPicked&&!done&&onPick(i)}
-              onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
-              style={{position:"absolute",width:CW,height:CH,
-                left:`calc(50% + ${cx}px - ${CW/2}px)`,top:`${R+CH/2+cy-CH/2}px`,
+            <div key={i} onClick={()=>!isPicked&&!done&&onPick(i)} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
+              style={{position:"absolute",width:CW,height:CH,left:`calc(50% + ${cx}px - ${CW/2}px)`,top:`${R+CH/2+cy-CH/2}px`,
                 transform:`rotate(${deg}deg) translateY(${isPicked?-24:isHov?-16:0}px) scale(${isPicked?1.08:isHov?1.1:1})`,
                 transformOrigin:"bottom center",transition:"transform .2s ease, opacity .2s",
-                cursor:isPicked||done?"default":"pointer",
-                opacity:isPicked?.3:done?.5:1,borderRadius:6,
+                cursor:isPicked||done?"default":"pointer",opacity:isPicked?.3:done?.5:1,borderRadius:6,
                 background:isPicked?"rgba(232,201,122,.06)":"linear-gradient(170deg,#1e3050,#0d1520)",
-                border:isPicked?"1.5px solid rgba(232,201,122,.4)":isHov?"1.5px solid #e8c97a":"1.5px solid rgba(232,201,122,.22)",
+                border:isPicked?"1.5px solid rgba(232,201,122,.4)":isHov?`1.5px solid ${C.gold}`:"1.5px solid rgba(232,201,122,.22)",
                 boxShadow:isHov?"0 0 14px rgba(232,201,122,.35),0 6px 20px rgba(0,0,0,.6)":"0 2px 8px rgba(0,0,0,.5)",
                 display:"flex",alignItems:"center",justifyContent:"center",zIndex:isHov?50:i,overflow:"hidden"}}>
               {!isPicked&&<div style={{position:"absolute",inset:0,background:"repeating-linear-gradient(45deg,rgba(232,201,122,.04) 0px,rgba(232,201,122,.04) 1px,transparent 1px,transparent 6px)"}}/>}
               <span style={{fontSize:16,opacity:isPicked?.06:.22,pointerEvents:"none"}}>🌙</span>
               {isPicked&&pickOrder>=0&&(
                 <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                  <span style={{background:"#e8c97a",color:"#0a0d14",borderRadius:"50%",width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800}}>{pickOrder+1}</span>
+                  <span style={{background:C.gold,color:"#0a0d14",borderRadius:"50%",width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800}}>{pickOrder+1}</span>
                 </div>
               )}
             </div>
           );
         })}
       </div>
-      {done&&(
-        <div style={{textAlign:"center",marginTop:16,marginBottom:8}}>
-          <button onClick={onReveal} style={{...btnGold,width:"auto",padding:"12px 44px",fontSize:14}}>🔮 เปิดไพ่ทั้งหมด</button>
-        </div>
-      )}
+      {done&&<div style={{textAlign:"center",marginTop:16,marginBottom:8}}><button onClick={onReveal} style={{...btnGold,width:"auto",padding:"12px 44px",fontSize:14}}>🔮 เปิดไพ่ทั้งหมด</button></div>}
     </div>
   );
 }
 
-/* ══ SCREEN 3 ══ */
+/* ══ SCREEN 3: PICK ══ */
 function ScreenPick({topic,onReveal}){
   const [size,setSize]=useState(3);
-  const [deck]=useState(()=>buildDeck());
+  const [deck]=useState(()=>shuffle([...ALL_CARDS]));
   const [picked,setPicked]=useState([]);
   const [started,setStarted]=useState(false);
   return (
@@ -245,32 +288,28 @@ function ScreenPick({topic,onReveal}){
         <div style={{display:"flex",gap:8,justifyContent:"center",flexWrap:"wrap",marginBottom:12}}>
           {[1,3,5].map(n=>(
             <button key={n} onClick={()=>{setSize(n);setPicked([]);setStarted(false);}}
-              style={{background:size===n?"linear-gradient(135deg,#2a1f08,#1a1408)":C.bgSurf,border:size===n?"1px solid #e8c97a":"1px solid rgba(232,201,122,.18)",borderRadius:8,color:size===n?C.gold:C.muted,padding:"8px 22px",fontFamily:"inherit",fontSize:14,cursor:"pointer",transition:"all .2s"}}>
+              style={{background:size===n?"linear-gradient(135deg,#2a1f08,#1a1408)":C.bgSurf,border:size===n?`1px solid ${C.gold}`:`1px solid ${C.border}`,borderRadius:8,color:size===n?C.gold:C.muted,padding:"8px 22px",fontFamily:"inherit",fontSize:14,cursor:"pointer",transition:"all .2s"}}>
               {n} ใบ
             </button>
           ))}
         </div>
         <button onClick={()=>{setPicked([]);setStarted(true);}} style={{...btnGold,width:"auto",padding:"11px 36px",fontSize:14}}>✨ เริ่มวางไพ่</button>
-        {started&&(
-          <FanSpread deck={deck} picked={picked} size={size}
-            onPick={idx=>{if(picked.includes(idx)||picked.length>=size)return;setPicked(p=>[...p,idx]);}}
-            onReveal={()=>onReveal(deck,picked,size)}/>
-        )}
+        {started&&<FanSpread deck={deck} picked={picked} size={size}
+          onPick={idx=>{if(picked.includes(idx)||picked.length>=size)return;setPicked(p=>[...p,idx]);}}
+          onReveal={()=>onReveal(deck,picked,size)}/>}
       </div>
     </div>
   );
 }
 
-/* ══ SCREEN 4 ══ */
+/* ══ SCREEN 4: REVEAL + AI ══ */
 function ScreenReveal({topic,deck,picked,size,onRestart}){
   const [open,setOpen]=useState({});
   const [aiText,setAiText]=useState(null);
   const [aiLoad,setAiLoad]=useState(true);
   const aiRef=useRef(null);
 
-  const enrich=card=>MEANINGS.find(c=>c.name.toLowerCase()===card.name.toLowerCase())
-    ||{...card,emoji:"🃏",element:card.suit,planet:"—",meaning:`ไพ่ ${card.name} — ${card.suit}`,keywords:[card.suit]};
-  const cards=picked.map(i=>enrich(deck[i]));
+  const cards=picked.map(i=>deck[i]);
   const getPos=i=>size===3?POS_3[i]:size===1?"ไพ่ประจำวัน":size===11?POS_11[i]:`ใบที่ ${i+1}`;
 
   useEffect(()=>{
@@ -296,27 +335,52 @@ function ScreenReveal({topic,deck,picked,size,onRestart}){
       <p style={{fontFamily:"'Cinzel',serif",color:C.gold,fontSize:15,letterSpacing:2,textAlign:"center",margin:"20px 0 14px",textTransform:"uppercase"}}>ไพ่ที่เปิดได้</p>
       <div style={{display:"flex",gap:12,overflowX:"auto",padding:"10px 16px 16px",WebkitOverflowScrolling:"touch"}}>
         {cards.map((card,i)=>(
-          <div key={i} style={{background:"linear-gradient(160deg,#1a2235,#111827)",border:"1px solid rgba(232,201,122,.18)",borderRadius:14,padding:"14px 12px",width:155,flexShrink:0,textAlign:"center"}}>
+          <div key={i} style={{background:"linear-gradient(160deg,#1a2235,#111827)",border:`1px solid ${C.border}`,borderRadius:14,padding:"14px 12px",width:170,flexShrink:0,textAlign:"center"}}>
             <p style={{fontSize:11,color:C.dim2,letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>{getPos(i)}</p>
+            {/* Card image — click to flip */}
             <div onClick={()=>setOpen(o=>({...o,[i]:!o[i]}))}
-              style={{width:110,height:150,margin:"0 auto 10px",borderRadius:10,border:open[i]?"2px solid #e8c97a":"2px solid rgba(232,201,122,.4)",background:"linear-gradient(160deg,#1e3050,#0d1a2e)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:open[i]?"0 0 16px rgba(232,201,122,.18)":"0 4px 14px rgba(0,0,0,.4)",transition:"all .2s"}}>
-              <span style={{fontSize:32}}>{card.emoji}</span>
-              <span style={{fontFamily:"'Cinzel',serif",fontSize:10,color:C.dim2,letterSpacing:.5,textAlign:"center",padding:"4px 4px 0"}}>{card.name}</span>
+              style={{width:120,height:190,margin:"0 auto 10px",borderRadius:10,overflow:"hidden",border:open[i]?`2px solid ${C.gold}`:"2px solid rgba(232,201,122,.35)",cursor:"pointer",boxShadow:open[i]?"0 0 16px rgba(232,201,122,.2)":"0 4px 14px rgba(0,0,0,.4)",transition:"all .2s",position:"relative"}}>
+              <img src={card.image} alt={card.name} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}
+                onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="flex";}}/>
+              {/* fallback if image fails */}
+              <div style={{display:"none",position:"absolute",inset:0,flexDirection:"column",alignItems:"center",justifyContent:"center",background:"linear-gradient(160deg,#1e3050,#0d1a2e)"}}>
+                <span style={{fontSize:28,marginBottom:4}}>🃏</span>
+                <span style={{fontFamily:"'Cinzel',serif",fontSize:9,color:C.dim2,textAlign:"center",padding:"0 4px"}}>{card.name}</span>
+              </div>
             </div>
-            <p style={{fontSize:11,color:C.moon,marginBottom:4}}>{card.planet} · {card.element}</p>
-            <p style={{fontSize:10,color:C.dim}}>👉 แตะที่ไพ่</p>
+            <p style={{fontSize:12,fontFamily:"'Cinzel',serif",color:C.dim2,marginBottom:4,letterSpacing:.5}}>{card.name}</p>
+            <p style={{fontSize:11,color:C.moon,marginBottom:2}}>
+              {card.decan_s && `${card.decan_s} `}{card.decan && card.decan.split(" ")[0]}
+              {card.hidden && <span style={{color:C.dim,marginLeft:4}}>/ {card.hidden_s} {card.hidden.split(" ")[0]}</span>}
+            </p>
+            <p style={{fontSize:10,color:C.dim,marginBottom:4}}>{card.element}</p>
+            {card.zodiac&&<p style={{fontSize:10,color:"rgba(184,201,232,.5)"}}>{card.zodiac}</p>}
+            <p style={{fontSize:10,color:C.dim,marginTop:4}}>👉 แตะที่รูปเพื่อดูความหมาย</p>
             {open[i]&&(
               <div style={{marginTop:8,padding:"10px",background:"rgba(10,13,20,.8)",borderRadius:8,border:"1px solid rgba(232,201,122,.1)",fontSize:12,lineHeight:1.75,textAlign:"left"}}>
-                <p style={{color:C.dim2,fontSize:11,marginBottom:4}}>ความหมาย:</p>
-                <p style={{color:"#f0eeea",marginBottom:6}}>{card.meaning}</p>
-                <p style={{color:C.dim2,fontSize:11,marginBottom:3}}>Keywords:</p>
-                <p style={{color:C.moon,fontSize:11}}>{card.keywords.map(k=>"• "+k).join("  ")}</p>
+                <p style={{color:C.dim2,fontSize:11,marginBottom:6,fontWeight:600}}>✦ ความหมาย</p>
+                <p style={{color:"#f0eeea",marginBottom:8}}>{card.meaning}</p>
+                <p style={{color:C.dim2,fontSize:11,marginBottom:4,fontWeight:600}}>Keywords:</p>
+                <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+                  {card.keywords.map((k,ki)=>(
+                    <span key={ki} style={{background:"rgba(232,201,122,.08)",border:"1px solid rgba(232,201,122,.2)",borderRadius:4,padding:"2px 6px",fontSize:10,color:C.dim2}}>{k}</span>
+                  ))}
+                </div>
+                {card.decan&&(
+                  <div style={{marginTop:8,paddingTop:8,borderTop:"1px solid rgba(255,255,255,.05)"}}>
+                    <p style={{fontSize:10,color:C.muted}}>
+                      <span style={{color:C.dim2}}>ดาวหลัก:</span> {card.decan_s} {card.decan}
+                      {card.hidden&&<><br/><span style={{color:C.dim2}}>ดาวรอง:</span> {card.hidden_s} {card.hidden}</>}
+                    </p>
+                  </div>
+                )}
               </div>
             )}
           </div>
         ))}
       </div>
 
+      {/* AI Summary */}
       <div ref={aiRef} style={{maxWidth:640,margin:"20px auto",padding:"0 16px"}}>
         <div style={{background:"linear-gradient(160deg,#131d30,#0d1520)",border:"1px solid rgba(95,179,168,.3)",borderRadius:22,padding:"24px 20px",position:"relative",overflow:"hidden"}}>
           <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:160,height:"1.5px",background:"linear-gradient(90deg,transparent,#5fb3a8,transparent)"}}/>
@@ -352,7 +416,7 @@ function ScreenReveal({topic,deck,picked,size,onRestart}){
         <button onClick={onRestart} style={btnGhost}>🔄 เริ่มใหม่อีกครั้ง</button>
       </div>
 
-      <div style={{marginTop:8,padding:"28px 20px 40px",background:"linear-gradient(180deg,transparent,rgba(232,201,122,.04))",borderTop:"1px solid rgba(232,201,122,.18)",textAlign:"center"}}>
+      <div style={{marginTop:8,padding:"28px 20px 40px",background:"linear-gradient(180deg,transparent,rgba(232,201,122,.04))",borderTop:`1px solid ${C.border}`,textAlign:"center"}}>
         <p style={{fontSize:14,color:C.muted,marginBottom:6}}>อยากดูดวงลึกขึ้น?</p>
         <p style={{fontSize:14,color:"#f0eeea",marginBottom:16}}>มาคุยกับหมอดูชุดนอนได้ที่</p>
         <div style={{display:"flex",justifyContent:"center",gap:8,marginBottom:14,flexWrap:"wrap"}}>
@@ -382,7 +446,6 @@ function App(){
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
-
 </script>
 </body>
 </html>
